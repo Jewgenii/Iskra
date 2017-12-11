@@ -1,0 +1,84 @@
+/*Границ. табл. добавления*/
+/*#add {          
+    border: 0;
+}
+#add .add,.add2, tr, td, th {
+    border: 0;}
+#add label {
+    vertical-align: middle;
+}*/
+
+
+/*Границ. табл. редактирования*/
+/*#upd {             
+    border: 0;
+}
+#upd .upd, .upd2 {
+    border: 0;}
+#upd label {
+    vertical-align: middle;
+}*/
+
+
+
+#search                         /*Поиск*/
+{   
+    background: lemonchiffon;    
+}
+
+#search tr, th, td
+{
+    border:1px ;
+}
+#search tr:hover{
+    background: #b5cd60;
+
+}
+
+#backgroundSearchHead{
+    background-color: #b5cd60;  
+}
+th {
+    text-align: center;
+    vertical-align: middle;
+
+}
+.search
+{
+
+}
+
+.frm{
+    padding:0 5px;    
+
+}
+a.disabled {
+    pointer-events: none; /* делаем элемент неактивным для взаимодействия */
+    cursor: default; /*  курсор в виде стрелки */
+    color: #888;/* цвет текста серый */
+}
+
+
+
+#projname{
+    color: black;
+}
+
+#searchClear{
+   
+}
+
+#excell{
+    margin: 5px;
+    margin-top: 0px; 
+}
+
+#headFiltPan{
+     background: #b5cd60;
+}
+/*#loading{
+    position: relative;
+    margin:  -25px;
+    margin-top: 5px;
+}*/
+

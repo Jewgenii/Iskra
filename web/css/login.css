@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+
+[class*="fontawesome-"]:before {
+    font-family: 'FontAwesome', sans-serif;
+}
+input {
+    border: none;
+
+}
+
+p {
+    line-height: 1.5em;
+}
+
+after { clear: both; }
+
+.login {
+
+    width: 320px;
+}
+
+.login form {
+    margin: 0;
+    padding: 22px 22px 22px 22px;
+    width: 200px;
+    border-radius: 5px;
+    background: #282e33;
+    border-top: 3px solid #434a52;
+    border-bottom: 3px solid #434a52;
+}
+
+.login form input[type="text"] {
+    background-color: #cccccc;
+    border-radius: 0px 3px 3px 0px;
+    color: #000000;
+    margin-bottom: 1em;
+
+    width: 200px;
+    height: 50px;
+}
+
+.login form input[type="submit"] {
+    background: #b5cd60;
+    border: 0;
+    width: 200px;
+    height: 40px;
+    border-radius: 3px;
+    color: #000000;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+.login form input[type="submit"]:hover {
+    background: #16aa56;
+}
