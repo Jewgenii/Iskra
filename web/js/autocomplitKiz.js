@@ -20,7 +20,8 @@ $(document).ready(function() {
                     url : "AutocompleteKizController",
                     type : "GET",
                     data : {
-                           term : request.term
+                           term : request.term   
+                           
                     },
                     dataType : "json",
                     success : function(data) {
@@ -28,8 +29,7 @@ $(document).ready(function() {
                        //   $("#loading").hide();
                     }
              });
-          }
-        
+          }        
       });
    });
 });

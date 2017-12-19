@@ -410,8 +410,8 @@ ResultSet rs = statement.executeQuery("with  " +
         PreparedStatement ps = null;
         String data;
         try {
-           // ps = connection.prepareStatement("select kiz from tbl_temp where kiz like ? order by kiz");
-            ps = connection.prepareStatement("select distinct kiz from clippersql.mv_vp44150_distinct_kiz_svi where kiz like ? order by kiz limit 10");
+            ps = connection.prepareStatement("select distinct kiz from clippersql.mv_vp44150_distinct_kiz_svi where lower(kiz) like lower(?) order by kiz limit 10");
+            //ps = connection.prepareStatement("select distinct kiz from clippersql.mv_vp44150_distinct_kiz_svi where kiz like ? order by kiz limit 10");
             ps.setString(1, frameWork + "%");
             ResultSet rs = ps.executeQuery();
           

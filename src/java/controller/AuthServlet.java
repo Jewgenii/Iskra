@@ -93,7 +93,7 @@ public class AuthServlet extends HttpServlet {
             if (resultSet.next()) {
                 sysUser.setUsename(resultSet.getString("usename"));
             }
-           // connection.close();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

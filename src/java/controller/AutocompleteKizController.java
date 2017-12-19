@@ -26,7 +26,7 @@ public class AutocompleteKizController extends HttpServlet {
                         String term = request.getParameter("term");
                         
                         System.out.println("Data from ajax call " + term);
-                            /*Преобразование списка кизов в json*/
+                            /*Преобразование списка кизов в json формат*/
                         Vp44150sqlDao vp44150sqlDao = new Vp44150sqlDao();
                         ArrayList<String> list = vp44150sqlDao.getDistinctKiz(term);
 

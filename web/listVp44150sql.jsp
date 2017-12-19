@@ -55,26 +55,28 @@
                         <a data-toggle="collapse" href="#collapse1">Фільтр</a>
                     </h4>
                 </div>
+
                 <div id="collapse1" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <form  class="search" method="get" name="frm" action="Search">
+                        <div class="container-fluid">
+                            <form  class="search" method="get" name="frm" action="Search">
+                                <label>Що</label> <input type="text" size="12px" name="osdch" id="osdch" align="middle" placeholder="Осд(Що)">
 
-                            <label>Що</label> <input type="text" size="12px" name="osdch" id="osdch" align="middle" placeholder="Осд(Що)">
+                                <label>Куди</label> <input type="text" size="12px" name="osdk" id="osdk" align="middle" placeholder="Осд(Куди)">
 
-                            <label>Куди</label> <input type="text" size="12px" name="osdk" id="osdk" align="middle" placeholder="Осд(Куди)">
+                                <label>Код виробу</label> <input id="kiz" type="text" size="12px" name="kiz" class="kiz"  align="middle" placeholder="Код виробу">
+                                <%--<img id="loading" width="20" height="20" style="display: none" src="${pageContext.servletContext.contextPath}/img/load2.gif" />--%>
+                                <label>Строк</label> <input id="svi" type="text" size="12px" name="svi" id="svi" required placeholder="Строк впровадження повідомлення" align="middle">
+                                <!--<th colspan=2></th>-->                            
+                                <input type="hidden" name="page" id="page" value="1">
 
-                            <label>Код виробу</label> <input id="kiz" type="text" size="12px" name="kiz" class="kiz"  align="middle" placeholder="Код виробу">
-                            <%--<img id="loading" width="20" height="20" style="display: none" src="${pageContext.servletContext.contextPath}/img/load2.gif" />--%>
+                                <input type="hidden" name="count" id="count" value="0">
 
-                            <label>Строк</label> <input id="svi" type="date" size="12px" name="svi" id="svi" align="middle" placeholder="Строк впровадження повідомлення">
-                            <!--<th colspan=2></th>-->
-                            <input type="hidden" name="page" id="page" value="1">
+                                <button class="btn btn-primary btn-md">Выполнить фильтр</button> 
 
-                            <button class="btn btn-primary btn-md">Выполнить фильтр</button> 
-
-                            <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Сбросить фильтр" onclick="window.location.href = 'Vp44150sqlController?action=list&page=1'" />
-
-                        </form>
+                                <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Сбросить фильтр" onclick="window.location.href = 'Vp44150sqlController?action=list&page=1'" />
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>  
@@ -111,10 +113,10 @@
                         <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
                         </c:choose>
 
-                    <c:choose>
-                        <c:when test="${page == counts}"><li><a class="disabled" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:otherwise>
-                        </c:choose>
+                    <%-- <c:choose>
+                         <c:when test="${page == counts}"><li><a class="disabled" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:when> 
+                         <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:otherwise>
+                         </c:choose> --%>
 
                     <li><a>Страница №: ${page}</a></li>
                     <li><button id="excell" class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>
@@ -157,55 +159,50 @@
                     <c:forEach items="${vp44150sqls}" var="vp44150sql" >
                         <tr>
 
-                            <%--<c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
-                            <c:set target="${triadCp}" property="chunks" value="${vp44150sql.cp}" />--%>
                             <td>
-                                    <c:out value="${vp44150sql.osdch}" /><br>
-                                    <c:out value="${vp44150sql.naim}" /><br>
+                                <c:out value="${vp44150sql.osdch}" /><br>
+                                <c:out value="${vp44150sql.naim}" /><br>
 
-                                        <c:if test="${not empty vp44150sql.nc}">
-                                            <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
-                                            <c:out value="${grouper.chunks}"/>
-                                        </c:if>
-      
+                                <c:if test="${not empty vp44150sql.nc}">
+                                    <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
+                                    <c:out value="${grouper.chunks}"/>
+                                </c:if>      
                             </td>
 
                             <td>
                                 <c:out value="${vp44150sql.osdk}" /><br>
                                 <c:out value="${vp44150sql.naimk}" /><br>
-                                
-                                    <c:if test="${not empty vp44150sql.ncK}">
-                                            <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
-                                            <c:out value="${triadNcK.chunks}"/>
-                                    </c:if>
-                                            
+
+                                <c:if test="${not empty vp44150sql.ncK}">
+                                    <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
+                                    <c:out value="${triadNcK.chunks}"/>
+                                </c:if>                                            
                             </td>
-                            <%--<td><c:out value="${vp44150sql.osdk_r}" /></td>--%>
-                            
+
                             <td>
                                 <c:if test="${not empty vp44150sql.cp}">
-                                <c:out value="/" />
-                                    
-                                        <c:if test="${not empty vp44150sql.cp}">
-                                            <c:set target="${triadCp}" property="chunks" value="${vp44150sql.cp}" />
-                                            <c:out value="${triadCp.chunks}"/>
-                                        </c:if>
-                                
+                                    <c:out value="/" />
+
+                                    <c:if test="${not empty vp44150sql.cp}">
+                                        <c:set target="${triadCp}" property="chunks" value="${vp44150sql.cp}" />
+                                        <c:out value="${triadCp.chunks}"/>
+                                    </c:if>
+
                                 </c:if>
                             </td>
-                            
+
                             <td>
                                 <c:out value="${vp44150sql.kiz}" />
                             </td>
-                            
+
                             <td>
                                 <fmt:formatNumber value="${vp44150sql.kol}" type="number"/>
                             </td>
-                            
+
                             <td>
                                 <fmt:formatNumber value="${vp44150sql.koliz}" type="number"/>
                             </td>
-                            
+
                             <td>
                                 <fmt:formatDate pattern="MM.yyyy" value="${vp44150sql.svi}" />
                             </td>

@@ -3,7 +3,8 @@
     Created on : 14.08.2017, 9:15:51
     Author     : u27brvz18
 --%>
-
+<%@page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -33,13 +34,15 @@
                     <a id="projname" class="navbar-brand disabled" href="#">Тестовый проект</a>
                 </div>
                 <ul class="nav navbar-nav">
-
+                    <!--Дата по умолчанию-->
+            <%long curTime = System.currentTimeMillis();
+            String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);%>
                     <li><a href="index.jsp" >Главная</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Просмотр данных<span class="caret"></span></a> 
                         <ul class="dropdown-menu">
                             <li><a href="SkisqlController?action=list&page=1">Просмотр базы данных Skisql</a></li>
-                            <li><a href="Search?page=1&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}">Просмотр базы данных Vp44150sql</a></li>
+                            <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>">Просмотр базы данных Vp44150sql</a></li>
                         </ul>
                     </li> 
                     <li>
