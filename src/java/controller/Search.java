@@ -69,10 +69,10 @@ public class Search extends HttpServlet {
                             
             int page = Integer.parseInt(request.getParameter("page"));
             int count = Integer.parseInt(request.getParameter("count"));
-           
+
             PreparedStatement preparedStatement = connection.prepareStatement(
     "with koliz as (select distinct on(osdch_t,osdch_r,osdch_c,osdk_t,osdk_r,osdk_c " +
-        ",kiz) osdch_t, osdch_r, osdch_c, osdk_t, osdk_r, osdk_c, kiz, svi, kol, koliz " +
+    ",kiz) osdch_t, osdch_r, osdch_c, osdk_t, osdk_r, osdk_c, kiz, svi, kol, koliz " +
     "from clippersql.vp44150sql " +
     "where osdch_c||osdch_r like'" + osdch + "%'"   +
             "and osdk_c||osdk_r like '" + osdk + "%'" +
@@ -208,7 +208,7 @@ ResultSet rs = preparedStatement.executeQuery();
                 vp44150sql.setNc(rs.getString("nc_ch"));
                 vp44150sql.setNcK(rs.getString("nc_k"));
                 vp44150sql.setCp(rs.getString("cp"));
-                
+
                 vp44150sqlS.add(vp44150sql);                
             }
             
