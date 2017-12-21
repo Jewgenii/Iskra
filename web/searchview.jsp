@@ -67,31 +67,32 @@
                                 </form>
                             </div>
 
-                            <%--<div class="container-fluid">
+                        <br>
+                            <div class="container-fluid">
                                 <div class="col-xs-2">
                                     <div class="alert alert-success alert-dismissable">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                        <a href="Search?page=1&count=0&osdch=&osdk=${osdk}&kiz=${kiz}&svi=${svi}" class="close" data-dismiss="alert" aria-label="close">×</a>
                                         ${osdch}</div>
                                 </div>
 
-                                <div class="col-xs-2">        
+                                <div class="col-xs-2">
                                         <div class="alert alert-success alert-dismissable">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                        <a href="Search?page=1&count=0&osdch=${osdch}&osdk=&kiz=${kiz}&svi=${svi}" class="close" data-dismiss="alert" aria-label="close">×</a>
                                         ${osdk}</div>
                                 </div>
 
-                                <div class="col-xs-2">        
+                                <div class="col-xs-2">
                                         <div class="alert alert-success alert-dismissable">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                                        <a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=&svi=${svi}" class="close" data-dismiss="alert" aria-label="close">×</a>
                                         ${kiz}</div>
                                 </div>
 
-                                <div class="col-xs-2">        
+                                <div class="col-xs-2">
                                         <div class="alert alert-success alert-dismissable">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                                         ${svi}</div>
                                 </div>
-                            </div>--%>
+                            </div>
 
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                     <c:choose>
                         <c:when test="${page >= size}"><li class="li1"><a class="disabled" href=Search?page=${page+1}&count=${count+100}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}>Вперед</a></li></c:when> 
                             <%--<c:otherwise><li><a class="a2" href=Search?page=${page+1}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}>Вперед</a></li></c:otherwise>--%>
-                            <c:otherwise><li><a class="a2" href=Search?page=${page+1}&count=${count+100}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}>Вперед</a></li></c:otherwise>
+                        <c:otherwise><li><a class="a2" href=Search?page=${page+1}&count=${count+100}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}>Вперед</a></li></c:otherwise>
                         </c:choose>
 
                     <%--<c:choose>
