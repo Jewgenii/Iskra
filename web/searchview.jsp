@@ -67,7 +67,7 @@
                                 </form>
                             </div>
 
-                        <br>
+                       <%-- <br>
                             <div class="container-fluid">
                                 <div class="col-xs-2">
                                     <div class="alert alert-success alert-dismissable">
@@ -92,7 +92,7 @@
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                                         ${svi}</div>
                                 </div>
-                            </div>
+                            </div>--%>
 
                         </div>
                     </div>
