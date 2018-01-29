@@ -1,13 +1,4 @@
-/*$( function() {
-    
-    var availableTags = [
-      "ИК6","ИК61","ИК62","ИК63","ИК64","ИК65",
-      "ТРК"
-    ];
-    $( "#kiz" ).autocomplete({
-      source: availableTags
-    });
-  } );*/
+
 $(document).ready(function() {
      $(function() {
          

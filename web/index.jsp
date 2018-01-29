@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Добро пожалывать</title>
+        <title>Добро пожаловать</title>
 
         <%@include file="menu.jsp" %>
 

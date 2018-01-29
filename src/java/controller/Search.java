@@ -135,16 +135,18 @@ public class Search extends HttpServlet {
         "WHERE tmpsql.svi <= tmpsql.datez and (osdch_t,osdch_r, osdch_c) in (select osdch_t,osdch_r, osdch_c from src2 ) and (osdk_t,osdk_r, osdk_c) in (select osdk_t,osdk_r, osdk_c from src2 ) " +
         "ORDER BY tmpsql.osdch_t, tmpsql.osdch_r, tmpsql.osdch_c, tmpsql.osdk_t, tmpsql.osdk_r, tmpsql.osdk_c, tmpsql.svi DESC) foo " +
     "), " +
-    "src_with_rownumbers as ( " +
-        "select " +
-            "row_number() over(partition by src2.osdch_t,src2.osdch_r,src2.osdch_c " +
-        "order by src2.osdch_t,src2.osdch_r,src2.osdch_c) " +
-            "as num_in_grp_ch, " +
-
-    "row_number() " +
-        "over(partition by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c order by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c) " +
-    "as num_in_grp_k, " +
-        "osdch,src2.osdch_t,src2.osdch_r,src2.osdch_c,osdk,src2.osdk_t,src2.osdk_r,src2.osdk_c,kiz,svi,kol,koliz,naim_osdch,naim_osdk, mtch.nc AS nc_ch, mtk.nc AS nc_k, cp from src2 " +
+   "src_with_rownumbers as (" +
+      "select row_number() over(" +
+            "partition by src2.osdch_t,src2.osdch_r,src2.osdch_c " +
+            "order by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c,kiz" + 
+            ") as num_in_grp_ch," +
+         "row_number() over(" + 
+            "partition by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c " +
+            "order by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c,kiz " +
+            ") as num_in_grp_k," +
+         "osdch,src2.osdch_t,src2.osdch_r,src2.osdch_c,osdk,src2.osdk_t,src2.osdk_r,src2.osdk_c," +
+         "kiz,svi,kol,koliz,naim_osdch,naim_osdk,mtch.nc AS nc_ch,mtk.nc AS nc_k,cp "+
+      "from src2 " +
 
     "left join maxtmi mtch on " +
         "(src2.osdch_t=mtch.osdch_t and src2.osdch_r=mtch.osdch_r and src2.osdch_c=mtch.osdch_c) " +
@@ -176,7 +178,7 @@ public class Search extends HttpServlet {
 
         "case when num_in_grp_k=1 then cp else '' end::varchar(42) " +
         "as cp, num_in_grp_ch, num_in_grp_k " +
-    "from src_with_rownumbers order by osdch_t,osdch_r,osdch_c,osdk_t,osdk_r,osdk_c,num_in_grp_ch, num_in_grp_k, kiz,svi");
+    "from src_with_rownumbers order by osdch_t,osdch_r,osdch_c,num_in_grp_ch,osdk_t,osdk_r,osdk_c,num_in_grp_k,kiz,svi");
             //ArrayList al = null;
             //ArrayList pid_list = new ArrayList();
            /* ResultSet rs = statement.executeQuery( "select osdch_c||osdch_r As osdch, osdk_c||osdk_r As osdk, kiz, svi, kol, koliz "
