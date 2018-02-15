@@ -1,7 +1,7 @@
 <%-- 
     Document   : user
     Created on : 26.07.2017, 14:01:44
-    Author     : u27brvz17
+    Author     : Sergey Nikonenko
 --%>
 
 <%@ page contentType="text/html;charset=utf-8" %>

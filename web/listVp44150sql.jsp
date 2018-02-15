@@ -1,7 +1,7 @@
 <%-- 
     Document   : listVp44150sql
     Created on : 25.09.2017, 13:02:49
-    Author     : u27brvz18
+    Author     : Sergey Nikonenko
 --%>
 
 <%@ page contentType="text/html;charset=utf-8" %>
@@ -155,63 +155,72 @@
                 </thead>
 
                 <tbody>
-                    <c:forEach items="${vp44150sqls}" var="vp44150sql" >
-                        <tr>
+                    <c:choose>
+                        <c:when test="${not empty vp44150sqls}">
+                            <c:forEach items="${vp44150sqls}" var="vp44150sql" >
+                                <tr>
 
-                            <td>
-                                <c:out value="${vp44150sql.osdch}" /><br>
-                                <c:out value="${vp44150sql.naim}" /><br>
+                                    <td>
+                                        <c:out value="${vp44150sql.osdch}" /><br>
+                                        <c:out value="${vp44150sql.naim}" /><br>
 
-                                <c:if test="${not empty vp44150sql.nc}">
-                                    <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
-                                    <c:out value="${grouper.chunks}"/>
-                                </c:if>      
-                            </td>
+                                        <c:if test="${not empty vp44150sql.nc}">
+                                            <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
+                                            <c:out value="${grouper.chunks}"/>
+                                        </c:if>      
+                                    </td>
 
-                            <td>
-                                <c:out value="${vp44150sql.osdk}" /><br>
-                                <c:out value="${vp44150sql.naimk}" /><br>
+                                    <td>
+                                        <c:out value="${vp44150sql.osdk}" /><br>
+                                        <c:out value="${vp44150sql.naimk}" /><br>
 
-                                <c:if test="${not empty vp44150sql.ncK}">
-                                    <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
-                                    <c:out value="${triadNcK.chunks}"/>
-                                </c:if>                                            
-                            </td>
+                                        <c:if test="${not empty vp44150sql.ncK}">
+                                            <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
+                                            <c:out value="${triadNcK.chunks}"/>
+                                        </c:if>                                            
+                                    </td>
 
-                            <td>
-                                <c:if test="${not empty vp44150sql.cp}">
-                                    <c:out value="/" />
+                                    <td>
+                                        <c:if test="${not empty vp44150sql.cp}">
+                                            <c:out value="/" />
 
-                                    <c:if test="${not empty vp44150sql.cp}">
-                                        <c:set target="${triadCp}" property="chunks" value="${vp44150sql.cp}" />
-                                        <c:out value="${triadCp.chunks}"/>
-                                    </c:if>
+                                            <c:if test="${not empty vp44150sql.cp}">
+                                                <c:set target="${triadCp}" property="chunks" value="${vp44150sql.cp}" />
+                                                <c:out value="${triadCp.chunks}"/>
+                                            </c:if>
 
-                                </c:if>
-                            </td>
+                                        </c:if>
+                                    </td>
 
-                            <td>
-                                <c:out value="${vp44150sql.kiz}" />
-                            </td>
+                                    <td>
+                                        <c:out value="${vp44150sql.kiz}" />
+                                    </td>
 
-                            <td>
-                                <fmt:formatNumber value="${vp44150sql.kol}" type="number"/>
-                            </td>
+                                    <td>
+                                        <fmt:formatNumber value="${vp44150sql.kol}" type="number"/>
+                                    </td>
 
-                            <td>
-                                <fmt:formatNumber value="${vp44150sql.koliz}" type="number"/>
-                            </td>
+                                    <td>
+                                        <fmt:formatNumber value="${vp44150sql.koliz}" type="number"/>
+                                    </td>
 
-                            <td>
-                                <fmt:formatDate pattern="MM.yyyy" value="${vp44150sql.svi}" />
-                            </td>
-                            <%--<td><c:out value="${skisql.user}" /></td>
-                            <td><fmt:formatDate pattern="dd.MM.yyyy" value="${skisql.datez}" /></td>
-                            <td><c:out value="${skisql.user_ip}" /></td>
-                            <td><a id="links" href="UpdCont?action=edit&kiz=<c:out value="${skisql.kiz}"/>">Изменить</a></td>
-                            <td><a id="links" href="SkisqlController?action=delete&kiz=<c:out value="${skisql.kiz}"/>">Удалить</a></td>--%>
-                        </tr>
-                    </c:forEach>
+                                    <td>
+                                        <fmt:formatDate pattern="MM.yyyy" value="${vp44150sql.svi}" />
+                                    </td>
+                                    <%--<td><c:out value="${skisql.user}" /></td>
+                                    <td><fmt:formatDate pattern="dd.MM.yyyy" value="${skisql.datez}" /></td>
+                                    <td><c:out value="${skisql.user_ip}" /></td>
+                                    <td><a id="links" href="UpdCont?action=edit&kiz=<c:out value="${skisql.kiz}"/>">Изменить</a></td>
+                                    <td><a id="links" href="SkisqlController?action=delete&kiz=<c:out value="${skisql.kiz}"/>">Удалить</a></td>--%>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" align="center">Інформація за вказаним контекстом відсутня</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
                 </tbody>
             </table>
 
@@ -253,10 +262,10 @@
                         <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
                         </c:choose>
 
-                    <c:choose>
+                    <%--<c:choose>
                         <c:when test="${page == counts}"><li><a class="disabled" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:when> 
                         <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:otherwise>
-                        </c:choose>
+                        </c:choose>--%>
 
                     <li><a>Страница №: ${page}</a></li>
                     <li><button id="excell" class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>

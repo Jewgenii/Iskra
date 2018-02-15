@@ -20,11 +20,11 @@ import model.Vp44150sql;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class Vp44150sqlController extends HttpServlet {
   private static String INSERT_OR_EDIT = "/";
-    private static String LIST_SKISQL = "/listVp44150sql.jsp";
+    private static String LIST_VP44150SQL = "/listVp44150sql.jsp";
     private Vp44150sqlDao dao;
 
     public Vp44150sqlController() {
@@ -54,7 +54,7 @@ public class Vp44150sqlController extends HttpServlet {
         if (action.equalsIgnoreCase("delete")) {
             String kiz = (request.getParameter("kiz"));
             dao.deleteVp44150sql(kiz);
-            forward = LIST_SKISQL;
+            forward = LIST_VP44150SQL;
             request.setAttribute("Vp44150sqls", dao.getAllVp44150sql(1));
             request.setAttribute("page", 1);
             request.setAttribute("counts", dao.getCounts());
@@ -71,7 +71,7 @@ public class Vp44150sqlController extends HttpServlet {
 
         } else if (action.equalsIgnoreCase("list")) {
             String page = (request.getParameter("page"));
-            forward = LIST_SKISQL;
+            forward = LIST_VP44150SQL;
             request.setAttribute("vp44150sqls", dao.getAllVp44150sql(Integer.parseInt(page)));
             request.setAttribute("page", page);
             request.setAttribute("counts", dao.getCounts());
@@ -128,7 +128,7 @@ public class Vp44150sqlController extends HttpServlet {
         dao.addVp44150sql(vp44150sql);
 
         //}
-        RequestDispatcher view = request.getRequestDispatcher(LIST_SKISQL);
+        RequestDispatcher view = request.getRequestDispatcher(LIST_VP44150SQL);
         request.setAttribute("vp44150sqls", dao.getAllVp44150sql(1));
         request.setAttribute("page", 1);
         request.setAttribute("counts", dao.getCounts());

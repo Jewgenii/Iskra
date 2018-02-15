@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class SysUsers {
     private String usename;

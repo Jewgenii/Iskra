@@ -1,7 +1,7 @@
 <%-- 
     Document   : menu
     Created on : 14.08.2017, 9:15:51
-    Author     : u27brvz18
+    Author     : Sergey Nikonenko
 --%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.*" %>
@@ -31,23 +31,24 @@
             <div class="container-fluid"> 
                 <div class="navbar-header">
 
-                    <a id="projname" class="navbar-brand disabled" href="#">Тестовый проект</a>
+                    <a id="projname" class="navbar-brand disabled" href="#">Перегляд баз даних</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <!--Дата по умолчанию-->
-            <%long curTime = System.currentTimeMillis();
-            String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);%>
-                    <li><a href="index.jsp" >Главная</a></li>
+                    <%long curTime = System.currentTimeMillis();
+                String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);%>
+                    <li><a href="index.jsp" >Головна</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Просмотр данных<span class="caret"></span></a> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Перегляд даних<span class="caret"></span></a> 
                         <ul class="dropdown-menu">
-                            <li><a href="SkisqlController?action=list&page=1">Просмотр базы данных Skisql</a></li>
-                            <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>">Просмотр базы данных Vp44150sql</a></li>
+                            <%--<li><a href="SkisqlController?action=list&page=1">Перегляд бази Skisql</a></li>--%>
+                            <li><a href="TmisqlController?action=list&page=1">Перегляд бази Tmisql</a></li>
+                            <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>">Перегляд бази Vp44150sql</a></li>
                         </ul>
                     </li> 
                     <li>
                         <form class="frm" method="post" name="exit" action="login.jsp">
-                            <button id="justbutton" class="btn btn-default btn-xs navbar-btn " >Выход</button>
+                            <button id="justbutton" class="btn btn-default btn-xs navbar-btn " >Вихід</button>
                             <script>
                                 //setTimeout(function myd() {
                                 //  document.getElementById('justbutton').click()

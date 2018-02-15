@@ -9,7 +9,7 @@ import java.sql.Date;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class Vp44150sql {
 

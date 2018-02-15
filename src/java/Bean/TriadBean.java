@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class TriadBean {
     private String[] chunks;

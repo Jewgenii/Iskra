@@ -22,7 +22,7 @@ import model.SysUsers;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class AuthServlet extends HttpServlet {
 

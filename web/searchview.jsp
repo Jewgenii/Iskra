@@ -1,7 +1,7 @@
 <%-- 
     Document   : searchview
     Created on : 15.08.2017, 8:55:42
-    Author     : u27brvz18
+    Author     : Sergey Nikonenko
 --%>
 <%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=utf-8" %>
@@ -32,7 +32,7 @@
 
         <style><%@include file="css/menu.css"%></style>
 
-        <title>Поиск</title>
+        <title>Фільтр vp44150sql</title>
 
     </head>
 

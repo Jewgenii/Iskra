@@ -17,6 +17,10 @@
         <servlet-name>AutocompleteKizController</servlet-name>
         <servlet-class>controller.AutocompleteKizController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TmisqlController</servlet-name>
+        <servlet-class>controller.TmisqlController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdCont</servlet-name>
         <url-pattern>/UpdCont</url-pattern>
@@ -36,6 +40,10 @@
     <servlet-mapping>
         <servlet-name>AutocompleteKizController</servlet-name>
         <url-pattern>/AutocompleteKizController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TmisqlController</servlet-name>
+        <url-pattern>/TmisqlController</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

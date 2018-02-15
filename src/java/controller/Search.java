@@ -23,7 +23,7 @@ import java.util.List;
 import model.Vp44150sql;
 /**
  *  Сервлет который отвечает за фильтр по БД Vp44150sql
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class Search extends HttpServlet {
 
@@ -62,9 +62,9 @@ public class Search extends HttpServlet {
             conn = DriverManager.getConnection(url + dbName, userName, password);*/
             System.out.println("Connected!");
             
-            String osdch = request.getParameter("osdch").replace("*", "%");
-            String osdk = request.getParameter("osdk").replace("*", "%");
-            String kiz = request.getParameter("kiz").replace("*", "%");
+            String osdch = request.getParameter("osdch").replace("*", "%").toUpperCase();
+            String osdk = request.getParameter("osdk").replace("*", "%").toUpperCase();
+            String kiz = request.getParameter("kiz").replace("*", "%").toUpperCase();
             String svi = request.getParameter("svi");
                             
             int page = Integer.parseInt(request.getParameter("page"));

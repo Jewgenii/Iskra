@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 /**
  *
- * @author u27brvz17
+ * @author Sergey Nikonenko
  */
 public class Skisql {
 

@@ -19,7 +19,7 @@ import java.sql.Types;
 
 /**
  *
- * @author u27brvz17
+ * @author Sergey Nikonenko
  */
 public class SkisqlDao {
 

@@ -1,7 +1,7 @@
 <%-- 
     Document   : login
     Created on : 13.09.2017, 15:23:37
-    Author     : u27brvz18
+    Author     : Sergey Nikonenko
 --%>
 
 <%@ page contentType="text/html;charset=utf-8" %>

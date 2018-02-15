@@ -15,7 +15,7 @@ import java.util.Properties;
 
 /**
  *
- * @author u27brvz17
+ * @author Sergey Nikonenko
  */
 public class DbUtil {
     private static Connection connection = null;

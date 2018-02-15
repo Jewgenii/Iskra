@@ -21,7 +21,7 @@ import model.Skisql;
 
 /**
  *
- * @author u27brvz17
+ * @author Sergey Nikonenko
  */
 public class SkisqlController extends HttpServlet {
 

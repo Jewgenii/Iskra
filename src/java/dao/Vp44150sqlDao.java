@@ -19,7 +19,7 @@ import util.DbUtil;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class Vp44150sqlDao {
      private Connection connection;
@@ -317,7 +317,7 @@ ResultSet rs = statement.executeQuery("with  " +
             "row_number() over(partition by src2.osdch_t,src2.osdch_r,src2.osdch_c " +
             "order by src2.osdch_t,src2.osdch_r,src2.osdch_c) " +
             "as num_in_grp_ch, " +
-
+            
             "row_number() " +
             "over(partition by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c order by src2.osdch_t,src2.osdch_r,src2.osdch_c,src2.osdk_t,src2.osdk_r,src2.osdk_c) " +
             "as num_in_grp_k, " +

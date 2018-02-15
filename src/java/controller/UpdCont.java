@@ -18,7 +18,7 @@ import model.Skisql;
 
 /**
  *
- * @author u27brvz18
+ * @author Sergey Nikonenko
  */
 public class UpdCont extends HttpServlet {
 

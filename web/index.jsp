@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 26.07.2017, 13:49:55
-    Author     : u27brvz17
+    Author     : Sergey Nikonenko
 --%>
 
 <%@ page contentType="text/html;charset=utf-8" %>
@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Добро пожаловать</title>
+        <title>Ласкаво просимо</title>
 
         <%@include file="menu.jsp" %>
 
@@ -19,7 +19,7 @@
     
     <body>
         <div class="container-fluid">    
-            <h3>Добро пожаловать в систему <%--<strong>${sessionScope.sessname}</strong>--%></h3>
+            <h3>Ласкаво просимо в систему <%--<strong>${sessionScope.sessname}</strong>--%></h3>
             <%--<jsp:forward page="/SkisqlController?action=listSkisql" />--%>  
         </div>
 

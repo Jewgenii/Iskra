@@ -60,7 +60,7 @@
 
                     <li><a>Страница №: ${page}</a></li>
 
-                    <li><button class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>
+                    <li><button id="excel3" class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>
                         <%--<li><input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel"></li>--%>
                 </ul>
             </nav>
