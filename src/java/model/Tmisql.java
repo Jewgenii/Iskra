@@ -22,7 +22,7 @@ public class Tmisql {
     /*Конкатенация osdch_c||osdch_r*/
     private String osdch;
     /*character varying[], --Технологічній маршрут вигитовлення. Масив */
-    private String ncm;
+    private String nc;
     /*date NOT NULL, -- Строк впровадження повідомлення*/
     private Date svi;
     /*character varying(10), --Номер повідомлення*/
@@ -179,20 +179,20 @@ public class Tmisql {
     /**
      * @return the ncm
      */
-    public String getNcm() {
-        return ncm;
+    public String getNc() {
+        return nc;
     }
 
     /**
-     * @param ncm the ncm to set
+     * @param nc the ncm to set
      */
-    public void setNcm(String ncm) {
-        this.ncm = ncm;
+    public void setNc(String nc) {
+        this.nc = nc;
     }
 
     @Override
     public String toString() {
-        return "Tmisql{" + "osdch_t=" + osdch_t + ", osdch_c=" + osdch_c + ", osdch_r=" + osdch_r + ", osdch=" + osdch + ", ncm=" + ncm + ", svi=" + svi + ", nizv=" + nizv + ", naim=" + naim + ", user=" + user + ", datez=" + datez + ", user_ip=" + user_ip + '}';
+        return "Tmisql{" + "osdch_t=" + osdch_t + ", osdch_c=" + osdch_c + ", osdch_r=" + osdch_r + ", osdch=" + osdch + ", nc=" + nc + ", svi=" + svi + ", nizv=" + nizv + ", naim=" + naim + ", user=" + user + ", datez=" + datez + ", user_ip=" + user_ip + '}';
     }
 
 }

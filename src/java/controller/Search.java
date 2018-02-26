@@ -6,6 +6,7 @@
 package controller;
 
 import dao.Vp44150sqlDao;
+import java.awt.Window;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -39,7 +40,7 @@ public class Search extends HttpServlet {
             throws ServletException, IOException {
        
     }
-
+  
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");

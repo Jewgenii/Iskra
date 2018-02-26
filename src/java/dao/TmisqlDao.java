@@ -119,21 +119,48 @@ public class TmisqlDao {
             Statement statement = connection.createStatement();
             
             ResultSet rs = statement.executeQuery(
-                "select (osdch_c||osdch_r) as osdch,ncm,svi,tmi.nizv,naim as naim_osdch "
+               /* "select (osdch_c||osdch_r) as osdch,nc,svi,tmi.nizv,naim as naim_osdch "
                     + "from clippersql.tmisql tmi "
                     + "left join clippersql.naimesql n "
                         + "on (n.osd_t=tmi.osdch_t and n.osd_r=tmi.osdch_r and n.osd_c=tmi.osdch_c) "
                     + "order by osdch_t,osdch_r,osdch_c,svi "
-                    + "limit " + 100 + " offset " + (page - 1) * 100);
+                    + "limit " + 100 + " offset " + (page - 1) * 100);*/
+                "with tmib as(\n" +
+                    "select osdch_t, osdch_r, osdch_c, nc, nizv, svi from clippersql.tmisql \n" +
+                    "order by osdch_t, osdch_r, osdch_c, svi desc \n" +
+                    "limit " + 100 + " offset " + (page - 1) * 100 + ")," +
+
+                "src as (\n" +
+                    "select (osdch_c||osdch_r) as osdch, osdch_t, osdch_c, osdch_r, nc, svi, t.nizv, naim as naim_osdch\n" +
+                    "from tmib t\n" +
+                        "left join clippersql.naimesql n\n" +
+                        "on (n.osd_t=t.osdch_t\n" +
+                        "and n.osd_r=t.osdch_r\n" +
+                        "and n.osd_c=t.osdch_c)\n" +
+                    "order by osdch_t, osdch_r, osdch_c, svi DESC\n" +
+                "),\n" +
+
+                "src_with_rownumbers as (\n" +
+                    "select row_number() over(\n" +
+                        "partition by src.osdch_t,src.osdch_r,src.osdch_c\n" +
+                    "order by src.osdch_t,src.osdch_r,src.osdch_c\n" +
+                    ") as num_in_grp_ch, osdch, osdch_t,osdch_c,osdch_r,nc,svi,nizv,naim_osdch\n" +
+                    "from src)\n" +
+
+                "select \n" +
+                    "case when num_in_grp_ch=1 then osdch else '' end::varchar(80) as osdch_disp,nc,svi,nizv,\n" + 
+                    "case when num_in_grp_ch=1 then naim_osdch else '' end::varchar(80) as naim_ch\n" +
+                    "from src_with_rownumbers\n" +
+                    "order by osdch_t,osdch_r,osdch_c,svi desc" );
             
             while (rs.next()) {
                 Tmisql tmisql = new Tmisql();
                 
-                tmisql.setOsdch(rs.getString("osdch"));
-                tmisql.setNcm(rs.getString("ncm"));
+                tmisql.setOsdch(rs.getString("osdch_disp"));
+                tmisql.setNc(rs.getString("nc"));
                 tmisql.setSvi(rs.getDate("svi"));
                 tmisql.setNizv(rs.getString("nizv"));
-                tmisql.setNaim(rs.getString("naim_osdch"));
+                tmisql.setNaim(rs.getString("naim_ch"));
                 
                 tmisqls.add(tmisql);
             }

@@ -82,7 +82,7 @@ public class TmisqlController extends HttpServlet {
         
         Date svi = Date.valueOf(request.getParameter("svi"));
         tmisql.setSvi(svi);
-        tmisql.setNcm(request.getParameter("ncm"));
+        tmisql.setNc(request.getParameter("nc"));
         tmisql.setNizv(request.getParameter("nizv"));
         tmisql.setNaim(request.getParameter("naim"));
         

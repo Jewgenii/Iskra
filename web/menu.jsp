@@ -31,19 +31,20 @@
             <div class="container-fluid"> 
                 <div class="navbar-header">
 
-                    <a id="projname" class="navbar-brand disabled" href="#">Перегляд баз даних</a>
+                    <a id="projname" class="navbar-brand disabled" href="#">Бази даних.Перегляд</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <!--Дата по умолчанию-->
                     <%long curTime = System.currentTimeMillis();
-                String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);%>
+                        String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);
+                    %>
                     <li><a href="index.jsp" >Головна</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Перегляд даних<span class="caret"></span></a> 
                         <ul class="dropdown-menu">
                             <%--<li><a href="SkisqlController?action=list&page=1">Перегляд бази Skisql</a></li>--%>
-                            <li><a href="TmisqlController?action=list&page=1">Перегляд бази Tmisql</a></li>
                             <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>">Перегляд бази Vp44150sql</a></li>
+                            <li><a href="SearchTmi?page=1&count=0&osdch=${osdch}&nc=${nc}&svi=<%=curStringDate%>">Перегляд бази Tmisql</a></li>
                         </ul>
                     </li> 
                     <li>

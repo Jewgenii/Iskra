@@ -49,9 +49,9 @@
                         <div class="panel-body">
                             <div class="container-fluid">
                                 <form class="search" method="get" name="frm" action="Search">
-                                    <label>Що</label> <input type="text" size="12px" name="osdch" value="${osdch}" id="osdch" align="middle" placeholder="Осд(Що)">
+                                    <label>Що</label> <input type="text" minlength="3" size="12px" name="osdch" value="${osdch}" id="osdch" align="middle" placeholder="Осд(Що)">
 
-                                    <label>Куди</label> <input type="text" size="12px" name="osdk" value="${osdk}" id="osdk" align="middle" placeholder="Осд(Куди)">
+                                    <label>Куди</label> <input type="text" minlength="3" size="12px" name="osdk" value="${osdk}" id="osdk" align="middle" placeholder="Осд(Куди)">
 
                                     <label>Код виробу</label> <input type="text" size="12px" name="kiz" value="${kiz}" id="kiz" align="middle" placeholder="Код виробу">
 

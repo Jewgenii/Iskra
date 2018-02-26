@@ -21,6 +21,10 @@
         <servlet-name>TmisqlController</servlet-name>
         <servlet-class>controller.TmisqlController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchTmi</servlet-name>
+        <servlet-class>controller.SearchTmi</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdCont</servlet-name>
         <url-pattern>/UpdCont</url-pattern>
@@ -44,6 +48,10 @@
     <servlet-mapping>
         <servlet-name>TmisqlController</servlet-name>
         <url-pattern>/TmisqlController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchTmi</servlet-name>
+        <url-pattern>/SearchTmi</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
