@@ -23,6 +23,8 @@ import util.DbUtil;
 /**
  *
  * @author u27brvz18
+ * 
+ * Сервлет который отвечает за фильтр по БД tmisql
  */
 public class SearchTmi extends HttpServlet {
 
