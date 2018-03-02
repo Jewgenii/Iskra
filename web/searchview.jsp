@@ -55,12 +55,10 @@
 
                                     <label>Код виробу</label> <input type="text" size="12px" name="kiz" value="${kiz}" id="kiz" align="middle" placeholder="Код виробу">
 
-                                    <label>Строк</label> <input type="text" size="12px" name="svi" value="${svi}" id="svi" align="middle" required placeholder="Строк впровадження повідомлення">
-
                                     <input type="hidden" name="page" id="page" value="1">
 
                                     <input type="hidden" name="count" id="count" value="0">
-
+                                    
                                     <button class="btn btn-primary btn-md">Выполнить фильтр</button>
 
                                     <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Сбросить фильтр" onclick="window.location.href = 'Vp44150sqlController?action=list&page=1'" />

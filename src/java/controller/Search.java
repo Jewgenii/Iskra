@@ -66,7 +66,10 @@ public class Search extends HttpServlet {
             String osdch = request.getParameter("osdch").replace("*", "%").toUpperCase();
             String osdk = request.getParameter("osdk").replace("*", "%").toUpperCase();
             String kiz = request.getParameter("kiz").replace("*", "%").toUpperCase();
-            String svi = request.getParameter("svi");
+            /*Присвоение переменной svi текущей даты на сервере*/
+            long curTime = System.currentTimeMillis();
+            String svi = new SimpleDateFormat("dd.MM.yyyy").format(curTime);
+            
                             
             int page = Integer.parseInt(request.getParameter("page"));
             int count = Integer.parseInt(request.getParameter("count"));

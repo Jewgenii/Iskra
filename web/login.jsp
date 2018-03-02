@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Аутентификация</title>
     <img src="img/logo.png" id="logo"><br>
     <style>
         <%@include file='css/login.css' %>         
@@ -17,18 +17,18 @@
 
 </head>
 <body>
-    <h3>Введите имя пользователя</h3>
+    <h3>Введіть ім'я користувача</h3>
     <%session.invalidate();%>
     <div class="login">
 
         <form method="POST" name='form-login' action='AuthServlet'>
 
-            <input type="text" name="usename" id="user" placeholder="Введите имя пользователя">
+            <input type="text" name="usename" id="user" placeholder="ім'я користувача">
 
             <!--<span class="fontawesome-lock"></span>
               <input type="password" id="pass" placeholder="Password">-->
 
-            <input class="login-btn" type="submit" value="Войти">
+            <input class="login-btn" type="submit" value="Увійти">
         </form>
     </div>
 </body>

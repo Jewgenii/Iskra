@@ -110,24 +110,11 @@ ResultSet rs = preparedStatement.executeQuery();
                 tmisqlS.add(tmisql);                
             }
             
-           /* int counts = 0;
-            String query2 ="SELECT COUNT (*) AS total from clippersql.vp44150sql where osdch_c||osdch_r like '" + osdch + "%'" + " and osdk_c||osdk_r like '" + osdk + "%'" + " and CAST(svi AS text) like '" + svi + "%'" + " and kiz like '" + kiz + "%'";
-            
-            ResultSet rs2 = statement.executeQuery(query2);
-            while (rs2.next()) {
-                counts = rs2.getInt("total");
-            }
-
-            counts = (counts / 100) + 1;*/
-           
-          
-            
-            
             RequestDispatcher view = request.getRequestDispatcher("/searchViewTmi.jsp");
             int size = tmisqlS.size();
             request.setAttribute("page", page);
             request.setAttribute("osdch", osdch.replace("%", "*"));
-            request.setAttribute("nc", nc);
+            request.setAttribute("nc", nc.replace("%", "*"));
             request.setAttribute("svi", svi);
             request.setAttribute("size", size);
             

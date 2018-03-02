@@ -31,7 +31,7 @@
             <div class="container-fluid"> 
                 <div class="navbar-header">
 
-                    <a id="projname" class="navbar-brand disabled" href="#">Бази даних.Перегляд</a>
+                    <a id="projname" class="navbar-brand disabled" href="#">Бази даних. Перегляд</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <!--Дата по умолчанию-->

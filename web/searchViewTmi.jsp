@@ -22,7 +22,7 @@
         <script language="javascript" type="text/javascript" src="js/jquery.stickytableheaders.js"></script>
         <script language="javascript" type="text/javascript" src="js/exportExcel_Tmi.js"></script>
 
-        <title>Перегляд даних tmisql</title>      
+        <title>Фільтр tmisql</title>      
     </head>
     <body>
         <div class="container-fluid " >

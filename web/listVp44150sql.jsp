@@ -65,7 +65,7 @@
 
                                 <label>Код виробу</label> <input id="kiz" type="text" size="12px" name="kiz" class="kiz"  align="middle" placeholder="Код виробу">
                                 <%--<img id="loading" width="20" height="20" style="display: none" src="${pageContext.servletContext.contextPath}/img/load2.gif" />--%>
-                                <label>Строк</label> <input id="svi" type="text" size="12px" name="svi" id="svi" required placeholder="Строк впровадження повідомлення" align="middle">
+                               
                                 <!--<th colspan=2></th>-->                            
                                 <input type="hidden" name="page" id="page" value="1">
 

@@ -12,11 +12,11 @@
         <title>Помилка</title>
     <img src="img/logo.png" id="logo"><br>
     <style>
-        <%@include file='css/login.css' %>         
+        <%@include file='css/login.css' %>
     </style>
 </head>
 <body>
-    <h3>Ви ввели не вірно ім'я користувача, спробуйте ще раз</h3>
+    <h3>Ви ввели не вірно ім'я користувача або сервер не працює, спробуйте ще раз</h3>
     <div class="login">
 
         <form method="POST" name='form-login' action='AuthServlet'>
