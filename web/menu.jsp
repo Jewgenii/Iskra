@@ -16,53 +16,72 @@
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
         <style>
-            <%@include file='css/bootstrap.min.css' %>
+            <%@include file='css/bootstrap.min.css' %> 
             <%@include file='css/menu.css' %>  
-            <%@include file='css/style.css' %>     
+            <%@include file='css/style.css' %>
+            <%@include file='css/dropdownMenu.css' %>  
+            
         </style>
 
         <script language="javascript" type="text/javascript" src="js/3.2.1_jquery.min.js"></script>
-
+        <script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>
         <script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
+
     </head>
-    <body>        
-        <nav class="navbar navbar-my">    
+    <body class="wrapper">      
+
+        <nav id="colorAMenu" class="navbar navbar-my">    
             <div class="container-fluid"> 
                 <div class="navbar-header">
 
-                    <a id="projname" class="navbar-brand disabled" href="#">Бази даних. Перегляд</a>
+                    <script language="javascript" type="text/javascript" src="js/dropdownMenu.js">
+                    </script>
+                    <a class="navbar-brand disabled" href="#">Бази даних. Перегляд</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <!--Дата по умолчанию-->
                     <%long curTime = System.currentTimeMillis();
                         String curStringDate = new SimpleDateFormat("dd.MM.yyyy").format(curTime);
+                        
                     %>
-                    <li><a href="index.jsp" >Головна</a></li>
-                    <li class="dropdown">
+                    <li hover><a href="index.jsp" >Головна</a></li>
+                    <li class="dropdown" hover>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Перегляд даних<span class="caret"></span></a> 
-                        <ul class="dropdown-menu">
+                        <ul id="dropAColor" class="dropdown-menu">
                             <%--<li><a href="SkisqlController?action=list&page=1">Перегляд бази Skisql</a></li>--%>
-                            <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>">Перегляд бази Vp44150sql</a></li>
-                            <li><a href="SearchTmi?page=1&count=0&osdch=${osdch}&nc=${nc}&svi=<%=curStringDate%>">Перегляд бази Tmisql</a></li>
+                            <li><a href="Search?page=1&count=0&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=<%=curStringDate%>&pages=25">Кількість одиниць складових(деталей) у виробі</a></li>
+                            <li><a href="SearchTmi?page=1&count=0&osdch=${osdch}&nc=${nc}&svi=<%=curStringDate%>">Технологічний маршрут виготовлення</a></li>
+                            <li><a href="modeTmpSelect.jsp">Технологічний маршрут споживання</a></li>
+                            <li><a href="SearchNaimesql">Виробничі та стандартні позиції специфікації.Найменування</a></li>
+                           <%-- <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Технологічний маршрут виготовлення(TMPSQL)</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="SearchTmpCh?page=1&count=0&osdch=${osdch}&osdk=${osdk}&cp=${cp}&svi=<%=curStringDate%>">Перегляд "Що"-"Куди"</a></li>
+                                    <li><a href="SearchTmpK?page=1&count=0&osdch=${osdch}&osdk=${osdk}&cp=${cp}&svi=<%=curStringDate%>">Перегляд "Куди"-"Що"</a></li>
+                                </ul>
+                            </li>--%>
                         </ul>
                     </li> 
+                </ul>  
+
+                <!--Скрипт для подсказок-->      
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <form class="frm" method="post" name="exit" action="login.jsp">
-                            <button id="justbutton" class="btn btn-default btn-xs navbar-btn " >Вихід</button>
-                            <script>
-                                //setTimeout(function myd() {
-                                //  document.getElementById('justbutton').click()
-                                //},100000);
-                            </script>
+                            <!-- <button id="justbutton" class="btn  btn-sm btn-success navbar-btn " >Вихід</button>-->
+                            <button id="justbutton" class="btn  btn-sm btn-success navbar-btn" data-toggle="tooltip" data-placement="left" title="Вихід" >
+                                <span class="glyphicon glyphicon-log-out"></span></button>
                         </form>
                     </li>
-                </ul>        
+                </ul>
             </div>
         </nav>
-
-        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
-         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
-
     </body>
 </html>

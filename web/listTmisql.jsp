@@ -16,7 +16,7 @@
             <%@include file='css/jquery-ui.css' %> 
             <%@include file='css/table.css'%>
         </style>
-        <script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>
+        <!--<script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>-->
 
         <!--<script language="javascript" type="text/javascript" src="js/jquery-3.2.1.min.js"></script>-->
         <script language="javascript" type="text/javascript" src="js/autocomplitKiz.js"></script>
@@ -38,7 +38,7 @@
                     <div class="panel-body">
                         <div class="container-fluid">
                             <form  class="search" method="get" name="frm" action="SearchTmi">
-                                <label>Позначення</label> <input type="text" size="12px" name="osdch" id="osdch" align="middle" placeholder="ОСД-Що">
+                                <label>Позначення</label> <input type="text" minlength="3" size="12px" name="osdch" id="osdch" align="middle" placeholder="ОСД-Що">
 
                                 <label>Маршрут</label> <input id="nc" type="text" size="12px" name="nc" class="nc"  align="middle" placeholder="Тех. маршрут">
                                 <%--<img id="loading" width="20" height="20" style="display: none" src="${pageContext.servletContext.contextPath}/img/load2.gif" />--%>
@@ -48,9 +48,10 @@
 
                                 <input type="hidden" name="count" id="count" value="0">
 
-                                <button class="btn btn-primary btn-md">Выполнить фильтр</button> 
+                                <button class="btn  btn-md btn-success" data-toggle="tooltip" data-placement="bottom" title="Виконати фільтр">
+                                    <span class="glyphicon glyphicon-ok"></span></button>
 
-                                <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Сбросить фильтр" onclick="window.location.href = 'TmisqlController?action=list&page=1'" />
+                                <!--<input id="searchClear" class="btn btn-warning btn-md" type="button" value="Відмінити фільтр" onclick="window.location.href = 'TmisqlController?action=list&page=1'" />-->
                             </form>
                         </div>
                     </div>
@@ -66,30 +67,33 @@
             <nav class="pag" role='pagination'>
                 <ul class="pagination">
                     <c:choose>
-                        <c:when test="${page == 1}"><li><a class="disabled" href="TmisqlController?action=list&page=1">Первая</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href="TmisqlController?action=list&page=1">Первая</a></li></c:otherwise>
+                        <c:when test="${page == 1}"><li><a class="disabled" href="TmisqlController?action=list&page=1">Перша</a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href="TmisqlController?action=list&page=1">Перша</a></li></c:otherwise>
                         </c:choose>
 
                     <c:choose>
-                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page-1}>Назад</a></li></c:when> 
-                        <c:otherwise><li class="li1"><a class="a2" href=TmisqlController?action=list&page=${page-1}>Назад</a></li></c:otherwise> 
+                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:when> 
+                        <c:otherwise><li class="li1"><a class="a2" href=TmisqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:otherwise> 
                         </c:choose>
 
                     <c:set var="firstPageNum" scope="request" value="${ param.page - 2 }"/>
                     <c:set var="lastPageNum" scope="request" value="${ empty param.page ? 3 : param.page + 2 }"/>
                     <c:forEach var="i" begin="${ firstPageNum > 0 ? firstPageNum : 1 }" 
                                end="${ lastPageNum > counts ? counts : lastPageNum }">
-                        <li class="li1"><a class="a2" href="TmisqlController?action=list&page=${i}">${i}</a></li>
+                        <c:choose>
+                            <c:when test="${i == page}"> <li class="li1"><a class="a2" style="color: #2e6da4;" href="TmisqlController?action=list&page=${i}"><b>${i}</b></a></li></c:when>
+                            <c:otherwise><li class="li1"><a class="a2" href="TmisqlController?action=list&page=${i}">${i}</a></li></c:otherwise>
+                        </c:choose> 
                         </c:forEach>
 
                     <c:choose>
-                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page+1}>Вперед</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href=TmisqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
+                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href=TmisqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:otherwise>
                         </c:choose>
 
-                    <li><a>Страница №: ${page}</a></li>
+                    <%--<li><a>Сторінка №: ${page}</a></li>--%>
 
-                    <li><button id="excel2" class="btn btn-success btn-md" onclick="fnExcelReport3();">Экспорт в excel</button></li>
+                    <li><button id="excel2" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки" onclick="fnExcelReport3();"><span class="glyphicon glyphicon-list-alt"></span></button></li>
 
                 </ul>
             </nav>
@@ -98,7 +102,7 @@
 
         <div class="container-fluid">
             <table border=1 id="tableList" class="table table-striped table-bordered" acceptCharset="UTF-8">
-                <thead id="backgroundHeadTmi">
+                <thead id="backgroundHead">
 
                     <tr>
                         <th>Одиниця складова(деталь). Позначення.<br> 
@@ -115,7 +119,7 @@
                     <c:choose>
                         <c:when test="${not empty tmisqls}">
                             <c:forEach items="${tmisqls}" var="tmisql" >
-                                <tr>
+                                <tr paint>
 
                                     <td><c:out value="${tmisql.osdch}" /><br>
                                         <c:out value="${tmisql.naim}" />
@@ -136,7 +140,7 @@
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <tr>
+                            <tr paint>
                                 <td colspan="7" align="center">Інформація за вказаним контекстом відсутня</td>
                             </tr>
                         </c:otherwise>
@@ -149,31 +153,34 @@
             <nav class="pag2" >
                 <ul class="pagination">
                     <c:choose>
-                        <c:when test="${page == 1}"><li><a class="disabled" href="TmisqlController?action=list&page=1">Первая</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href="TmisqlController?action=list&page=1">Первая</a></li></c:otherwise>
+                        <c:when test="${page == 1}"><li><a class="disabled" href="TmisqlController?action=list&page=1">Перша</a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href="TmisqlController?action=list&page=1">Перша</a></li></c:otherwise>
                         </c:choose>
 
                     <c:choose>
-                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page-1}>Назад</a></li></c:when> 
-                        <c:otherwise><li class="li1"><a class="a2" href=TmisqlController?action=list&page=${page-1}>Назад</a></li></c:otherwise> 
+                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:when> 
+                        <c:otherwise><li class="li1"><a class="a2" href=TmisqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:otherwise> 
                         </c:choose>
 
                     <c:set var="firstPageNum" scope="request" value="${ param.page - 2 }"/>
                     <c:set var="lastPageNum" scope="request" value="${ empty param.page ? 3 : param.page + 2 }"/>
                     <c:forEach var="i" begin="${ firstPageNum > 0 ? firstPageNum : 1 }" 
                                end="${ lastPageNum > counts ? counts : lastPageNum }">
-                        <li class="li1"><a class="a2" href="TmisqlController?action=list&page=${i}">${i}</a></li>
-                        </c:forEach>
+                       <c:choose>
+                            <c:when test="${i == page}"> <li class="li1"><a class="a2" style="color: #2e6da4;" href="TmisqlController?action=list&page=${i}"><b>${i}</b></a></li></c:when>
+                            <c:otherwise><li class="li1"><a class="a2" href="TmisqlController?action=list&page=${i}">${i}</a></li></c:otherwise>
+                        </c:choose>   
+                    </c:forEach>
 
 
                     <c:choose>
-                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page+1}>Вперед</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href=TmisqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
+                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=TmisqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href=TmisqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:otherwise>
                         </c:choose>
 
-                    <li><a>Страница №: ${page}</a></li>
+                    <%--<li><a>Сторінка №: ${page}</a></li>--%>
 
-                    <li><button id="excel2" class="btn btn-success btn-md" onclick="fnExcelReport3();">Экспорт в excel</button></li>
+                    <li><button id="excel2" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки" onclick="fnExcelReport3();"><span class="glyphicon glyphicon-list-alt"></span></button></li>
                 </ul>
             </nav>
         </div>

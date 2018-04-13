@@ -119,12 +119,7 @@ public class TmisqlDao {
             Statement statement = connection.createStatement();
             
             ResultSet rs = statement.executeQuery(
-               /* "select (osdch_c||osdch_r) as osdch,nc,svi,tmi.nizv,naim as naim_osdch "
-                    + "from clippersql.tmisql tmi "
-                    + "left join clippersql.naimesql n "
-                        + "on (n.osd_t=tmi.osdch_t and n.osd_r=tmi.osdch_r and n.osd_c=tmi.osdch_c) "
-                    + "order by osdch_t,osdch_r,osdch_c,svi "
-                    + "limit " + 100 + " offset " + (page - 1) * 100);*/
+              
                 "with tmib as(\n" +
                     "select osdch_t, osdch_r, osdch_c, nc, nizv, svi from clippersql.tmisql \n" +
                     "order by osdch_t, osdch_r, osdch_c, svi desc \n" +

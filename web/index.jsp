@@ -14,7 +14,8 @@
         <title>Ласкаво просимо</title>
         <script language="javascript" type="text/javascript" src="js/TweenMax.min.js"></script>
         
-        <%@include file="menu.jsp" %>
+        <c:set var="menu" value="./menu.jsp"></c:set>
+        <jsp:include page="${menu}"></jsp:include>
 
     </head>
     

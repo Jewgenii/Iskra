@@ -84,18 +84,7 @@ public class SearchTmi extends HttpServlet {
     "  )\n" +
         "select osdch,nc,svi,nizv, naim_osdch\n" +
         "from src\n" +
-        "order by osdch_t,osdch_r,osdch_c,svi desc\n" 
-/*"  src_with_rownumbers as (\n" +
-"	select row_number() over(\n" +
-"           partition by src.osdch_t,src.osdch_r,src.osdch_c\n" +
-"           order by src.osdch_t,src.osdch_r,src.osdch_c\n" +
-"           ) as num_in_grp_ch, osdch, osdch_t,osdch_c,osdch_r,nc,svi,nizv,naim_osdch\n" +
-"        from src)\n" +
-"	select \n" +
-"	   case when num_in_grp_ch=1 then osdch else '' end::varchar(80) as osdch_disp,nc,svi,nizv,\n" +
-"	   case when num_in_grp_ch=1 then naim_osdch else '' end::varchar(80) as naim_ch\n" +
-"	from src_with_rownumbers\n" +
-"	order by osdch_t,osdch_r,osdch_c,svi"*/);
+        "order by osdch_t,osdch_r,osdch_c,svi desc\n");
            
 ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

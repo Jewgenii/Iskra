@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Аутентификация</title>
+        <title>Автентифікація</title>
     <img src="img/logo.png" id="logo"><br>
     <style>
         <%@include file='css/login.css' %>         

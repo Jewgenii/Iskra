@@ -21,7 +21,7 @@ function fnExcelReport3()
     var d = new Date();
     var mm = d.getMonth() + 1;
     a.setAttribute("href", uri + '\uFEFF' + encodeURIComponent(tab_text));
-    a.setAttribute('download', "CSXL01020_" +
+    a.setAttribute('download', "CSXL04010_" +
             d.getDate() + "." +
             mm + "." +
             d.getFullYear() + "_" +

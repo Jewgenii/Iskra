@@ -86,7 +86,7 @@ public class TmisqlController extends HttpServlet {
         tmisql.setNizv(request.getParameter("nizv"));
         tmisql.setNaim(request.getParameter("naim"));
         
-        dao.addTmisql(tmisql);
+        //dao.addTmisql(tmisql);
         
         RequestDispatcher view = request.getRequestDispatcher(LIST_TMISQL);
         request.setAttribute("tmisqls", dao.getAllTmisql(1));

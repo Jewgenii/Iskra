@@ -23,21 +23,27 @@
 
 #search                         /*Поиск*/
 {   
-    background: lemonchiffon;    
+    background: #d6e9c6;  
+    
 }
 
 #search tr, th, td
 {
     border:1px ;
 }
-#search tr:hover{
-    background: #b5cd60;
+#search tr[paint]:hover{
+    background: lemonchiffon;
 
 }
 
 #backgroundSearchHead{
-    background-color: #b5cd60;  
+    background-color: #58ba5c;  
 }
+
+#backgroundSearchHead tr th{
+    color: white; 
+}
+
 th {
     text-align: center;
     vertical-align: middle;
@@ -60,9 +66,7 @@ a.disabled {
 
 
 
-#projname{
-    color: black;
-}
+
 
 #searchClear{
    
@@ -81,7 +85,10 @@ a.disabled {
     margin-top: 0px; 
 }
 #headFiltPan{
-     background: #b5cd60;
+     background: #58ba5c;
+}
+#headFiltPan a{
+    color: white;
 }
 /*#loading{
     position: relative;

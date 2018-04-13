@@ -1,4 +1,4 @@
-function fnExcelReport()
+function fnExcelReport4()
 {
     var tab_text = "<table border='2px'><tr bgcolor='#FFFFFF'>";
 
@@ -21,7 +21,7 @@ function fnExcelReport()
     var d = new Date();
     var mm = d.getMonth() + 1;
     a.setAttribute("href", uri + '\uFEFF' + encodeURIComponent(tab_text));
-    a.setAttribute('download', "CSXL03010_" +
+    a.setAttribute('download', "CSXL05010_" +
             d.getDate() + "." +
             mm + "." +
             d.getFullYear() + "_" +
@@ -31,4 +31,4 @@ function fnExcelReport()
     document.body.appendChild(a);
     a.click();
 }
-fnExcelReport();
+fnExcelReport4();

@@ -53,6 +53,9 @@ public class Vp44150sql {
     private String cp;
     /*cp character varying(42), -- Технологічний маршрут споживання*/
     
+    private String osdch_cnt;
+    private String osdk_cnt;
+    
     /**
      * @return the osdch_t
      */
@@ -331,6 +334,34 @@ public class Vp44150sql {
      */
     public void setNcK(String ncK) {
         this.ncK = ncK;
+    }
+
+    /**
+     * @return the osdch_cnt
+     */
+    public String getOsdch_cnt() {
+        return osdch_cnt;
+    }
+
+    /**
+     * @param osdch_cnt the osdch_cnt to set
+     */
+    public void setOsdch_cnt(String osdch_cnt) {
+        this.osdch_cnt = osdch_cnt;
+    }
+
+    /**
+     * @return the osdk_cnt
+     */
+    public String getOsdk_cnt() {
+        return osdk_cnt;
+    }
+
+    /**
+     * @param osdk_cnt the osdk_cnt to set
+     */
+    public void setOsdk_cnt(String osdk_cnt) {
+        this.osdk_cnt = osdk_cnt;
     }
 
     

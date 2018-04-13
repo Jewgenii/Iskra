@@ -25,6 +25,26 @@
         <servlet-name>SearchTmi</servlet-name>
         <servlet-class>controller.SearchTmi</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchTmpCh</servlet-name>
+        <servlet-class>controller.SearchTmpCh</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TmpsqlChController</servlet-name>
+        <servlet-class>controller.TmpsqlChController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TmpsqlKController</servlet-name>
+        <servlet-class>controller.TmpsqlKController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchTmpK</servlet-name>
+        <servlet-class>controller.SearchTmpK</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchNaimesql</servlet-name>
+        <servlet-class>controller.SearchNaimesql</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UpdCont</servlet-name>
         <url-pattern>/UpdCont</url-pattern>
@@ -53,8 +73,28 @@
         <servlet-name>SearchTmi</servlet-name>
         <url-pattern>/SearchTmi</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchTmpCh</servlet-name>
+        <url-pattern>/SearchTmpCh</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TmpsqlChController</servlet-name>
+        <url-pattern>/TmpsqlChController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TmpsqlKController</servlet-name>
+        <url-pattern>/TmpsqlKController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchTmpK</servlet-name>
+        <url-pattern>/SearchTmpK</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchNaimesql</servlet-name>
+        <url-pattern>/SearchNaimesql</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <description/>

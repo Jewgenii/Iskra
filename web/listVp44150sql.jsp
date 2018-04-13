@@ -34,7 +34,7 @@
         <style>
             <%@include file='css/jquery-ui.css' %>     
         </style>
-        <script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>
+        <!--<script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>-->
         <script language="javascript" type="text/javascript" src="js/exportExcel.js"></script>
         <!--<script language="javascript" type="text/javascript" src="js/jquery-3.2.1.min.js"></script>-->
         <script language="javascript" type="text/javascript" src="js/autocomplitKiz.js"></script>
@@ -42,7 +42,10 @@
 
         <title>Просмотр данных vp44150sql</title>
 
-        <style><%@include file='css/table.css'%></style>
+        <style>
+            <%@include file='css/table.css'%>
+            <%@include file="css/rawSpanStyle.css"%>
+        </style>
 
     </head>
     <body>  
@@ -70,10 +73,17 @@
                                 <input type="hidden" name="page" id="page" value="1">
 
                                 <input type="hidden" name="count" id="count" value="0">
+                                  <%                                             
+                                            long curTime2 = System.currentTimeMillis();
+                                            String svi = new SimpleDateFormat("dd.MM.yyyy").format(curTime2);
+                                        %>
 
-                                <button class="btn btn-primary btn-md">Выполнить фильтр</button> 
+                                        <input type="hidden" name="svi" id="svi" value="<%=svi%>">
 
-                                <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Сбросить фильтр" onclick="window.location.href = 'Vp44150sqlController?action=list&page=1'" />
+                                <button class="btn  btn-md btn-success" data-toggle="tooltip" data-placement="bottom" title="Виконати фільтр">
+                                    <span class="glyphicon glyphicon-ok"></span></button>
+
+                               <!-- <input id="searchClear" class="btn btn-warning btn-md" type="button" value="Відмінити фільтр" onclick="window.location.href = 'Vp44150sqlController?action=list&page=1'" />-->
                             </form>
                         </div>
                     </div>
@@ -91,25 +101,28 @@
             <nav class="pag" >            
                 <ul class="pagination" >
                     <c:choose>
-                        <c:when test="${page == 1}"><li><a class="disabled" href="Vp44150sqlController?action=list&page=1">Первая</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href="Vp44150sqlController?action=list&page=1">Первая</a></li></c:otherwise>
+                        <c:when test="${page == 1}"><li><a class="disabled" href="Vp44150sqlController?action=list&page=1">Перша</a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href="Vp44150sqlController?action=list&page=1">Перша</a></li></c:otherwise>
                         </c:choose>
 
                     <c:choose>
-                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page-1}>Назад</a></li></c:when> 
-                        <c:otherwise><li class="li1"><a class="a2" href=Vp44150sqlController?action=list&page=${page-1}>Назад</a></li></c:otherwise> 
+                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:when> 
+                        <c:otherwise><li class="li1"><a class="a2" href=Vp44150sqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:otherwise> 
                         </c:choose>
 
                     <c:set var="firstPageNum" scope="request" value="${ param.page - 2 }"/>
                     <c:set var="lastPageNum" scope="request" value="${ empty param.page ? 3 : param.page + 2 }"/>
                     <c:forEach var="i" begin="${ firstPageNum > 0 ? firstPageNum : 1 }" 
                                end="${ lastPageNum > counts ? counts : lastPageNum }">
-                        <li class="li1"><a class="a2" href="Vp44150sqlController?action=list&page=${i}">${i}</a></li>
+                        <c:choose>
+                            <c:when test="${i == page}"><li class="li1"><a class="a2" style="color: #2e6da4;" href="Vp44150sqlController?action=list&page=${i}"><b>${i}</b></a></li></c:when>
+                            <c:otherwise> <li class="li1"><a class="a2" href="Vp44150sqlController?action=list&page=${i}">${i}</a></li></c:otherwise>
+                            </c:choose>  
                         </c:forEach>
 
                     <c:choose>
-                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
+                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:otherwise>
                         </c:choose>
 
                     <%-- <c:choose>
@@ -117,8 +130,8 @@
                          <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:otherwise>
                          </c:choose> --%>
 
-                    <li><a>Страница №: ${page}</a></li>
-                    <li><button id="excell" class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>
+                
+                    <li><button id="excell" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки" onclick="fnExcelReport();"><span class="glyphicon glyphicon-list-alt"></span></button></button></li>
                         <%--<li><input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel"></li>--%>
                 </ul>
             </nav>
@@ -154,31 +167,46 @@
 
                 </thead>
 
+          
+
+
+
                 <tbody>
                     <c:choose>
                         <c:when test="${not empty vp44150sqls}">
                             <c:forEach items="${vp44150sqls}" var="vp44150sql" >
-                                <tr>
+                                <tr paint>
+                                    <%-- <td rowspan="${vp44150sql.osdch_cnt}">--%>
+                                    <c:if test="${not empty vp44150sql.osdch}">
+                                        <td rowspan="${vp44150sql.osdch_cnt}" paint>
+                                            <div class="stickyColumn"> 
+                                                <c:out value="${vp44150sql.osdch}" /><br>
+                                                <c:out value="${vp44150sql.naim}" /><br>
 
-                                    <td>
-                                        <c:out value="${vp44150sql.osdch}" /><br>
-                                        <c:out value="${vp44150sql.naim}" /><br>
 
-                                        <c:if test="${not empty vp44150sql.nc}">
-                                            <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
-                                            <c:out value="${grouper.chunks}"/>
-                                        </c:if>      
-                                    </td>
+                                                <c:if test="${not empty vp44150sql.nc}">
+                                                    <c:set target="${grouper}" property="chunks" value="${vp44150sql.nc}" />
+                                                    <c:out value="${grouper.chunks}"/>
+                                                </c:if>
+                                            </div>
+                                        </td>
+                                    </c:if>
 
-                                    <td>
-                                        <c:out value="${vp44150sql.osdk}" /><br>
-                                        <c:out value="${vp44150sql.naimk}" /><br>
+                                    <c:if test="${not empty vp44150sql.osdk}">  
+                                        <td rowspan="${vp44150sql.osdk_cnt}" paint>
+                                            <%--  <td rowspan="${vp44150sql.osdk_cnt}">--%>
+                                            <div class="stickyColumn">
+                                                <c:out value="${vp44150sql.osdk}" /><br>
+                                                <c:out value="${vp44150sql.naimk}" /><br>
 
-                                        <c:if test="${not empty vp44150sql.ncK}">
-                                            <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
-                                            <c:out value="${triadNcK.chunks}"/>
-                                        </c:if>                                            
-                                    </td>
+
+                                                <c:if test="${not empty vp44150sql.ncK}">
+                                                    <c:set target="${triadNcK}" property="chunks" value="${vp44150sql.ncK}" />
+                                                    <c:out value="${triadNcK.chunks}"/>
+                                                </c:if>
+                                            </div>
+                                        </td>
+                                    </c:if>
 
                                     <td>
                                         <c:if test="${not empty vp44150sql.cp}">
@@ -216,7 +244,7 @@
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <tr>
+                            <tr paint>
                                 <td colspan="7" align="center">Інформація за вказаним контекстом відсутня</td>
                             </tr>
                         </c:otherwise>
@@ -229,21 +257,28 @@
             <nav class="pag2">
                 <ul class="pagination">
                     <c:choose>
-                        <c:when test="${page == 1}"><li><a class="disabled" href="Vp44150sqlController?action=list&page=1">Первая</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href="Vp44150sqlController?action=list&page=1">Первая</a></li></c:otherwise>
+                        <c:when test="${page == 1}"><li><a class="disabled" href="Vp44150sqlController?action=list&page=1">Перша</a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href="Vp44150sqlController?action=list&page=1">Перша</a></li></c:otherwise>
                         </c:choose>
 
                     <c:choose>
-                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page-1}>Назад</a></li></c:when> 
-                        <c:otherwise><li class="li1"><a class="a2" href=Vp44150sqlController?action=list&page=${page-1}>Назад</a></li></c:otherwise> 
+                        <c:when test="${page <=1}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:when> 
+                        <c:otherwise><li class="li1"><a class="a2" href=Vp44150sqlController?action=list&page=${page-1}><span class="glyphicon glyphicon-chevron-left"></span></a></li></c:otherwise> 
                         </c:choose>
 
                     <c:set var="firstPageNum" scope="request" value="${ param.page - 2 }"/>
                     <c:set var="lastPageNum" scope="request" value="${ empty param.page ? 3 : param.page + 2 }"/>
                     <c:forEach var="i" begin="${ firstPageNum > 0 ? firstPageNum : 1 }" 
                                end="${ lastPageNum > counts ? counts : lastPageNum }">
-                        <li class="li1"><a class="a2" href="Vp44150sqlController?action=list&page=${i}">${i}</a></li>
-                        </c:forEach>
+                        
+                        
+                    <c:choose>
+                            <c:when test="${i == page}"><li class="li1"><a class="a2" style="color: #2e6da4;" href="Vp44150sqlController?action=list&page=${i}"><b>${i}</b></a></li></c:when>
+                            <c:otherwise> <li class="li1"><a class="a2" href="Vp44150sqlController?action=list&page=${i}">${i}</a></li></c:otherwise>
+                            </c:choose>   
+                    
+                    
+                    </c:forEach>
 
                     <%--<% 
                            for (int i = Integer.parseInt(request.getParameter("page")) - 2; 
@@ -258,8 +293,8 @@
                     %>--%>
 
                     <c:choose>
-                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:when> 
-                        <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}>Вперед</a></li></c:otherwise>
+                        <c:when test="${page >= counts}"><li class="li1"><a class="disabled" href=Vp44150sqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:when> 
+                        <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${page+1}><span class="glyphicon glyphicon-chevron-right"></span></a></li></c:otherwise>
                         </c:choose>
 
                     <%--<c:choose>
@@ -267,12 +302,12 @@
                         <c:otherwise><li><a class="a2" href=Vp44150sqlController?action=list&page=${counts}>Последняя</a></li></c:otherwise>
                         </c:choose>--%>
 
-                    <li><a>Страница №: ${page}</a></li>
-                    <li><button id="excell" class="btn btn-success btn-md" onclick="fnExcelReport();">Экспорт в excel</button></li>
+                   
+                    <li><button id="excell" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки" onclick="fnExcelReport();"><span class="glyphicon glyphicon-list-alt"></span></button></li>
                         <%--<li><input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel"></li>--%>
                 </ul>
             </nav>
         </div>
-
+                <script language="javascript" type="text/javascript" src="js/StickyColumnList.js"></script>
     </body>
 </html>

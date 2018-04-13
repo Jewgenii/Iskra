@@ -71,9 +71,11 @@ public class Vp44150sqlController extends HttpServlet {
 
         } else if (action.equalsIgnoreCase("list")) {
             String page = (request.getParameter("page"));
+            String svi = (request.getParameter("svi"));
             forward = LIST_VP44150SQL;
             request.setAttribute("vp44150sqls", dao.getAllVp44150sql(Integer.parseInt(page)));
             request.setAttribute("page", page);
+            request.setAttribute("svi", svi);
             request.setAttribute("counts", dao.getCounts());
         } else {
             forward = INSERT_OR_EDIT;
@@ -125,12 +127,13 @@ public class Vp44150sqlController extends HttpServlet {
         //    dao.updateSkisql(skisql);
         //} else {
        
-        dao.addVp44150sql(vp44150sql);
+        //dao.addVp44150sql(vp44150sql);
 
         //}
         RequestDispatcher view = request.getRequestDispatcher(LIST_VP44150SQL);
         request.setAttribute("vp44150sqls", dao.getAllVp44150sql(1));
         request.setAttribute("page", 1);
+        request.setAttribute("svi", svi);
         request.setAttribute("counts", dao.getCounts());
         view.forward(request, response);
     }

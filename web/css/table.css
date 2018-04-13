@@ -6,19 +6,28 @@
 }
 
 #tableList{
-    background: lemonchiffon;
+    background: #d6e9c6;
 }
 
-#tableList tr:hover {
-    background: #b5cd60;
+#tableList tr[paint]:hover {
+    background: lemonchiffon;
 }
 #backgroundHead{
-    background-color: #b5cd60;
+    background-color: #58ba5c;
+}
+
+#backgroundHead tr th{
+    color: white; 
+}
+
+#backgroundHead tr[paint]:hover {
+    background: #d6e9c6;
 }
 
 #backgroundHeadTmi{
-    background-color: #b5cd60;
+    background-color: #58ba5c;
 }
+
 
 
 th {
@@ -28,5 +37,8 @@ th {
 }
 
 #headFiltPan{
-     background: #b5cd60;
+     background: #58ba5c;
+}
+#headFiltPan a{
+    color: white;
 }

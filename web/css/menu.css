@@ -1,23 +1,61 @@
 
-
-
 .navbar-my{
 
-    background: #b5cd60;
+    background: #58ba5c;
+    /*#b5cd60
+    58ba5c*/    
+}
+
+#colorAMenu a{
+   color: white; 
+   font-size: 16px;
     
-
 }
 
-.navbar-my ul li a{
-
-    color: #000000;
-
+.navbar-my ul li a:hover{
+    background-color: #4cae4c !important;
 }
+
+.navbar-my ul li a:focus{
+    background-color: #4cae4c !important;
+}
+
+.navbar-my ul li a:active{
+    background-color: #4cae4c !important;
+}
+
+.nav .open > a{
+     background-color: #4cae4c !important;
+}
+
+#dropAColor a{
+   /* background:#58ba5c; */
+    color: black;   
+}
+
+#dropAColor a:hover{
+   /* background:#58ba5c; */
+    color: white;   
+}
+
+
+
 .pag{
 margin-top: -15px;
 margin-bottom: -15px;
 }
+
 .pag2{  
     margin-top: -35px;
     
+}
+
+/*.wrapper {
+  width: 100%;
+
+  min-width: 760px;
+}*/
+
+body{
+  min-width: 700px !important;  
 }
