@@ -5,7 +5,6 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
@@ -13,30 +12,28 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Виробничі та стандартні позиціх специфікації.Найменування</title>
-
-        <%@include file="menu.jsp" %>
-        <style><%@include file='css/jquery-ui.css' %></style>
-
-        <script language="javascript" type="text/javascript" src="js/exportExcel_1.js"></script>
-        <script language="javascript" type="text/javascript" src="js/autocomplitKiz.js"></script>
-        <script language="javascript" type="text/javascript" src="js/jquery.stickytableheaders.js"></script>
-
-        <style>
-            <%@include file="css/menu.css"%>
-            <%@include file="css/rawSpanStyle.css"%>
-        </style>
-
-        <title>Фільтр vp44150sql</title>
+        <title>Виробничі та стандартні позиції специфікації.Найменування</title>
+        <link rel="stylesheet" href="css/jquery-ui.css"/>
+        <link rel="stylesheet" href="css/menu.css"/>
+        <link rel="stylesheet" href="css/rawSpanStyle.css"/>  
+        <link rel="stylesheet" href="css/table/iskra-table.css"/>
     </head>
     <body>
-        <c:forEach items="${naimesql}" var="naim">
-            <p>
-                <c:out value="${naim.naim}"/>
-            </p>
-            
-            
-        </c:forEach>
-            
+        <div id="menu"> <%@include file="menu.jsp" %></div>
+        <div id="FilterContent" class="container-fluid"></div>
+        <div class="container-fluid">
+            <div class="container-fluid rowsOnPage"></div>
+            <div class="iskra-paginationContainer"></div>
+        </div>
+        <div class="container-fluid iskra-tableContainer"></div> 
+        <div class="container-fluid">
+            <div class="iskra-paginationContainer"></div>
+        </div>
+
+        <script  type="text/javascript" src="js/table/jquery.stickytableheaders.js"></script>
+        <script  type="text/javascript" src="js/table/BuildTable.js"></script>
+        <script  type="text/javascript" src="js/pagination/pagination.js"></script> 
+        <script  type="text/javascript" src="js/table/StickyColumn.js"></script>
+        <script  type="text/javascript" src="js/naimesql/naimesql.js"></script> 
     </body>
 </html>

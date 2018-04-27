@@ -21,13 +21,7 @@ import java.sql.Types;
  *
  * @author Sergey Nikonenko
  */
-public class SkisqlDao {
-
-    private Connection connection;
-
-    public SkisqlDao() {
-        connection = DbUtil.getConnection();
-    }
+public class SkisqlDao  extends DAO{
 
     public void addSkisql(Skisql skisql) {
         try {

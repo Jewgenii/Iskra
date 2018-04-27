@@ -1,0 +1,23 @@
+
+.iskra-table thead tr{
+    color: white;
+    text-align: center;
+    background-color: #58ba5c;
+}
+.iskra-table tbody tr {
+    text-align: left;
+    background-color: white;
+}
+.iskra-table tbody tr:hover {
+    background: lemonchiffon !important;
+}
+.iskra-table td>*{
+    display:inline-block;
+    margin:0;
+    padding-top: 0px;
+    position: sticky;
+    top:0px;
+}
+.iskra-table td{
+    vertical-align:top !important;
+}

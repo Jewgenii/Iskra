@@ -3,17 +3,14 @@
 .stickyColumn {
     position: sticky;
 }
-td>div{
+
+td>*{
     display:inline-block;
     margin:0;
     padding-top: 0px;
-
-
 }
 td[rowspan]{
     vertical-align:top !important;
-
-
 }
 td[paint]{
     background-color: rgb(249, 249, 249);

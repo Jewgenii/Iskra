@@ -8,36 +8,21 @@
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>-->
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
-        <style>
-            <%@include file='css/bootstrap.min.css' %> 
-            <%@include file='css/menu.css' %>  
-            <%@include file='css/style.css' %>
-            <%@include file='css/dropdownMenu.css' %>  
-            
-        </style>
 
-        <script language="javascript" type="text/javascript" src="js/3.2.1_jquery.min.js"></script>
-        <script language="javascript" type="text/javascript" src="js/jquary_ui.js"></script>
-        <script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
-
-    </head>
-    <body class="wrapper">      
-
+        
+        <link rel="stylesheet" href="css/bootstrap.min.css?fdfdf=fff"/>
+        <link rel="stylesheet" href="css/menu.css?fdfdf=fff"/>
+        <link rel="stylesheet" href="css/style.css?fdfdf=fff"/>
+        <link rel="stylesheet" href="css/dropdownMenu.css?fdfdf=fff"/>  
+        
         <nav id="colorAMenu" class="navbar navbar-my">    
             <div class="container-fluid"> 
                 <div class="navbar-header">
 
                     <script language="javascript" type="text/javascript" src="js/dropdownMenu.js">
                     </script>
+                    
                     <a class="navbar-brand disabled" href="#">Бази даних. Перегляд</a>
                 </div>
                 <ul class="nav navbar-nav">
@@ -68,8 +53,8 @@
                 <!--Скрипт для подсказок-->      
                 <script>
                     $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
                 </script>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -77,11 +62,13 @@
                         <form class="frm" method="post" name="exit" action="login.jsp">
                             <!-- <button id="justbutton" class="btn  btn-sm btn-success navbar-btn " >Вихід</button>-->
                             <button id="justbutton" class="btn  btn-sm btn-success navbar-btn" data-toggle="tooltip" data-placement="left" title="Вихід" >
-                                <span class="glyphicon glyphicon-log-out"></span></button>
+                                <span class="glyphicon glyphicon-log-out"></span>
+                            </button>
                         </form>
                     </li>
                 </ul>
             </div>
         </nav>
-    </body>
-</html>
+        <script  type="text/javascript" src="js/3.2.1_jquery.min.js"></script>
+        <script  type="text/javascript" src="js/jquary_ui.js"></script>
+        <script  type="text/javascript" src="js/bootstrap.min.js"></script>

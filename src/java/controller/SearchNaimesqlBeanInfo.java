@@ -16,7 +16,7 @@ public class SearchNaimesqlBeanInfo extends SimpleBeanInfo {
     // Bean descriptor//GEN-FIRST:BeanDescriptor
     /*lazy BeanDescriptor*/
     private static BeanDescriptor getBdescriptor(){
-        BeanDescriptor beanDescriptor = new BeanDescriptor  ( controller.SearchNaimesql.class , null ); // NOI18N//GEN-HEADEREND:BeanDescriptor
+        BeanDescriptor beanDescriptor = new BeanDescriptor  ( controller.NaimesqlController.class , null ); // NOI18N//GEN-HEADEREND:BeanDescriptor
         // Here you can add code for customizing the BeanDescriptor.
 
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
@@ -35,11 +35,11 @@ public class SearchNaimesqlBeanInfo extends SimpleBeanInfo {
         PropertyDescriptor[] properties = new PropertyDescriptor[5];
     
         try {
-            properties[PROPERTY_initParameterNames] = new PropertyDescriptor ( "initParameterNames", controller.SearchNaimesql.class, "getInitParameterNames", null ); // NOI18N
-            properties[PROPERTY_servletConfig] = new PropertyDescriptor ( "servletConfig", controller.SearchNaimesql.class, "getServletConfig", null ); // NOI18N
-            properties[PROPERTY_servletContext] = new PropertyDescriptor ( "servletContext", controller.SearchNaimesql.class, "getServletContext", null ); // NOI18N
-            properties[PROPERTY_servletInfo] = new PropertyDescriptor ( "servletInfo", controller.SearchNaimesql.class, "getServletInfo", null ); // NOI18N
-            properties[PROPERTY_servletName] = new PropertyDescriptor ( "servletName", controller.SearchNaimesql.class, "getServletName", null ); // NOI18N
+            properties[PROPERTY_initParameterNames] = new PropertyDescriptor ( "initParameterNames", controller.NaimesqlController.class, "getInitParameterNames", null ); // NOI18N
+            properties[PROPERTY_servletConfig] = new PropertyDescriptor ( "servletConfig", controller.NaimesqlController.class, "getServletConfig", null ); // NOI18N
+            properties[PROPERTY_servletContext] = new PropertyDescriptor ( "servletContext", controller.NaimesqlController.class, "getServletContext", null ); // NOI18N
+            properties[PROPERTY_servletInfo] = new PropertyDescriptor ( "servletInfo", controller.NaimesqlController.class, "getServletInfo", null ); // NOI18N
+            properties[PROPERTY_servletName] = new PropertyDescriptor ( "servletName", controller.NaimesqlController.class, "getServletName", null ); // NOI18N
         }
         catch(IntrospectionException e) {
             e.printStackTrace();

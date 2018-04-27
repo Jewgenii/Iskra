@@ -20,14 +20,7 @@ import util.DbUtil;
  *
  * @author Sergey Nikonenko
  */
-public class TmisqlDao {
-
-    private Connection connection;
-
-    // boolean tableKiz = false;
-    public TmisqlDao() {
-        connection = DbUtil.getConnection();
-    }
+public class TmisqlDao extends DAO {
 
     public void addTmisql(Tmisql tmisql) {
         try {

@@ -21,15 +21,7 @@ import util.DbUtil;
  *
  * @author u27brvz18
  */
-public class TmpsqlChDao {
-     private Connection connection;
-
-    // boolean tableKiz = false;
-    public TmpsqlChDao() {
-        connection = DbUtil.getConnection();
-    }
-
-   
+public class TmpsqlChDao extends DAO{
     
     public List<TmpsqlCh> getAllTmpsqlCh(int page) {
 

@@ -47,4 +47,4 @@ var uri = 'data:application/vnd.ms-excel,';
     document.body.appendChild(a);
     a.click();
 }
-fnExcelReport2();
+//fnExcelReport2();

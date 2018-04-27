@@ -31,6 +31,7 @@ public class AutocompleteKizController extends HttpServlet {
                         ArrayList<String> list = vp44150sqlDao.getDistinctKiz(term);
 
                         String searchList = new Gson().toJson(list);
+                     
                         response.getWriter().write(searchList);
                 } catch (Exception e) {
                         System.err.println(e.getMessage());

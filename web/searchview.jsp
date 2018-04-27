@@ -22,24 +22,19 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-        <%@include file="menu.jsp" %>
-        <style><%@include file='css/jquery-ui.css' %></style>
-
-        <script language="javascript" type="text/javascript" src="js/exportExcel_1.js"></script>
-        <script language="javascript" type="text/javascript" src="js/autocomplitKiz.js"></script>
-        <script language="javascript" type="text/javascript" src="js/jquery.stickytableheaders.js"></script>
-
+        <title>Фільтр vp44150sql</title>
         <style>
+            <%@include file='css/jquery-ui.css' %>
             <%@include file="css/menu.css"%>
             <%@include file="css/rawSpanStyle.css"%>
         </style>
-
-        <title>Фільтр vp44150sql</title>
-
+         <%@include file="menu.jsp" %>
+           <link rel="stylesheet" href="css/table/iskra-table.css"/>
     </head>
 
     <body>
+        
+         
         <div class="container-fluid ">
             <div class="panel-group">
                 <div class="panel panel-default">
@@ -85,25 +80,13 @@
                                     <a class="pull-left" href="Search?page=1&count=0&osdch=&osdk=&kiz=&svi=<%=svi%>&pages=${pages}">
                                         <button class="btn  btn-md btn-success" data-toggle="tooltip" data-placement="bottom" title="Відмінити фільтр">
                                             <span class="glyphicon glyphicon-remove"></span></button></a>    
-
-
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-            $(function () {
-                $("table").stickyTableHeaders();
-            });
-
-        </script>
-
         <div class="container-fluid" style="margin-bottom: 5px;">
             <label style="margin-right: 5px; font-size: 15px;">Оберіть кількість записів на сторінці</label>
             <select id="rowPerPage">
@@ -114,7 +97,6 @@
                 <option value="100">100</option>
             </select>  
         </div>
-
         <div class="container-fluid"> 
 
             <nav class="pag" >
@@ -126,7 +108,8 @@
 
                     <c:choose>
                         <c:when test="${page <=1}"><li class="li1"><a class="disabled" href="Search?page=${page-1}&count=${count-pages}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}&pages=${pages}">
-                                    <span class="glyphicon glyphicon-chevron-left"></span></a></li></c:when> 
+                                    <span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                        </c:when> 
                         <c:otherwise><li class="li1"><a class="a2" href="Search?page=${page-1}&count=${count-pages}&osdch=${osdch}&osdk=${osdk}&kiz=${kiz}&svi=${svi}&pages=${pages}">
                                     <span class="glyphicon glyphicon-chevron-left"></span></a></li></c:otherwise> 
                             </c:choose>
@@ -169,12 +152,10 @@
                 </ul>
             </nav>
         </div>
-
-
         <div class="container-fluid">
-            <table border=1 acceptCharset="UTF-8" id="search" class="table table-striped table-bordered table-condensed">
+            <table border=1 acceptCharset="UTF-8" id="search" class="table table-striped table-bordered table-condensed iskra-table">
 
-                <thead id="backgroundSearchHead">
+                <thead class="iskra-thead">
                     <tr>
                         <!--<th>ОСД-тип(Що)</th>-->                    
                         <th colspan=2>Одиниця складова(деталь). Позначення. Технологічні маршрути виготовлення</th>
@@ -331,8 +312,17 @@
                 </ul>
             </nav>
         </div>
-        <script language="javascript" type="text/javascript" src="js/StickyColumn.js"></script>
-        <script language="javascript" type="text/javascript" src="js/rawsOnPage.js"></script>  
-        <%--<script language="javascript" type="text/javascript" src="js/rowsOnPage.js"></script>--%>
+        
+        <script  type="text/javascript" src="js/exportExcel_1.js"></script>
+        <script  type="text/javascript" src="js/autocomplitKiz.js"></script>
+        <script  type="text/javascript" src="js/table/jquery.stickytableheaders.js"></script>
+        <script  type="text/javascript" src="js/table/StickyColumn.js"></script>
+        <script  type="text/javascript" src="js/rawsOnPage.js"></script>  
+        
+        <script type="text/javascript">
+            $(function () {
+                $("table").stickyTableHeaders();
+            });
+        </script>
     </body>
 </html>

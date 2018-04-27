@@ -24,7 +24,6 @@
 #search                         /*Поиск*/
 {   
     background: #d6e9c6;  
-    
 }
 
 #search tr, th, td
@@ -47,16 +46,10 @@
 th {
     text-align: center;
     vertical-align: middle;
-
-}
-.search
-{
-
 }
 
 .frm{
     padding:0 5px;    
-
 }
 a.disabled {
     pointer-events: none; /* делаем элемент неактивным для взаимодействия */
@@ -64,26 +57,11 @@ a.disabled {
     color: #888;/* цвет текста серый */
 }
 
-
-
-
-
-#searchClear{
-   
-}
-
-#excell{
+#excell,#excel2,#excel3{
     margin: 5px;
     margin-top: 0px; 
 }
-#excel2{
-    margin: 5px;
-    margin-top: 0px; 
-}
-#excel3{
-    margin: 5px;
-    margin-top: 0px; 
-}
+
 #headFiltPan{
      background: #58ba5c;
 }

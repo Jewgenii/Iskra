@@ -112,7 +112,7 @@ public class Search extends HttpServlet {
                     + "and osdk_c||osdk_r like '" + osdk + "%'"
                     + "and kiz like '" + kiz + "%'"
                     + "and svi <= '" + svi + "%' "
-                    + "order by osdch_t,osdch_r,osdch_c,osdk_t,osdk_r,osdk_c,kiz,svi desc "
+                    + "order by osdch_t,osdch_r,osdch_c,osdk_t,osdk_r,osdk_c,kiz,svi desc " 
                     + /*"	limit " + 100 + " offset " + (page - 1) * 100 + "), " +*/ "limit " + pages + " offset " + count + "), "
                     + "src as ("
                     + "select (osdch_c||osdch_r) as osdch,(osdk_c||osdk_r) "

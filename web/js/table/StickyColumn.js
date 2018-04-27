@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-
-
-
     $(window).resize(() =>
     {
-        var height = $("#backgroundHead").height();
-        $(".stickyColumn").css({"top": height});
+        var height = $(".iskra-thead").height();
+        $(".iskra-table td>*").css({"top": height});
     });
     
     $(window).trigger('resize');
+    

@@ -5,7 +5,7 @@
  */
 $(document).ready(() =>
 {
-    $("#rowPerPage").on("change", () =>
+    $("#rowPerPage").on("change", function()
     {
         var pages = $("#rowPerPage>option:selected").text();
         //var pages = 15;

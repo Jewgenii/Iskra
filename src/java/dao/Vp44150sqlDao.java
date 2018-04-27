@@ -21,12 +21,7 @@ import util.DbUtil;
  *
  * @author Sergey Nikonenko
  */
-public class Vp44150sqlDao {
-     private Connection connection;
-    // boolean tableKiz = false;
-    public Vp44150sqlDao() {
-        connection = DbUtil.getConnection();
-    }
+public class Vp44150sqlDao  extends DAO{
 
     public void addVp44150sql(Vp44150sql vp44150sql) {
         try {
@@ -335,7 +330,7 @@ ResultSet rs = statement.executeQuery("with koliz as (select distinct on(osdch_t
                 counts = rs.getInt("total");
                 
             }
-            counts = (counts / 1000) + 1;
+            counts = (counts / 100) + 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }

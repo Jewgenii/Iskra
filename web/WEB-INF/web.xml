@@ -43,7 +43,7 @@
     </servlet>
     <servlet>
         <servlet-name>SearchNaimesql</servlet-name>
-        <servlet-class>controller.SearchNaimesql</servlet-class>
+        <servlet-class>controller.NaimesqlController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UpdCont</servlet-name>
