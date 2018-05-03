@@ -1,12 +1,15 @@
-
+// inserts table into this 
+//e.a. $("div").buildTable(jsonSource,headerJson); // appends table to each div
 (function ($) {
 
-    $.fn.buildTable = function (_JsonSource, headerData, _options) {
+    $.fn.buildTable = function (_JsonSource, _headerSettings, _options) {
 
         _JsonSource = typeof _JsonSource === "string" ? "" : _JsonSource;
 
+         // for smooth page rendering
         var options = $.extend({
-            "class": "table table-striped table-bordered table-condensed iskra-table"
+            "class" : "table table-striped table-bordered table-condensed iskra-table",
+            "display" : "table"
         }, _options);
 
         var JsonSource = $.extend([], _JsonSource);
@@ -15,7 +18,7 @@
             columnsLength++;
         });
 
-        var HeaderSettings = $.extend({
+        var headerSettings = $.extend({
             tr: [
                 {
                     th: [
@@ -26,10 +29,10 @@
                     ]
                 }
             ]
-        }, headerData);
+        }, _headerSettings);
 
         var thead = $("<thead>").addClass("iskra-thead");
-        $(HeaderSettings.tr).toArray().forEach(tr_item => {
+        $(headerSettings.tr).toArray().forEach(tr_item => {
             var tr = $("<tr>");
 
             $(tr_item.th).toArray().forEach(th_item => {
@@ -44,7 +47,6 @@
                 }
                 $(tr).append(th);
             });
-
             $(thead).append(tr);
         });
 
@@ -72,6 +74,7 @@
         }
         var table = $("<table>")
                 .addClass(options.class)
+                .css({"display":options.display})
                 .append(thead)
                 .append(tbody);
         

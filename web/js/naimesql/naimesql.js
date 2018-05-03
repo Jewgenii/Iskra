@@ -56,9 +56,11 @@
                 success: function (data) {
                     var paginationObject = JSON.parse(data.pagination);
                     var talbeContent = JSON.parse(data.tableContent);
+                    var filters = JSON.parse(data.filters);
 
                     $(".iskra-paginationContainer").page_paginate(paginationObject);
-                    $(".iskra-tableContainer").buildTable(talbeContent, jsonTableHead);
+                    $(".iskra-tableContainer").buildTable(talbeContent, jsonTableHead,{display:"table"});
+                    $(".iskra-filterContainer").iskra_filters(filters);
                     resolve(data); //Event handler for success of the Promise
                 },
                 beforeSend: function () {
@@ -67,6 +69,7 @@
                     $(div).css({"top": "50%", "left": "50%", "display": "none", "position": "absolute"})
                             .append(img)
                             .appendTo("body");
+                    
                     $(div).fadeIn("medium");
                 },
                 error: (e) => {
@@ -111,8 +114,8 @@
 
         });
     });
-}(jQuery) );
+}(jQuery));
 
-       
+
 
 

@@ -37,11 +37,15 @@ public class NaimesqlDao extends DAO {
                             .append(" offset ")
                             .append(" ? ")
                             .toString();
+                    
 
             preparedStatement = connection.prepareStatement(query);
-
-            preparedStatement.setInt(1, Integer.parseInt(map.get("limit")));
-            preparedStatement.setInt(2, Integer.parseInt(map.get("offset")));
+            
+            int limit = Integer.parseInt(map.get("limit"));
+            int offset  = Integer.parseInt(map.get("offset"));
+            
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset + limit - 1);
 
             ResultSet rs = preparedStatement.executeQuery();
 

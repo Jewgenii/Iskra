@@ -1,18 +1,22 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 (function ($) {
     const undf = "undefined";
 
-    $.fn.page_paginate = function (_data,_options) {
+    $.fn.iskra_filters = function (_data) {
 
-        var data = $.extend({
-            limit: 50,
-            offset: 0
-        }, _data);
-        
-        // for smooth page rendering
-        var options = $.extend({
-            display:"none"
-        },_options);
+        var data = $.extend([
+            {
+                caption:"none",//text 
+                name:"none",// greater then or less or equels
+                //type:"none", // > , < , >= , between
+                values:[] // values in the filter
+            }
+        ], _data);
         
         rowsOnPage(data.limit);
         var ul = $("<ul>").addClass("pagination iskra-pagination pull-right");
@@ -24,11 +28,11 @@
                     $("<span>").addClass("glyphicon glyphicon-chevron-right")
                 ];
 
-        var li_first = $("<li>").attr({"offset": 0, "limit": data.limit}).append(span[0]);
-        var li_second = $("<li>").attr({"offset": data.offset - data.limit, "limit": data.limit}).append(span[1]);
-        var li_last = $("<li>").attr({"offset": data.offset + data.limit, "limit": data.limit}).append(span[2]);
+        var li_first = $("<li>").attr({"offset": 0, "limit": dataSettings.limit}).append(span[0]);
+        var li_second = $("<li>").attr({"offset": dataSettings.offset - dataSettings.limit, "limit": dataSettings.limit}).append(span[1]);
+        var li_last = $("<li>").attr({"offset": dataSettings.offset + dataSettings.limit, "limit": dataSettings.limit}).append(span[2]);
 
-        if (data.offset === 0) {
+        if (dataSettings.offset === 0) {
             $(li_first).attr({"disabled": "disabled"});
             $(li_second).attr({"disabled": "disabled"});
         }

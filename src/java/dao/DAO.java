@@ -57,9 +57,6 @@ public abstract class DAO {
 
 //    public abstract int delete(int id);
 
-    /**
-     * @param o the o to set
-     */
 //    public void setO(Object o) {
 //        this.o = o;
 //    }

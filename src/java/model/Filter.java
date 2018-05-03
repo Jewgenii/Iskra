@@ -6,6 +6,7 @@
 package model;
 
 import java.util.List;
+import java.util.function.Consumer;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 
 /**
@@ -14,38 +15,34 @@ import org.apache.jasper.tagplugins.jstl.core.ForEach;
  */
 public abstract class Filter {
 
+    private Filter filter;
     protected String FieldName;
     protected List<String> Values;
 
     public abstract String toQuery() throws Exception;
-    //   List<String> values;
 
-    /**
-     * @return the FieldName
-     */
     public String getFieldName() {
         return FieldName;
     }
 
-    /**
-     * @param FieldName the FieldName to set
-     */
     public void setFieldName(String FieldName) {
         this.FieldName = FieldName;
     }
 
-    /**
-     * @return the Values
-     */
     public List<String> getValues() {
         return Values;
     }
 
-    /**
-     * @param Values the Values to set
-     */
     public void setValues(List<String> Values) {
         this.Values = Values;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 }
 
@@ -64,6 +61,21 @@ class FilterLessThan extends Filter {
     }
 }
 
+class FilterLessEquelsThan extends Filter {
+
+    @Override
+    public String toQuery() throws Exception {
+        if (Values.size() > 1) {
+            throw new Exception(this.getClass().getName().concat(" too many parameters"));
+        }
+        StringBuilder sb = new StringBuilder(FieldName);
+        getValues().forEach(value -> {
+            sb.append("<=").append(value);
+        });
+        return sb.toString();
+    }
+}
+
 class FilterGreaterThan extends Filter {
 
     @Override
@@ -74,6 +86,72 @@ class FilterGreaterThan extends Filter {
         StringBuilder sb = new StringBuilder(FieldName);
         getValues().forEach(value -> {
             sb.append(">").append(value);
+        });
+        return sb.toString();
+    }
+}
+
+class FilterGreaterEquelsThan extends Filter {
+
+    @Override
+    public String toQuery() throws Exception {
+        if (Values.size() > 1) {
+            throw new Exception(this.getClass().getName().concat(" too many parameters"));
+        }
+        StringBuilder sb = new StringBuilder(FieldName);
+        getValues().forEach(value -> {
+            sb.append(">=").append(value);
+        });
+        return sb.toString();
+    }
+}
+
+class FilterLike extends Filter {
+
+    @Override
+    public String toQuery() throws Exception {
+        if (Values.size() > 1) {
+            throw new Exception(this.getClass().getName().concat(" too many parameters"));
+        }
+        StringBuilder sb = new StringBuilder(FieldName);
+        getValues().forEach(value -> {
+            sb.append(" like ").append("%" + value + "%");
+        });
+        return sb.toString();
+    }
+}
+
+class FilterIn extends Filter {
+
+    @Override
+    public String toQuery() throws Exception {
+        StringBuilder sb = new StringBuilder(FieldName + " in (");
+        getValues().forEach(value -> {
+            sb.append(value).append(",");
+        });
+        sb.append(")");
+        return sb.toString();
+    }
+}
+
+class FilterBetween extends Filter {
+
+    @Override
+    public String toQuery() throws Exception {
+        if (Values.size() > 2) {
+            throw new Exception(this.getClass().getName().concat(" too many parameters"));
+        }
+
+        StringBuilder sb = new StringBuilder(FieldName).append(" between ");
+        getValues().forEach((String value) -> {
+            try
+            {
+                Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+                throw e;
+            }
+            sb.append(value).append("%" + value + "%");
         });
         return sb.toString();
     }

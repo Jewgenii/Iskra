@@ -20,10 +20,12 @@
     </head>
     <body>
         <div id="menu"> <%@include file="menu.jsp" %></div>
-        <div id="FilterContent" class="container-fluid"></div>
+        <div class="container-fluid iskra-filterContainer"></div>
         <div class="container-fluid">
-            <div class="container-fluid rowsOnPage"></div>
-            <div class="iskra-paginationContainer"></div>
+            <div class=" pull-right"> 
+                <div class="rowsOnPage"></div>
+                <div class="iskra-paginationContainer"></div>
+            </div>
         </div>
         <div class="container-fluid iskra-tableContainer"></div> 
         <div class="container-fluid">
@@ -31,9 +33,9 @@
         </div>
 
         <script  type="text/javascript" src="js/table/jquery.stickytableheaders.js"></script>
+        <script  type="text/javascript" src="js/table/StickyColumn.js"></script>
         <script  type="text/javascript" src="js/table/BuildTable.js"></script>
         <script  type="text/javascript" src="js/pagination/pagination.js"></script> 
-        <script  type="text/javascript" src="js/table/StickyColumn.js"></script>
         <script  type="text/javascript" src="js/naimesql/naimesql.js"></script> 
     </body>
 </html>
