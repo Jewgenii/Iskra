@@ -37,7 +37,6 @@ public class NaimesqlDao extends DAO {
                             .append(" offset ")
                             .append(" ? ")
                             .toString();
-                    
 
             preparedStatement = connection.prepareStatement(query);
             

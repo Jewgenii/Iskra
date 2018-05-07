@@ -1,6 +1,6 @@
 
 (function ($) {
-
+    
     var jsonTableHead = {
         tr: [
             {
@@ -56,11 +56,12 @@
                 success: function (data) {
                     var paginationObject = JSON.parse(data.pagination);
                     var talbeContent = JSON.parse(data.tableContent);
-                    var filters = JSON.parse(data.filters);
-
-                    $(".iskra-paginationContainer").page_paginate(paginationObject);
-                    $(".iskra-tableContainer").buildTable(talbeContent, jsonTableHead,{display:"table"});
-                    $(".iskra-filterContainer").iskra_filters(filters);
+                    //var filters = JSON.parse(data.filters);
+                    
+                    $(".iskra-paginationContainer").updatePagination(paginationObject);
+                    $(".iskra-tableContainer table").updateTable(talbeContent);
+                    
+                    //  $(".iskra-filterContainer").iskra_filters(filters);
                     resolve(data); //Event handler for success of the Promise
                 },
                 beforeSend: function () {
@@ -69,7 +70,7 @@
                     $(div).css({"top": "50%", "left": "50%", "display": "none", "position": "absolute"})
                             .append(img)
                             .appendTo("body");
-                    
+
                     $(div).fadeIn("medium");
                 },
                 error: (e) => {
@@ -90,6 +91,10 @@
     };
 
     $(document).ready(() => {
+
+        $(".iskra-paginationContainer").createPagination();
+        $(".iskra-tableContainer").createTable(jsonTableHead,{"display":"none"});
+
         sendData()
                 .then((data) =>
                 {
@@ -98,6 +103,7 @@
                 .catch(p => {
                     console.log(p);
                 });
+                
         $(document).on("click", "ul.iskra-pagination>li", function () {
             var pagination = collectData($(this));
             if (typeof pagination !== "undefined")
@@ -111,7 +117,6 @@
             $(liGroup).attr("limit", limit);
             var pagination = JSON.stringify({"offset": 0, "limit": limit});
             sendData(pagination, "").then((data) => afterSentData());
-
         });
     });
 }(jQuery));

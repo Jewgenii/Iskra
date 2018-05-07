@@ -46,21 +46,19 @@ public abstract class DAO {
         return map;
     }
 
-//    public abstract int insert(Object... o);
-//
-    public List<Object> select(Object... obj) {
-
-        return null;
+    public int insert(Object... o) {
+        throw new UnsupportedOperationException();
     }
 
-//    public abstract int update(int id,Object o);
+    public List<Object> select(Object... obj) {
+        throw new UnsupportedOperationException();
+    }
 
-//    public abstract int delete(int id);
+    public int update(Object o, Integer id) {
+        throw new UnsupportedOperationException();
+    }
 
-//    public void setO(Object o) {
-//        this.o = o;
-//    }
-//    public Object getO() {
-//        return this.o;
-//    }
+    public int delete(Integer id) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -1,21 +1,53 @@
 
 (function ($) {
     const undf = "undefined";
-
-    $.fn.page_paginate = function (_data,_options) {
+    $.fn.updatePagination = function (_data) {
 
         var data = $.extend({
             limit: 50,
             offset: 0
         }, _data);
-        
+
+        localStorage.setItem("paginationLimit", JSON.stringify(data.limit));
+
+        var li_toFirstPage = $("#toFirstPage").attr({"offset": 0, "limit": data.limit, id: "toFirstPage"});
+        var li_toPrevPage = $("#toPrevPage").attr({"offset": data.offset - data.limit, "limit": data.limit, id: "toPrevPage"});
+        var li_toNextPage = $("#toNextPage").attr({"offset": data.offset + data.limit, "limit": data.limit, id: "toNextPage"});
+
+        $("ul.iskra-pagination").css({"display": "inline-block"});
+        if (data.offset === 0) {
+            $(li_toFirstPage).attr({"disabled": "disabled"});
+            $(li_toPrevPage).attr({"disabled": "disabled"});
+        } else {
+            $(li_toFirstPage).removeAttr("disabled");
+            $(li_toPrevPage).removeAttr("disabled");
+        }
+        return this;
+    };
+
+    $.fn.createPagination = function (_options) {
+        var data = null;
+        try {
+            var limit = localStorage.getItem("paginationLimit");
+            data = JSON.parse(limit);
+        } catch (e) {
+            localStorage.removeItem('paginationLimit');
+        }
+
+        if (!data) {
+            var paginationData = {limit: 50, offset: 0};
+            data = paginationData;
+            localStorage.setItem("paginationData", JSON.stringify(paginationData));
+        }
         // for smooth page rendering
         var options = $.extend({
-            display:"none"
-        },_options);
-        
+            "display": "none",
+            "class": "pagination iskra-pagination"
+        }, _options);
+
         rowsOnPage(data.limit);
-        var ul = $("<ul>").addClass("pagination iskra-pagination pull-right");
+
+        var ul = $("<ul>").addClass(options.class).css({"display": options.display});
 
         var span =
                 [
@@ -24,20 +56,18 @@
                     $("<span>").addClass("glyphicon glyphicon-chevron-right")
                 ];
 
-        var li_first = $("<li>").attr({"offset": 0, "limit": data.limit}).append(span[0]);
-        var li_second = $("<li>").attr({"offset": data.offset - data.limit, "limit": data.limit}).append(span[1]);
-        var li_last = $("<li>").attr({"offset": data.offset + data.limit, "limit": data.limit}).append(span[2]);
+        var li_toFirstPage = $("<li>").attr({"offset": 0, "limit": data.limit, id: "toFirstPage"}).append(span[0]);
+        var li_toPrevPage = $("<li>").attr({"offset": data.offset - data.limit, "limit": data.limit, id: "toPrevPage"}).append(span[1]);
+        var li_toNextPage = $("<li>").attr({"offset": data.offset + data.limit, "limit": data.limit, id: "toNextPage"}).append(span[2]);
 
-        if (data.offset === 0) {
-            $(li_first).attr({"disabled": "disabled"});
-            $(li_second).attr({"disabled": "disabled"});
-        }
 
-        $(ul).append(li_first);
-        $(ul).append(li_second);
-        $(ul).append(li_last);
+        $(li_toFirstPage).attr({"disabled": "disabled"});
+        $(li_toPrevPage).attr({"disabled": "disabled"});
 
-        $(this).empty();
+        $(ul).append(li_toFirstPage);
+        $(ul).append(li_toPrevPage);
+        $(ul).append(li_toNextPage);
+
         return $(this).toArray().forEach((el) => {
             $(el).append($(ul).clone());
         });

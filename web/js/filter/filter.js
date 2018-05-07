@@ -6,73 +6,86 @@
 
 (function ($) {
     const undf = "undefined";
-
-    $.fn.iskra_filters = function (_data) {
-
+    $.fn.iskra_filters = function (_data, _options)
+    {
         var data = $.extend([
             {
-                caption:"none",//text 
-                name:"none",// greater then or less or equels
-                //type:"none", // > , < , >= , between
-                values:[] // values in the filter
+                caption: "none", //text 
+                name: "none", // greater then or less or equels
+                type: "none", // select,input
+                autoCompleteSource: "", // remote or local
+                values: [] // values in the filter
             }
         ], _data);
         
-        rowsOnPage(data.limit);
-        var ul = $("<ul>").addClass("pagination iskra-pagination pull-right");
+        var opstions = $.extend({
+            display: "static"
+        }, _options);
 
-        var span =
-                [
-                    $("<span>").addClass("glyphicon").html("Перша"),
-                    $("<span>").addClass("glyphicon glyphicon-chevron-left"),
-                    $("<span>").addClass("glyphicon glyphicon-chevron-right")
-                ];
+        var panelBody = $("div").addClass("panel-body");
 
-        var li_first = $("<li>").attr({"offset": 0, "limit": dataSettings.limit}).append(span[0]);
-        var li_second = $("<li>").attr({"offset": dataSettings.offset - dataSettings.limit, "limit": dataSettings.limit}).append(span[1]);
-        var li_last = $("<li>").attr({"offset": dataSettings.offset + dataSettings.limit, "limit": dataSettings.limit}).append(span[2]);
-
-        if (dataSettings.offset === 0) {
-            $(li_first).attr({"disabled": "disabled"});
-            $(li_second).attr({"disabled": "disabled"});
-        }
-
-        $(ul).append(li_first);
-        $(ul).append(li_second);
-        $(ul).append(li_last);
-
-        $(this).empty();
-        return $(this).toArray().forEach((el) => {
-            $(el).append($(ul).clone());
-        });
-    };
-
-    function  rowsOnPage(limit) {
-        var div = $("div.rowsOnPage");
-        div.empty();
-        var label = $("<label>").addClass("pull-left").html("Оберіть кількість записів на сторінці");
-        var select = $("<select>").addClass("pull-left iskra-rowsOnPage");
-
-        var optionsGroup = [
-            $("<option>").attr({"value": 15}).html(15),
-            $("<option>").attr({"value": 25}).html(25),
-            $("<option>").attr({"value": 50}).html(50),
-            $("<option>").attr({"value": 100}).html(100)
+        data = [
+            {
+                caption: "test1",
+                name: "greaterthen",
+                type: "button",
+                values: [
+                ]
+            },
+            {
+                caption: "test2",
+                name: "greaterthen",
+                type: "input",
+                values: [
+                ]
+            },
+            {
+                caption: "test3",
+                name: "greaterthen",
+                type: "select",
+                values: [
+                    1, 2
+                ]
+            }
         ];
 
-        optionsGroup.forEach((element) => {
-            var el_val = $(element).val();
+        $(data).toArray().forEach(elem =>
+        {
+            var filter = $("<span>").css({"background-color": "red"});
+            var span = $("<span>").html(elem.caption);
+            var input = $("<" + elem.type + ">").attr({id: elem.name});
 
-            if (+el_val === +limit)
+            switch (elem.type)
             {
-                $(element).attr({"selected": "selected"})
-                        .css({"background-color": "#58ba5c", "color": "white"});
-            }
-            select.append(element);
-        });
+                case 'select':
+                    $(elem.values).toArray().forEach(vl => {
+                        var option = $("<option>").val(vl).html(vl);
+                        $(input).append(option);
+                    });
+                    break;
+                case 'input':
+                    var option = $("<input>").val(elem.values[0]).html(elem.values[0]);
+                    $(input).append(option);
 
-        div.append(label).append(select);
-    }
+                    if (elem.autoCompleteSource !== "undefined") {
+                        $("#" + input.name).autocomplete({
+                            source: (request, response) =>
+                            {
+                                //$(".ui-helper-hidden-accessible").empty();
+                                $.post("AutocompleteKizController", {term: request.term}, function (data) {
+                                    response(data);
+                                }, "json");
+                            },
+                            minLength: 2
+                        });
+                    }
+                    break;
+            }
+            $(panelBody).append(span).append(input);
+        }
+
+        );
+    };
 
 }(jQuery));
 
