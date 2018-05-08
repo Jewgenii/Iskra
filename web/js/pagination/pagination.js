@@ -1,20 +1,20 @@
 
 (function ($) {
     const undf = "undefined";
-    $.fn.updatePagination = function (_data) {
-
-        var data = $.extend({
-            limit: 50,
-            offset: 0
-        }, _data);
+    $.fn.updatePagination = function (data) {
 
         localStorage.setItem("paginationLimit", JSON.stringify(data.limit));
+        $("select.iskra-rowsOnPage").val(data.limit);
 
-        var li_toFirstPage = $("#toFirstPage").attr({"offset": 0, "limit": data.limit, id: "toFirstPage"});
-        var li_toPrevPage = $("#toPrevPage").attr({"offset": data.offset - data.limit, "limit": data.limit, id: "toPrevPage"});
-        var li_toNextPage = $("#toNextPage").attr({"offset": data.offset + data.limit, "limit": data.limit, id: "toNextPage"});
+        var toPrevVal = data.offset - data.limit;
+        var toNextVal = data.offset + data.limit;
+
+        var li_toFirstPage = $("li.toFirstPage").attr({"offset": 0, "limit": data.limit});
+        var li_toPrevPage = $("li.toPrevPage").attr({"offset": toPrevVal, "limit": data.limit});
+        var li_toNextPage = $("li.toNextPage").attr({"offset": toNextVal, "limit": data.limit});
 
         $("ul.iskra-pagination").css({"display": "inline-block"});
+
         if (data.offset === 0) {
             $(li_toFirstPage).attr({"disabled": "disabled"});
             $(li_toPrevPage).attr({"disabled": "disabled"});
@@ -29,23 +29,19 @@
         var data = null;
         try {
             var limit = localStorage.getItem("paginationLimit");
-            data = JSON.parse(limit);
+            limit = JSON.parse(limit);
         } catch (e) {
             localStorage.removeItem('paginationLimit');
+            limit = 50;
         }
+        data = {"offset": 0, "limit": limit};
 
-        if (!data) {
-            var paginationData = {limit: 50, offset: 0};
-            data = paginationData;
-            localStorage.setItem("paginationData", JSON.stringify(paginationData));
-        }
-        // for smooth page rendering
         var options = $.extend({
             "display": "none",
             "class": "pagination iskra-pagination"
         }, _options);
 
-        rowsOnPage(data.limit);
+        initRowOnPage(data.limit);
 
         var ul = $("<ul>").addClass(options.class).css({"display": options.display});
 
@@ -56,13 +52,9 @@
                     $("<span>").addClass("glyphicon glyphicon-chevron-right")
                 ];
 
-        var li_toFirstPage = $("<li>").attr({"offset": 0, "limit": data.limit, id: "toFirstPage"}).append(span[0]);
-        var li_toPrevPage = $("<li>").attr({"offset": data.offset - data.limit, "limit": data.limit, id: "toPrevPage"}).append(span[1]);
-        var li_toNextPage = $("<li>").attr({"offset": data.offset + data.limit, "limit": data.limit, id: "toNextPage"}).append(span[2]);
-
-
-        $(li_toFirstPage).attr({"disabled": "disabled"});
-        $(li_toPrevPage).attr({"disabled": "disabled"});
+        var li_toFirstPage = $("<li>").attr({"offset": 0, "limit": data.limit, "class": "toFirstPage"}).append(span[0]);
+        var li_toPrevPage = $("<li>").attr({"offset": data.offset - data.limit, "limit": data.limit, "class": "toPrevPage"}).append(span[1]);
+        var li_toNextPage = $("<li>").attr({"offset": data.offset + data.limit, "limit": data.limit, "class": "toNextPage"}).append(span[2]);
 
         $(ul).append(li_toFirstPage);
         $(ul).append(li_toPrevPage);
@@ -73,9 +65,9 @@
         });
     };
 
-    function  rowsOnPage(limit) {
+    function initRowOnPage(limit) {
+
         var div = $("div.rowsOnPage");
-        div.empty();
         var label = $("<label>").addClass("pull-left").html("Оберіть кількість записів на сторінці");
         var select = $("<select>").addClass("pull-left iskra-rowsOnPage");
 
@@ -85,18 +77,9 @@
             $("<option>").attr({"value": 50}).html(50),
             $("<option>").attr({"value": 100}).html(100)
         ];
-
-        optionsGroup.forEach((element) => {
-            var el_val = $(element).val();
-
-            if (+el_val === +limit)
-            {
-                $(element).attr({"selected": "selected"})
-                        .css({"background-color": "#58ba5c", "color": "white"});
-            }
-            select.append(element);
+        $.each(optionsGroup, (index, value) => {
+            select.append(value);
         });
-
         div.append(label).append(select);
     }
 

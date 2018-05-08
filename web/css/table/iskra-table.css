@@ -21,3 +21,6 @@
 .iskra-table td{
     vertical-align:top !important;
 }
+.iskra-disabled{
+    background-color: lightgray;
+}

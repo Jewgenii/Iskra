@@ -59,12 +59,11 @@ public class NaimesqlController extends HttpServlet {
 
         String pagination = request.getParameter("pagination");
         String filters = StringEscapeUtils.escapeJavaScript(request.getParameter("filters"));
-        String action = StringEscapeUtils.escapeJavaScript(request.getParameter("action"));
 
         _pagination = new PagePagination(50, 0);
 
         if (pagination != null && !pagination.trim().isEmpty()) {
-            _pagination.SetPagination(pagination);
+            _pagination.SetPagination(pagination); 
         }
 
         List<Object> naimesql = _naimesqlDao.select(_pagination);

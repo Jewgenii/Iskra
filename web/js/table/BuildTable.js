@@ -8,18 +8,18 @@
         var JsonSource = $.extend([], _JsonSource);
 
         var tbody = $(this).find("tbody");
-        console.log($(this).is(".iskra-tableContainer"));
         $(tbody).empty();
 
         var tr = $("<tr>");
 
         if (JsonSource.length === 0) {
+            var fistTheadRowColumns = $(this).find("thead>tr:first>th");
             var span_message = $("<span>").html("Інформація за вказаним контекстом відсутня");
             var clCnt = 0;
-            $($(this).find("thead")).find("tr:first>th").toArray().forEach(function (item) {
-                clCnt += ($(item).is("[colspan]") && $(item).attr("colspan") > 0) ?
-                        1 * +$(item).attr("colspan") : 1;
-            });//stretch message to occupy the whole columns length
+            $.each(fistTheadRowColumns, function (propName, propValue) // get length of the columns
+            {
+                clCnt += ($(propValue).is("[colspan]") && $(propValue).attr("colspan") > 0) ? $(propValue).attr("colspan") : 1;
+            });
             $(tr).append($("<td>").attr({"colspan": clCnt, "align": "center"}).append(span_message));//must have header column count in colspan prop
             $(tbody).append(tr);
 
@@ -36,12 +36,15 @@
         return $(this).css({"display": "table"});
     };
 
+
+
+ // depracated 
     $.fn.createTable = function (_headerSettings, _options) {
 
         // for smooth page rendering
         var options = $.extend({
             "class": "table table-striped table-bordered table-condensed iskra-table",
-            "display": "table"
+            "display": "none"
         }, _options);
         var headerSettings = $.extend({
             tr: [
@@ -58,18 +61,18 @@
         var tbody = $("<tbody>");
         //head BEGIN
         var thead = $("<thead>").addClass("iskra-thead");
-        $(headerSettings.tr).toArray().forEach(tr_item => {
+        $.each(headerSettings.tr, (tr_name, tr_value) => {
             var tr = $("<tr>");
 
-            $(tr_item.th).toArray().forEach(th_item => {
+            $.each(tr_value.th, (th_name, th_value) => {
                 var th = $("<th>");
-                $(th).html(th_item.name);
+                $(th).html(th_value.name);
 
-                if (th_item.hasOwnProperty("colspan")) {
-                    $(th).attr({"colspan": th_item.colspan});
+                if (th_value.hasOwnProperty("colspan")) {
+                    $(th).attr({"colspan": th_value.colspan});
                 }
-                if (th_item.hasOwnProperty("rowspan")) {
-                    $(th).attr({"rowspan": th_item.rowspan});
+                if (th_value.hasOwnProperty("rowspan")) {
+                    $(th).attr({"rowspan": th_value.rowspan});
                 }
                 $(tr).append(th);
             });
@@ -81,7 +84,8 @@
                 .css({"display": options.display})
                 .append(thead)
                 .append(tbody);
-        $(this).append(table);
-        return this;
+
+        return $(this).append(table);
     };
+    
 }(jQuery));

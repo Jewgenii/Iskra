@@ -17,7 +17,7 @@ import java.util.Map;
  * @author u27brvz14
  */
 public class PagePagination {
-
+   
     private int limit;
     private int offset;
 

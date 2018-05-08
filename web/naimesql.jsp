@@ -15,19 +15,38 @@
         <title>Виробничі та стандартні позиції специфікації.Найменування</title>
         <link rel="stylesheet" href="css/jquery-ui.css"/>
         <link rel="stylesheet" href="css/menu.css"/>
-        <link rel="stylesheet" href="css/rawSpanStyle.css"/>  
         <link rel="stylesheet" href="css/table/iskra-table.css"/>
     </head>
     <body>
         <div id="menu"> <%@include file="menu.jsp" %></div>
-        <div class="container-fluid iskra-filterContainer"></div>
-        <div class="container-fluid">
-            <div class=" pull-right"> 
-                <div class="rowsOnPage"></div>
-                <div class="iskra-paginationContainer"></div>
+        <div class="container-fluid iskra-filterContainer">
+            <div class="panel panel-heading">
+                <h4 class="panel-title">
+                    <span>test panel</span>
+                </h4>
             </div>
+            <div class="panel-body"> hello world</div>
         </div>
-        <div class="container-fluid iskra-tableContainer"></div> 
+        <div class="container-fluid">
+            <div class="pull-left iskra-paginationContainer"></div>
+            <div class="pull-right rowsOnPage" style="margin-top:30px"></div>
+        </div>
+        <div class="container-fluid iskra-tableContainer">
+            <table class="table table-striped table-bordered table-condensed iskra-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Одиниця складова(деталь)</th>
+                        <th rowspan="2">Номер повідомлення про зміну</th>
+                    </tr>
+                    <tr>
+                        <th>Позначення</th>
+                        <th>Найменування</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div> 
         <div class="container-fluid">
             <div class="iskra-paginationContainer"></div>
         </div>
