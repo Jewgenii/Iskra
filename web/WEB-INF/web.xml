@@ -15,7 +15,7 @@
     </servlet>
     <servlet>
         <servlet-name>AutocompleteKizController</servlet-name>
-        <servlet-class>controller.AutocompleteKizController</servlet-class>
+        <servlet-class>controller.autocomplete.AutocompleteKizController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TmisqlController</servlet-name>

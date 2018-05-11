@@ -1,35 +1,5 @@
 
 (function ($) {
-
-    var jsonTableHead = {
-        tr: [
-            {
-                th: [
-                    {
-                        name: 'Одиниця складова(деталь)',
-                        colspan: 2
-                    },
-                    {
-                        name: 'Номер повідомлення про зміну',
-                        rowspan: 2
-                    }
-                ]
-            },
-            {
-                th: [
-                    {
-                        name: 'Позначення'
-                    },
-                    {
-                        name: 'Найменування'
-                    }
-                ]
-            }
-        ]
-    };
-
-
-
     const sendData = function (pagination, filters)
     {
         $.ajax({
@@ -41,13 +11,14 @@
                 "filters": filters
             },
             success: function (data) {
+
                 var paginationObject = JSON.parse(data.pagination);
                 var talbeContent = JSON.parse(data.tableContent);
                 //var filters = JSON.parse(data.filters);
 
                 $(".iskra-paginationContainer").updatePagination(paginationObject);
                 $(".iskra-tableContainer table").updateTable(talbeContent);
-                //  $(".iskra-filterContainer").iskra_filters(filters);
+                //$(".iskra-filterContainer").updateFilters(filters);
             },
             beforeSend: function () {
                 var div = $("<div>").addClass("iskra-Iconloader");
@@ -66,39 +37,29 @@
         });
     };
 
-    const getLimOffset = (element) => {
 
-        var offset = $(element).attr("offset");
-        var limit = $(element).attr("limit");
-        if (offset < 0)
-            offset = 0;
-        return JSON.stringify({"offset": offset, "limit": limit});
-    };
+
+
 
     $(document).ready(() => {
-
-        $(".iskra-paginationContainer").createPagination();
-      //  $(".iskra-tableContainer").createTable(jsonTableHead);
-      
 
         $(".table").stickyTableHeaders(); //initialize table header
         $(window).trigger('resize'); // initialize row content top property accrodingly to table header size
 
         var pag = localStorage.getItem("paginationLimit");
-        if (!pag)
-            pag = 50;
-        var paginationObj = JSON.stringify({offset: 0, limit: pag});
+        pag = !pag ? 50 : pag;
 
-        sendData(paginationObj);
+        var pagination = JSON.stringify({offset: 0, limit: pag});
 
-        $(document).on("click", "ul.iskra-pagination>li", function () {
-            if (!$(this).is("[disabled]")) 
+        var filters = $.getFilters("input");
+        sendData(pagination, filters);
+
+        $(document).on("click", "ul.iskra-pagination>li[offset]", function () {
+            if (!$(this).is("[disabled]"))
             {
-                var pagination = getLimOffset($(this));
-                if (pagination){
-                    sendData(pagination, "filtersObj");
-                }
-                    
+                var pagination = $.getLimitOffset(this);
+                var filters = $.getFilters("input");
+                sendData(pagination, filters);
             }
         });
 
@@ -107,9 +68,28 @@
             var limit = $(this).find("option:selected").val();
             $(liGroup).attr("limit", limit);
             var pagination = JSON.stringify({"offset": 0, "limit": limit});
-            sendData(pagination, "filtersObj");
+            var filters = $.getFilters("input");
+            sendData(pagination, filters);
         });
+
+        $("input[autocomplete]").autocomplete({
+            source: function (request, response)
+            {
+                var name = $(this.element).attr("name");
+                $.post("AutocompleteNaimesql", {"term": request.term, "name": name},
+                        function (data) {
+                            response(data);
+                        }, "json");
+            },
+            minLength: 3,
+            delay: 500
+        });
+
+
+        //  $("body").on("click", ".excell", excel.fnExcelReport);
+
     });
+
 }(jQuery));
 
 

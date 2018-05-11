@@ -5,7 +5,23 @@
  */
 
 (function ($) {
-    const undf = "undefined";
+
+    $.extend({
+        getFilters: (elements) => {
+            var filters = new Array();
+            $(elements).each(function (propName, propValue)
+            {
+                if ($(propValue).is("[data-filter=true]"))
+                {
+                    var name = $(propValue).attr("name");//column name
+                    var val = $(propValue).val();//selected value
+                    var type = $(propValue).data("type");//filter type
+                    filters.push({"name": name, "val": val});
+                }
+            });
+            return  JSON.stringify(filters);
+        }});
+
     $.fn.iskra_filters = function (_data, _options)
     {
         var data = $.extend([
@@ -17,7 +33,7 @@
                 values: [] // values in the filter
             }
         ], _data);
-        
+
         var opstions = $.extend({
             display: "static"
         }, _options);
@@ -71,12 +87,13 @@
                         $("#" + input.name).autocomplete({
                             source: (request, response) =>
                             {
-                                //$(".ui-helper-hidden-accessible").empty();
-                                $.post("AutocompleteKizController", {term: request.term}, function (data) {
-                                    response(data);
-                                }, "json");
+                                $.post("AutocompleteSourceController", {"term": request.term, "filters": ""},
+                                        function (data) {
+                                            response(data);
+                                        }, "json");
                             },
-                            minLength: 2
+                            minLength: 2,
+                            delay: 1000
                         });
                     }
                     break;
@@ -86,7 +103,7 @@
 
         );
     };
-
+    
 }(jQuery));
 
 

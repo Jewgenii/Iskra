@@ -5,6 +5,10 @@
  */
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import java.util.List;
 import java.util.function.Consumer;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
@@ -13,47 +17,77 @@ import org.apache.jasper.tagplugins.jstl.core.ForEach;
  *
  * @author u27brvz14
  */
-public abstract class Filter {
+public class JsonToFilters {
 
-    private Filter filter;
-    protected String FieldName;
-    protected List<String> Values;
+    public enum FilterType {
+        LessThan, LessEquelsThan, GreaterThan, GreaterEquelsThan, Like, In, Between
+    };
 
-    public abstract String toQuery() throws Exception;
+    private JsonToFilters filter;
+    protected String fieldName;
+    protected List<String> values;
+    protected String type;
+
+    public void SetFiltersFromJSON(String filters) {
+        try {
+            JsonParser jsonParser = new JsonParser();
+            JsonArray jsonArray = (JsonArray) jsonParser.parse(filters);
+            
+            jsonArray.forEach(element -> {
+                
+            });
+            
+        } catch (JsonSyntaxException ex) {
+
+        }
+    }
+
+    public String toQuery() throws Exception {
+
+        String s = filter.toQuery();
+        StringBuilder sb = new StringBuilder(s);
+        if (s.trim().toLowerCase().startsWith("where")) {
+            sb.append(" and (")
+                    .append(")");
+        } else {
+
+        }
+        return "";
+    }
 
     public String getFieldName() {
-        return FieldName;
+        return fieldName;
     }
 
     public void setFieldName(String FieldName) {
-        this.FieldName = FieldName;
+        this.fieldName = FieldName;
     }
 
     public List<String> getValues() {
-        return Values;
+        return values;
     }
 
     public void setValues(List<String> Values) {
-        this.Values = Values;
+        this.values = Values;
     }
 
-    public Filter getFilter() {
+    public JsonToFilters getFilter() {
         return filter;
     }
 
-    public void setFilter(Filter filter) {
+    public void setFilter(JsonToFilters filter) {
         this.filter = filter;
     }
 }
 
-class FilterLessThan extends Filter {
+class FilterLessThan extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 1) {
+        if (values.size() > 1) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
-        StringBuilder sb = new StringBuilder(FieldName);
+        StringBuilder sb = new StringBuilder(fieldName);
         getValues().forEach(value -> {
             sb.append("<").append(value);
         });
@@ -61,14 +95,14 @@ class FilterLessThan extends Filter {
     }
 }
 
-class FilterLessEquelsThan extends Filter {
+class FilterLessEquelsThan extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 1) {
+        if (values.size() > 1) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
-        StringBuilder sb = new StringBuilder(FieldName);
+        StringBuilder sb = new StringBuilder(fieldName);
         getValues().forEach(value -> {
             sb.append("<=").append(value);
         });
@@ -76,14 +110,14 @@ class FilterLessEquelsThan extends Filter {
     }
 }
 
-class FilterGreaterThan extends Filter {
+class FilterGreaterThan extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 1) {
+        if (values.size() > 1) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
-        StringBuilder sb = new StringBuilder(FieldName);
+        StringBuilder sb = new StringBuilder(fieldName);
         getValues().forEach(value -> {
             sb.append(">").append(value);
         });
@@ -91,14 +125,14 @@ class FilterGreaterThan extends Filter {
     }
 }
 
-class FilterGreaterEquelsThan extends Filter {
+class FilterGreaterEquelsThan extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 1) {
+        if (values.size() > 1) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
-        StringBuilder sb = new StringBuilder(FieldName);
+        StringBuilder sb = new StringBuilder(fieldName);
         getValues().forEach(value -> {
             sb.append(">=").append(value);
         });
@@ -106,14 +140,14 @@ class FilterGreaterEquelsThan extends Filter {
     }
 }
 
-class FilterLike extends Filter {
+class FilterLike extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 1) {
+        if (values.size() > 1) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
-        StringBuilder sb = new StringBuilder(FieldName);
+        StringBuilder sb = new StringBuilder(fieldName);
         getValues().forEach(value -> {
             sb.append(" like ").append("%" + value + "%");
         });
@@ -121,11 +155,11 @@ class FilterLike extends Filter {
     }
 }
 
-class FilterIn extends Filter {
+class FilterIn extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        StringBuilder sb = new StringBuilder(FieldName + " in (");
+        StringBuilder sb = new StringBuilder(fieldName + " in (");
         getValues().forEach(value -> {
             sb.append(value).append(",");
         });
@@ -134,18 +168,17 @@ class FilterIn extends Filter {
     }
 }
 
-class FilterBetween extends Filter {
+class FilterBetween extends JsonToFilters {
 
     @Override
     public String toQuery() throws Exception {
-        if (Values.size() > 2) {
+        if (values.size() > 2) {
             throw new Exception(this.getClass().getName().concat(" too many parameters"));
         }
 
-        StringBuilder sb = new StringBuilder(FieldName).append(" between ");
+        StringBuilder sb = new StringBuilder(fieldName).append(" between ");
         getValues().forEach((String value) -> {
-            try
-            {
+            try {
                 Integer.parseInt(value);
             } catch (NumberFormatException e) {
                 System.out.println(e);

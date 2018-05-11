@@ -11,29 +11,35 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import java.util.HashMap;
 import java.util.Map;
-
+import org.apache.commons.lang.*;
 /**
  *
  * @author u27brvz14
  */
-public class PagePagination {
-   
+public class JsonToPagination {
+
+    static int MinOffset = 0;
+    static int MinLimit = 0;
+    static int MaxLimit = 100;
+
     private int limit;
     private int offset;
 
-    public PagePagination(int limit, int offset) {
-        this.limit = limit;
-        this.offset = offset;
+    public JsonToPagination(int limit, int offset) {
+        this.setLimit(limit);
+        this.setOffset(offset);
     }
 
     public void SetPagination(String _pagination) {
 
         try {
-            PagePagination p = new Gson().fromJson(_pagination, this.getClass());
-            this.setLimit(p.getLimit());
-            this.setOffset(p.getOffset());
+            JsonToPagination p = new Gson().fromJson(_pagination, this.getClass());
+            int _limit = p.getLimit();
+            int _offset = p.getOffset();
+            this.setLimit(_limit);
+            this.setOffset(_offset);
 
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             System.out.println("model.PagePagination.SetPagination()" + e.toString());
         }
     }
@@ -45,7 +51,8 @@ public class PagePagination {
 
     public void setOffset(String offset) {
         try {
-            this.setOffset(Integer.parseInt(offset));
+            int _offset = Integer.parseInt(offset);
+            this.setOffset(_offset);
 
         } catch (NumberFormatException e) {
             System.out.println(e);
@@ -54,7 +61,8 @@ public class PagePagination {
 
     public void setLimit(String limit) {
         try {
-            this.setLimit(Integer.parseInt(limit));
+            int _limit = Integer.parseInt(limit);
+            this.setLimit(_limit);
 
         } catch (NumberFormatException e) {
             System.out.println(e);
@@ -63,34 +71,32 @@ public class PagePagination {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        String p = new Gson().toJson(this);
+        //return StringEscapeUtils.escapeJavaScript(p);
+          return p;
     }
 
-    /**
-     * @return the limit
-     */
     public int getLimit() {
         return limit;
     }
 
-    /**
-     * @param limit the limit to set
-     */
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setLimit(int _limit) {
+        if (_limit <= MinLimit) {
+            this.limit = MinLimit;
+        } else {
+            this.limit = _limit <= MaxLimit ? _limit : MaxLimit;
+        }
     }
 
-    /**
-     * @return the offset
-     */
     public int getOffset() {
         return offset;
     }
 
-    /**
-     * @param offset the offset to set
-     */
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public void setOffset(int _offset) {
+        if (_offset <= MinOffset) {
+            this.offset = MinOffset;
+        } else {
+            this.offset = _offset;
+        }
     }
 }

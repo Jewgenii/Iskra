@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.PagePagination;
+import model.JsonToPagination;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import util.DbUtil;
 
@@ -34,8 +34,8 @@ public abstract class DAO {
     protected Map<String, String> getParams(Object... ObjParams) {
         Map<String, String> map = new HashMap<>();
         for (Object obj : ObjParams) {
-            if (obj.getClass().getCanonicalName().equals(PagePagination.class.getCanonicalName())) {
-                PagePagination p = (PagePagination) obj;
+            if (obj.getClass().getCanonicalName().equals(JsonToPagination.class.getCanonicalName())) {
+                JsonToPagination p = (JsonToPagination) obj;
                 map.put("limit", String.valueOf(p.getLimit()));
                 map.put("offset", String.valueOf(p.getOffset()));
             }
