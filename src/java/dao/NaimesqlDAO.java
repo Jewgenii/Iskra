@@ -13,6 +13,8 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.IPreparedStatementCreatable;
+import model.JsonToFilters;
 import model.Naimesql;
 import model.JsonToPagination;
 
@@ -27,26 +29,22 @@ public class NaimesqlDAO extends DAO {
     @Override
     public List<Object> select(Object... obj) {
         List<Object> naimesql = new ArrayList<>();
-        Map<String, String> map = this.getParams(obj);
-        // must have filters list
+
+        JsonToPagination pagination = this.getPagination(obj);
+        JsonToFilters filters = this.getFilters(obj);
+        List<IPreparedStatementCreatable> updaters = new ArrayList();
 
         try {
-            String query
-                    = new StringBuilder("select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql")
-                            .append(" limit ")
-                            .append(" ? ")
-                            .append(" offset ")
-                            .append(" ? ")
-                            .toString();
-
+            String query = "select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql";
             preparedStatement = connection.prepareStatement(query);
 
-            int limit = Integer.parseInt(map.get("limit"));
-            int offset = Integer.parseInt(map.get("offset"));
+            //updaters.addAll(filters.getFilter()); // or sort by type and get some particular filter objects from the colletion
+            updaters.add(pagination); // add as the last parameter e.a. pagination
+            updaters.forEach((updater) -> {
+                preparedStatement = updater.UpdatePreparedStatement(preparedStatement);
+            });
 
-            preparedStatement.setInt(1, limit);
-            preparedStatement.setInt(2, offset < 0 ? 0 : offset);
-
+            // java cant pass a value into function by reference that`s why must return a value
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {

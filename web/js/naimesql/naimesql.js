@@ -37,19 +37,18 @@
         });
     };
 
-
-
-
-
     $(document).ready(() => {
 
         $(".table").stickyTableHeaders(); //initialize table header
         $(window).trigger('resize'); // initialize row content top property accrodingly to table header size
 
-        var pag = localStorage.getItem("paginationLimit");
-        pag = !pag ? 50 : pag;
+        var pagLimit = sessionStorage.getItem("paginationLimit");
+        var pagOffset = sessionStorage.getItem("paginationOffset");
 
-        var pagination = JSON.stringify({offset: 0, limit: pag});
+        pagLimit = !pagLimit ? 50 : pagLimit;
+        pagOffset = !pagOffset ? 0 : pagOffset;
+
+        var pagination = JSON.stringify({offset: pagOffset, limit: pagLimit});
 
         var filters = $.getFilters("input");
         sendData(pagination, filters);

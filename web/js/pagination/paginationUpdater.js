@@ -7,14 +7,15 @@
             var limit = $(element).attr("limit");
             offset = offset < 0 ? 0 : offset;
             limit = limit < 0 ? 50 : limit;
-            
+
             return JSON.stringify({"offset": offset, "limit": limit});
         }
     });
 
     $.fn.updatePagination = function (data) {
 
-        localStorage.setItem("paginationLimit", JSON.stringify(data.limit));
+        sessionStorage.setItem("paginationLimit", JSON.stringify(data.limit));
+        sessionStorage.setItem("paginationOffset", JSON.stringify(data.offset));
         $("select.iskra-rowsOnPage").val(data.limit);
 
         var toPrevVal = data.offset - data.limit;

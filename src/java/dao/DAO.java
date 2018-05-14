@@ -9,8 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import model.JsonToFilters;
 import model.JsonToPagination;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import util.DbUtil;
@@ -31,21 +33,6 @@ public abstract class DAO {
         this.connection = connection;
     }
 
-    protected Map<String, String> getParams(Object... ObjParams) {
-        Map<String, String> map = new HashMap<>();
-        for (Object obj : ObjParams) {
-            if (obj.getClass().getCanonicalName().equals(JsonToPagination.class.getCanonicalName())) {
-                JsonToPagination p = (JsonToPagination) obj;
-                map.put("limit", String.valueOf(p.getLimit()));
-                map.put("offset", String.valueOf(p.getOffset()));
-            }
-            if (true) {
-
-            }
-        }
-        return map;
-    }
-
     public int insert(Object... o) {
         throw new UnsupportedOperationException();
     }
@@ -60,5 +47,23 @@ public abstract class DAO {
 
     public int delete(Integer id) {
         throw new UnsupportedOperationException();
+    }
+
+    public JsonToPagination getPagination(Object... ObjParams) {
+        for (Object obj : ObjParams) {
+            if (obj.getClass().getCanonicalName().equals(JsonToPagination.class.getCanonicalName())) {
+                return (JsonToPagination) obj;
+            }
+        }
+        return null;
+    }
+
+    public JsonToFilters getFilters(Object... ObjParams) {
+        for (Object obj : ObjParams) {
+            if (obj.getClass().getCanonicalName().equals(JsonToFilters.class.getCanonicalName())) {
+                return (JsonToFilters) obj;
+            }
+        }
+        return null;
     }
 }

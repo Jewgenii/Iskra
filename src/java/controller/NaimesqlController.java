@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
-import model.JsonToFilters;
+import model.*;
+import model.Filters.Filter;
+import model.Filters.FilterLike;
 import util.DbUtil;
 import model.Naimesql;
 import org.apache.commons.lang.*;
@@ -58,16 +60,16 @@ public class NaimesqlController extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 
-        String pagination = request.getParameter("pagination") + "fsadf@##$%s!DFS!213a";
-        
-        String filters = request.getParameter("filters");
+        String paginationParam = request.getParameter("pagination");
+
+        String filtersParam = request.getParameter("filters");
 
         _pagination = new JsonToPagination(50, 0);
-        _pagination.SetPagination(pagination);
-        
-        JsonToFilters _filters = new JsonToFilters();
+        _pagination.SetPagination(paginationParam);
 
-        List<Object> naimesql = _naimesqlDao.select(_pagination,_filters);
+        JsonToFilters filters = new JsonToFilters(filtersParam);
+
+        List<Object> naimesql = _naimesqlDao.select(_pagination, filters);
 
         JsonObject j = new JsonObject();
         j.addProperty("tableContent", new Gson().toJson(naimesql));

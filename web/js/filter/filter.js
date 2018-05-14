@@ -16,7 +16,7 @@
                     var name = $(propValue).attr("name");//column name
                     var val = $(propValue).val();//selected value
                     var type = $(propValue).data("type");//filter type
-                    filters.push({"name": name, "val": val});
+                    filters.push({"name": name, "val": val, "type": type});
                 }
             });
             return  JSON.stringify(filters);
@@ -103,7 +103,7 @@
 
         );
     };
-    
+
 }(jQuery));
 
 

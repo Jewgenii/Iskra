@@ -23,8 +23,8 @@
             <div class="panel">
                 <h4 class="panel-heading"> test panel </h4>
                 <div class="panel-body"> 
-                    <span>  позначення   </span>  <input type="text" name="osd" autocomplete data-filter="true">
-                    <span>  найменування </span> <input type="text" name="naim" autocomplete data-filter="true">
+                    <span>  позначення   </span>  <input type="text" name="osd" autocomplete data-filter="true" data-type="like">
+                    <span>  найменування </span> <input type="text" name="naim" autocomplete data-filter="true" data-type="like">
                 </div>
             </div>
         </div>
