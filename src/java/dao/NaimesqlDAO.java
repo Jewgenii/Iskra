@@ -13,10 +13,12 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Filters.Filter;
 import model.IPreparedStatementCreatable;
 import model.JsonToFilters;
 import model.Naimesql;
 import model.JsonToPagination;
+import model.PreparedStatementStruct;
 
 /**
  *
@@ -28,24 +30,34 @@ public class NaimesqlDAO extends DAO {
 
     @Override
     public List<Object> select(Object... obj) {
+
         List<Object> naimesql = new ArrayList<>();
 
-        JsonToPagination pagination = this.getPagination(obj);
-        JsonToFilters filters = this.getFilters(obj);
-        List<IPreparedStatementCreatable> updaters = new ArrayList();
+        JsonToPagination pagination = this.getJsonToPagination(obj);
+        JsonToFilters filters = this.getJsonToFilters(obj);
 
         try {
             String query = "select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql";
-            preparedStatement = connection.prepareStatement(query);
 
-            //updaters.addAll(filters.getFilter()); // or sort by type and get some particular filter objects from the colletion
-            updaters.add(pagination); // add as the last parameter e.a. pagination
-            updaters.forEach((updater) -> {
-                preparedStatement = updater.UpdatePreparedStatement(preparedStatement);
-            });
+            PreparedStatementStruct struct
+                    = new PreparedStatementStruct(connection.prepareStatement(query));
 
-            // java cant pass a value into function by reference that`s why must return a value
-            ResultSet rs = preparedStatement.executeQuery();
+            IPreparedStatementCreatable filterExecutor = null;
+            try {
+                filterExecutor = filters.getFilter("osd", "like");
+                IPreparedStatementCreatable naimLike = filters.getFilter("naim", "like");
+
+                filterExecutor.SetNextUpdater(naimLike);
+                naimLike.SetNextUpdater(pagination);
+
+            } catch (Exception e) {
+                // if some filter breaks the chain it will still work at least with pagination
+                filterExecutor = pagination;
+            }
+
+            filterExecutor.UpdatePreparedStatement(struct);
+
+            ResultSet rs = struct.statement.executeQuery();
 
             while (rs.next()) {
                 Naimesql n = new Naimesql();

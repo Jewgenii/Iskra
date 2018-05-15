@@ -67,15 +67,15 @@
             var limit = $(this).find("option:selected").val();
             $(liGroup).attr("limit", limit);
             var pagination = JSON.stringify({"offset": 0, "limit": limit});
-            var filters = $.getFilters("input");
+             var filters = $.getFilters("input");
             sendData(pagination, filters);
         });
 
         $("input[autocomplete]").autocomplete({
             source: function (request, response)
             {
-                var name = $(this.element).attr("name");
-                $.post("AutocompleteNaimesql", {"term": request.term, "name": name},
+                var field = $(this.element).data("field");
+                $.post("AutocompleteNaimesql", {"term": request.term, "field": field},
                         function (data) {
                             response(data);
                         }, "json");

@@ -6,7 +6,13 @@
 package model.Filters;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.IPreparedStatementCreatable;
+import model.PreparedStatementStruct;
 
 /**
  *
@@ -15,40 +21,32 @@ import model.IPreparedStatementCreatable;
 public class FilterLike extends Filter implements IPreparedStatementCreatable {
 
     @Override
-    public String toQuery(PreparedStatement _statement) throws Exception {
-        if (values.size() > 1) {
-            throw new Exception(this.getClass().getName().concat(" too many parameters"));
-        }
-        StringBuilder sb = new StringBuilder(fieldName);
-        getValues().forEach(value -> {
-            sb.append(" like ").append("%").append(value).append("%");
-        });
-        return sb.toString();
-    }
-
-    @Override
-    public PreparedStatement UpdatePreparedStatement(PreparedStatement ps) {
-        String oldQuery = ps.toString();
-        PreparedStatement new_ps;
-        String newQuery;
+    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+        PreparedStatement previous = ps.statement;
         try {
-            try {
-                newQuery = String.join(" ", oldQuery, " limit ? offset ?");
-                new_ps = ps.getConnection().prepareStatement(newQuery);
+            if (values.size() > 3 || values.isEmpty()) { // approximately 3 
+                throw new Exception(this.getClass().getName().concat(" too many parameters or null params"));
+            }
+            List<String> segments = new ArrayList(values.size());
 
-                new_ps.setInt(1, limit);
-                new_ps.setInt(2, offset);
+            for (int i = 0; i < values.size(); i++) {
+                segments.add(field + " like ?");
+            }
 
-            } catch (SQLException ex) {
-                new_ps = ps;
+            String prevQuery = ps.statement.toString();
+            String joiner = !prevQuery.toLowerCase().contains("where") ? " where " : " and ";
+            String newQuery = String.join(joiner, prevQuery, "(" + String.join(" or ", segments) + ")");
+            ps.statement = ps.statement.getConnection().prepareStatement(newQuery);
+
+            int index = 1;
+            for (Object value : values) {
+                ps.statement.setString(index, value + "%");
+                ++index;
             }
 
         } catch (Exception e) {
+            ps.statement = previous;
         }
-
-        if (this.filter != null) {
-            this.filter.UpdatePreparedStatement(new_ps);
-        }
-        return new_ps;
+        super.UpdatePreparedStatement(ps);
     }
 }

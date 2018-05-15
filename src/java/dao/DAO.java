@@ -49,7 +49,7 @@ public abstract class DAO {
         throw new UnsupportedOperationException();
     }
 
-    public JsonToPagination getPagination(Object... ObjParams) {
+    public static JsonToPagination getJsonToPagination(Object... ObjParams) {
         for (Object obj : ObjParams) {
             if (obj.getClass().getCanonicalName().equals(JsonToPagination.class.getCanonicalName())) {
                 return (JsonToPagination) obj;
@@ -58,7 +58,7 @@ public abstract class DAO {
         return null;
     }
 
-    public JsonToFilters getFilters(Object... ObjParams) {
+    public static JsonToFilters getJsonToFilters(Object... ObjParams) {
         for (Object obj : ObjParams) {
             if (obj.getClass().getCanonicalName().equals(JsonToFilters.class.getCanonicalName())) {
                 return (JsonToFilters) obj;

@@ -21,7 +21,6 @@ public class AutocompleteKizController extends HttpServlet {
                 response.setContentType("text/html");
                 request.setCharacterEncoding("utf-8");
                 response.setCharacterEncoding("utf-8");
-                PrintWriter out = response.getWriter();
                 response.setContentType("application/json");
                 try {
                         String term = request.getParameter("term");

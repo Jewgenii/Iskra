@@ -38,7 +38,7 @@ public class AutocompleteNaimesql extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
 
-        String name = request.getParameter("name").toLowerCase();
+        String name = request.getParameter("field").toLowerCase();
         String term = request.getParameter("term").toLowerCase();
 
         NaimesqlDAO dao = new NaimesqlDAO();

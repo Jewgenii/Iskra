@@ -9,14 +9,19 @@
     $.extend({
         getFilters: (elements) => {
             var filters = new Array();
+
             $(elements).each(function (propName, propValue)
             {
                 if ($(propValue).is("[data-filter=true]"))
                 {
-                    var name = $(propValue).attr("name");//column name
-                    var val = $(propValue).val();//selected value
                     var type = $(propValue).data("type");//filter type
-                    filters.push({"name": name, "val": val, "type": type});
+                    var field = $(propValue).data("field");//column name
+                    var tmp = $(propValue).val();
+                    var arrValues = new Array();
+                    
+                    var val = $.extend([], tmp.toString().split(','));
+
+                    filters.push({"type": type, "field": field, "values": val});
                 }
             });
             return  JSON.stringify(filters);

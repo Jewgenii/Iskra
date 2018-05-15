@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import model.*;
 import model.Filters.Filter;
-import model.Filters.FilterLike;
 import util.DbUtil;
 import model.Naimesql;
 import org.apache.commons.lang.*;
@@ -37,11 +36,12 @@ import org.apache.commons.lang.*;
  */
 public class NaimesqlController extends HttpServlet {
 
-    private DAO _naimesqlDao = null;
-    private JsonToPagination _pagination = null;
+    private DAO naimesqlDao = null;
+    private JsonToPagination pagination = null;
+    private JsonToFilters filters = null;
 
     public NaimesqlController() {
-        _naimesqlDao = new NaimesqlDAO();
+        naimesqlDao = new NaimesqlDAO();
     }
 
     @Override
@@ -60,27 +60,21 @@ public class NaimesqlController extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 
-        String paginationParam = request.getParameter("pagination");
+        String paginationParams = request.getParameter("pagination");
+        String filtersParams = request.getParameter("filters");
 
-        String filtersParam = request.getParameter("filters");
+        pagination = new JsonToPagination(50, 0);
+        pagination.SetPagination(paginationParams);
 
-        _pagination = new JsonToPagination(50, 0);
-        _pagination.SetPagination(paginationParam);
+        filters = new JsonToFilters(filtersParams);
 
-        JsonToFilters filters = new JsonToFilters(filtersParam);
-
-        List<Object> naimesql = _naimesqlDao.select(_pagination, filters);
+        List<Object> naimesql = naimesqlDao.select(pagination, filters);
 
         JsonObject j = new JsonObject();
         j.addProperty("tableContent", new Gson().toJson(naimesql));
-        j.addProperty("pagination", _pagination.toString());
+        j.addProperty("pagination", pagination.toString());
         j.addProperty("filters", "lala");
 
         response.getWriter().write(j.toString());
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }

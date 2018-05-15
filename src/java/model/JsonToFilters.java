@@ -5,7 +5,9 @@
  */
 package model;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import model.Filters.Filter;
+import model.Filters.FilterLike;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 
 /**
@@ -22,15 +25,11 @@ import org.apache.jasper.tagplugins.jstl.core.ForEach;
  */
 public class JsonToFilters {
 
-    private List<IPreparedStatementCreatable> filter;
+    private List<Filter> lstFilters;
 
     public JsonToFilters(String filters) {
-        filter = new ArrayList();
+        lstFilters = new ArrayList();
         this.SetFiltersFromJSON(filters);
-    }
-
-    public JsonToFilters(JsonToFilters filters) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void SetFiltersFromJSON(String filters) {
@@ -38,20 +37,49 @@ public class JsonToFilters {
             JsonParser jsonParser = new JsonParser();
             JsonArray jsonArray = (JsonArray) jsonParser.parse(filters);
 
-            jsonArray.forEach(element -> {
+            for (JsonElement jsonElement : jsonArray) {
 
-                // creating new filters depending on the input values
-                filter.add(null);
-            });
+                String js = jsonElement.toString();
+                JsonObject obj = jsonElement.getAsJsonObject();
+
+                Filter filter = null;
+                String name = obj.get("field").getAsString();
+                String type = obj.get("type").getAsString();
+                JsonArray values = obj.getAsJsonArray("values");
+
+                List<String> lst = new ArrayList();
+                switch (type) {
+                    case "like":
+                        filter = new Gson().fromJson(js, FilterLike.class);
+                        break;
+                    default:
+                        break;
+                }
+
+                lstFilters.add(filter);
+            }
 
         } catch (JsonSyntaxException ex) {
 
         }
     }
 
-    public List<IPreparedStatementCreatable> getFilter() {
-        return filter;
+    public List<Filter> getFilter() {
+        return lstFilters;
     }
+
+    public Filter getFilter(String name, String type) {
+        String _name = name.toLowerCase();
+        String _type = type.toLowerCase();
+
+        for (Filter fl : lstFilters) {
+            if (fl.getType().equals(_type) && fl.getFieldName().equals(_name)) {
+                return fl;
+            }
+        }
+        return null;
+    }
+
 }
 
 //

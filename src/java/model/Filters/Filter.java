@@ -6,59 +6,70 @@
 package model.Filters;
 
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 import model.IPreparedStatementCreatable;
 import model.JsonToFilters;
+import model.PreparedStatementStruct;
 
 /**
  *
- * @author u27brvz14
+ * @author u27brvz14 Pattern Chain of responsibility
  */
 public abstract class Filter implements IPreparedStatementCreatable {
 
-    protected Filter filter;
-    protected String fieldName;
-    protected List<String> values;
+    protected IPreparedStatementCreatable updater;
+    protected String type;
+    protected String field;
+    protected List<Object> values;
 
-   // public static PreparedStatement 
-    public String toQuery(PreparedStatement _statement) throws Exception {
-        String s = null;
-        
-        StringBuilder sb = new StringBuilder(s);
-        if (s.trim().toLowerCase().startsWith("where")) {
-            sb.append(" and (").append(" fieldname ").append(" like or what ").append(" values ").append(")");
-        } else {
+    public Filter() {
+        values = new ArrayList();
+    }
 
-        }
-        return sb.toString();
+    public Filter(String type, String fieldName, Object[] values) {
+        this();
+
+        this.type = type;
+        this.field = fieldName;
+      //  this.values = values;
+
+    }
+
+    //  public abstract String toQuery(PreparedStatement _statement);
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getFieldName() {
-        return fieldName;
+        return field;
     }
 
     public void setFieldName(String FieldName) {
-        this.fieldName = FieldName;
+        this.field = FieldName;
     }
 
-    public List<String> getValues() {
+    public List<Object> getValues() {
         return values;
     }
 
-    public void setValues(List<String> Values) {
+    public void setValues(List<Object> Values) {
         this.values = Values;
     }
 
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
+    @Override
+    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+        if (this.updater != null) {
+            this.updater.UpdatePreparedStatement(ps);
+        }
     }
 
     @Override
-    public PreparedStatement UpdatePreparedStatement(PreparedStatement ps) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void SetNextUpdater(IPreparedStatementCreatable updater) {
+        this.updater = updater;
     }
 }

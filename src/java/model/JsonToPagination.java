@@ -17,7 +17,7 @@ import org.apache.commons.lang.*;
 
 /**
  *
- * @author u27brvz14
+ * @author u27brvz14 Pattern Chain of responsibility
  */
 public class JsonToPagination implements IPreparedStatementCreatable {
 
@@ -27,24 +27,32 @@ public class JsonToPagination implements IPreparedStatementCreatable {
 
     private int limit;
     private int offset;
+    private IPreparedStatementCreatable updater;
 
     @Override
-    public PreparedStatement UpdatePreparedStatement(PreparedStatement ps) {
-        String oldQuery = ps.toString();
-        PreparedStatement new_ps;
-        String newQuery;
+    public void SetNextUpdater(IPreparedStatementCreatable updater) {
+        this.updater = updater;
+    }
+
+    @Override
+    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+
+        PreparedStatement previous = ps.statement;
 
         try {
-            newQuery = String.join(" ", oldQuery, " limit ? offset ?");
-            new_ps = ps.getConnection().prepareStatement(newQuery);
-
-            new_ps.setInt(1, limit);
-            new_ps.setInt(2, offset);
+            String prevQuery = ps.statement.toString();
+            String newQuery = String.join(" ", prevQuery, "limit ? offset ?");
+            ps.statement = ps.statement.getConnection().prepareStatement(newQuery);
+            // an exception can occur down here
+            ps.statement.setInt(1, limit);
+            ps.statement.setInt(2, offset);
 
         } catch (SQLException ex) {
-            new_ps = ps;
+            ps.statement = previous;// safe rollback to previous statement of ps.statement
         }
-        return new_ps;
+        if (updater != null) {
+            updater.UpdatePreparedStatement(ps);
+        }
     }
 
     public JsonToPagination(int limit, int offset) {
@@ -58,6 +66,7 @@ public class JsonToPagination implements IPreparedStatementCreatable {
             JsonToPagination p = new Gson().fromJson(_pagination, this.getClass());
             int _limit = p.getLimit();
             int _offset = p.getOffset();
+
             this.setLimit(_limit);
             this.setOffset(_offset);
 
@@ -121,5 +130,4 @@ public class JsonToPagination implements IPreparedStatementCreatable {
             this.offset = _offset;
         }
     }
-
 }
