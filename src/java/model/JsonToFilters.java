@@ -35,30 +35,36 @@ public class JsonToFilters {
     public void SetFiltersFromJSON(String filters) {
         try {
             JsonParser jsonParser = new JsonParser();
-            JsonArray jsonArray = (JsonArray) jsonParser.parse(filters);
+            JsonArray jsonFiltersArray = (JsonArray) jsonParser.parse(filters);
+            Filter filter = null;
 
-            for (JsonElement jsonElement : jsonArray) {
+            for (JsonElement jsonFilter : jsonFiltersArray) {
 
-                String js = jsonElement.toString();
-                JsonObject obj = jsonElement.getAsJsonObject();
+                JsonObject obj = jsonFilter.getAsJsonObject();
 
-                Filter filter = null;
-                String name = obj.get("field").getAsString();
                 String type = obj.get("type").getAsString();
+                
                 JsonArray values = obj.getAsJsonArray("values");
+                obj.remove("values");
 
-                List<String> lst = new ArrayList();
+                JsonArray newArr = new JsonArray();
+                values.forEach(el -> {
+                    if (!el.getAsString().isEmpty()) {
+                        newArr.add(el);
+                    }
+                });
+                //if (newArr.size() > 0) { // if there is any value in values then adds a filter to filter collection
+                obj.add("values", newArr);
+
                 switch (type) {
                     case "like":
-                        filter = new Gson().fromJson(js, FilterLike.class);
+                        filter = new Gson().fromJson(obj.toString(), FilterLike.class);
                         break;
                     default:
                         break;
                 }
-
                 lstFilters.add(filter);
             }
-
         } catch (JsonSyntaxException ex) {
 
         }
@@ -68,12 +74,11 @@ public class JsonToFilters {
         return lstFilters;
     }
 
-    public Filter getFilter(String name, String type) {
+    public Filter getFilter(String name) {
         String _name = name.toLowerCase();
-        String _type = type.toLowerCase();
 
         for (Filter fl : lstFilters) {
-            if (fl.getType().equals(_type) && fl.getFieldName().equals(_name)) {
+            if (fl.getFieldName().equals(_name)) {
                 return fl;
             }
         }

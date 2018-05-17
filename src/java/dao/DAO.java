@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import model.JsonToFilters;
 import model.JsonToPagination;
+import model.PreparedStatementStruct;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import util.DbUtil;
 
@@ -23,6 +24,10 @@ public abstract class DAO {
 
     public DAO() {
         connection = DbUtil.getConnection();
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     public DAO(Connection connection) {

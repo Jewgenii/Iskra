@@ -16,12 +16,12 @@
                 {
                     var type = $(propValue).data("type");//filter type
                     var field = $(propValue).data("field");//column name
-                    var tmp = $(propValue).val();
-                    var arrValues = new Array();
+                    var inputValue = $(propValue).val();
+                    var valArr = $.extend([], inputValue.toString().split(','));
                     
-                    var val = $.extend([], tmp.toString().split(','));
+                    
 
-                    filters.push({"type": type, "field": field, "values": val});
+                    filters.push({"type": type, "field": field, "values": valArr});
                 }
             });
             return  JSON.stringify(filters);

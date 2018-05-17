@@ -68,7 +68,8 @@ public class NaimesqlController extends HttpServlet {
 
         filters = new JsonToFilters(filtersParams);
 
-        List<Object> naimesql = naimesqlDao.select(pagination, filters);
+        // List<Object> naimesql = naimesqlDao.select(pagination, filters);
+        List<Object> naimesql = naimesqlDao.select(pagination);
 
         JsonObject j = new JsonObject();
         j.addProperty("tableContent", new Gson().toJson(naimesql));

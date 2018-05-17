@@ -13,12 +13,14 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Filters.Filter;
-import model.IPreparedStatementCreatable;
 import model.JsonToFilters;
 import model.Naimesql;
 import model.JsonToPagination;
 import model.PreparedStatementStruct;
+import model.IPreparedStatementUpdatable;
 
 /**
  *
@@ -30,48 +32,90 @@ public class NaimesqlDAO extends DAO {
 
     @Override
     public List<Object> select(Object... obj) {
+        
+        
+        List<Object> naimesql = new ArrayList<>(100);
 
-        List<Object> naimesql = new ArrayList<>();
+        PreparedStatementStruct struct = null;
+        JsonToPagination pagination = getJsonToPagination(obj);
+        JsonToFilters jfilters = getJsonToFilters(obj);
 
-        JsonToPagination pagination = this.getJsonToPagination(obj);
-        JsonToFilters filters = this.getJsonToFilters(obj);
+        if (jfilters == null) {
+            struct = selectWithoutFilters(pagination);
+        } else {
+            struct = selectWithFilters(jfilters, pagination);
+        }
+
+        if (struct != null) {
+            try {
+                ResultSet rs = struct.statement.executeQuery();
+
+                while (rs.next()) {
+                    Naimesql n = new Naimesql();
+
+                    n.setNaim(rs.getString("naim"));
+                    n.setNizv(rs.getString("nizv"));
+                    n.setOsd(rs.getString("osd"));
+
+                    naimesql.add(n);
+                }
+            } catch (SQLException ex) {
+
+            }
+        }
+
+        return naimesql;
+    }
+
+    private PreparedStatementStruct selectWithoutFilters(JsonToPagination _pagination) {
+
+        JsonToPagination pagination = _pagination;
+        PreparedStatementStruct prepStatement = null;
 
         try {
-            String query = "select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql";
+            prepStatement
+                    = new PreparedStatementStruct(this, "select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql");
+            pagination.UpdatePreparedStatement(prepStatement);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
 
-            PreparedStatementStruct struct
-                    = new PreparedStatementStruct(connection.prepareStatement(query));
+        return prepStatement;
+    }
 
-            IPreparedStatementCreatable filterExecutor = null;
+    private PreparedStatementStruct selectWithFilters(JsonToFilters _filters, JsonToPagination _pagination) {
+
+        JsonToPagination pagination = _pagination;
+        JsonToFilters filters = _filters;
+
+        IPreparedStatementUpdatable fitlerExecutor = null;
+        PreparedStatementStruct prepStatement = null;
+        try {
+
+            prepStatement = new PreparedStatementStruct(this, "");
             try {
-                filterExecutor = filters.getFilter("osd", "like");
-                IPreparedStatementCreatable naimLike = filters.getFilter("naim", "like");
 
-                filterExecutor.SetNextUpdater(naimLike);
+                IPreparedStatementUpdatable naimLike = null;
+
+                fitlerExecutor = filters.getFilter("osd");
+                naimLike = filters.getFilter("naim");
+
+                fitlerExecutor.SetNextUpdater(naimLike);
                 naimLike.SetNextUpdater(pagination);
 
             } catch (Exception e) {
-                // if some filter breaks the chain it will still work at least with pagination
-                filterExecutor = pagination;
+                fitlerExecutor = pagination;
             }
 
-            filterExecutor.UpdatePreparedStatement(struct);
+            fitlerExecutor.UpdatePreparedStatement(prepStatement);
 
-            ResultSet rs = struct.statement.executeQuery();
-
-            while (rs.next()) {
-                Naimesql n = new Naimesql();
-
-                n.setNaim(rs.getString("naim"));
-                n.setNizv(rs.getString("nizv"));
-                n.setOsd(rs.getString("osd"));
-                naimesql.add(n);
-            }
+            String querySegment = "select (osd_c||osd_r) as osd,naim,nizv from clippersql.naimesql where";
+            prepStatement.prependToQuery(querySegment);// updates the struct`s PreparedStatement object 
 
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return naimesql;
+        return prepStatement;
     }
 
     public List<String> getDistinctNaim(String term) {

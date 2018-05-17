@@ -8,17 +8,17 @@ package model.Filters;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import model.IPreparedStatementCreatable;
 import model.JsonToFilters;
 import model.PreparedStatementStruct;
+import model.IPreparedStatementUpdatable;
 
 /**
  *
  * @author u27brvz14 Pattern Chain of responsibility
  */
-public abstract class Filter implements IPreparedStatementCreatable {
+public abstract class Filter implements IPreparedStatementUpdatable {
 
-    protected IPreparedStatementCreatable updater;
+    protected IPreparedStatementUpdatable updater;
     protected String type;
     protected String field;
     protected List<Object> values;
@@ -32,8 +32,7 @@ public abstract class Filter implements IPreparedStatementCreatable {
 
         this.type = type;
         this.field = fieldName;
-      //  this.values = values;
-
+        //  this.values = values;
     }
 
     //  public abstract String toQuery(PreparedStatement _statement);
@@ -69,7 +68,7 @@ public abstract class Filter implements IPreparedStatementCreatable {
     }
 
     @Override
-    public void SetNextUpdater(IPreparedStatementCreatable updater) {
+    public void SetNextUpdater(IPreparedStatementUpdatable updater) {
         this.updater = updater;
     }
 }

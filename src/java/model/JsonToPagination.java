@@ -19,7 +19,7 @@ import org.apache.commons.lang.*;
  *
  * @author u27brvz14 Pattern Chain of responsibility
  */
-public class JsonToPagination implements IPreparedStatementCreatable {
+public class JsonToPagination implements IPreparedStatementUpdatable {
 
     static int MinOffset = 0;
     static int MinLimit = 0;
@@ -27,10 +27,10 @@ public class JsonToPagination implements IPreparedStatementCreatable {
 
     private int limit;
     private int offset;
-    private IPreparedStatementCreatable updater;
+    private IPreparedStatementUpdatable updater;
 
     @Override
-    public void SetNextUpdater(IPreparedStatementCreatable updater) {
+    public void SetNextUpdater(IPreparedStatementUpdatable updater) {
         this.updater = updater;
     }
 
