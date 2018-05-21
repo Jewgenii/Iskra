@@ -32,19 +32,15 @@ public class NaimesqlDAO extends DAO {
 
     @Override
     public List<Object> select(Object... obj) {
-        
-        
+
         List<Object> naimesql = new ArrayList<>(100);
 
         PreparedStatementStruct struct = null;
         JsonToPagination pagination = getJsonToPagination(obj);
         JsonToFilters jfilters = getJsonToFilters(obj);
 
-        if (jfilters == null) {
-            struct = selectWithoutFilters(pagination);
-        } else {
-            struct = selectWithFilters(jfilters, pagination);
-        }
+        struct = (jfilters == null) ? selectWithoutFilters(pagination)
+                : selectWithFilters(jfilters, pagination);
 
         if (struct != null) {
             try {

@@ -67,7 +67,7 @@
             var limit = $(this).find("option:selected").val();
             $(liGroup).attr("limit", limit);
             var pagination = JSON.stringify({"offset": 0, "limit": limit});
-             var filters = $.getFilters("input");
+            var filters = $.getFilters("input");
             sendData(pagination, filters);
         });
 
@@ -75,12 +75,12 @@
             source: function (request, response)
             {
                 var field = $(this.element).data("field");
-                $.post("AutocompleteNaimesql", {"term": request.term, "field": field},
+                $.post("Autocomplete-Naimesql", {"term": request.term, "field": field},
                         function (data) {
                             response(data);
                         }, "json");
             },
-            minLength: 3,
+            minLength: 2,
             delay: 500
         });
 

@@ -5,6 +5,7 @@
  */
 package dao;
 
+import com.google.gson.JsonObject;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import model.OsdKiz;
 import model.Skisql;
 import model.Vp44150sql;
 import util.DbUtil;
@@ -303,7 +305,6 @@ public class Vp44150sqlDao extends DAO {
             ResultSet rs = statement.executeQuery("SELECT COUNT (*) AS total from clippersql.vp44150sql");
             while (rs.next()) {
                 counts = rs.getInt("total");
-
             }
             counts = (counts / 100) + 1;
         } catch (SQLException e) {
@@ -330,5 +331,67 @@ public class Vp44150sqlDao extends DAO {
             System.out.println(e.getMessage());
         }
         return list;
+    }
+
+    public ArrayList<String> getDistinctOSDCH(String osdch) {
+        ArrayList<String> list = new ArrayList<>(10);
+
+        PreparedStatement ps = null;
+        String query
+                = new StringBuilder("WITH tmp AS( ")
+                        .append("SELECT DISTINCT osdch_t,osdch_r,osdch_c ")
+                        .append("FROM clippersql.vp44150sql WHERE osdch_c||osdch_r LIKE ? LIMIT 10) ")
+                        .append("SELECT DISTINCT (osdch_c||osdch_r) AS osdch,osdch_r,osdch_c FROM tmp ")
+                        .append("ORDER BY osdch_r,osdch_c")
+                        .toString();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, osdch + "%");
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                list.add(rs.getString("osdch"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public ArrayList<Object> getTreeNode(String osdch, String kiz) throws SQLException {
+
+        ArrayList<Object> lst = new ArrayList<>(100);
+
+        String query
+                = new StringBuilder("WITH tmp AS( ")
+                        .append("SELECT DISTINCT osdch_t,osdch_r,osdch_c,kiz ")
+                        .append("FROM clippersql.vp44150sql WHERE osdk_c||osdk_r = ? AND kiz = ?) ")
+                        // final column sequence selection
+                        .append("SELECT DISTINCT (osdch_c||osdch_r) AS osdch,osdch_r,osdch_c,kiz,")
+                        .append("(CASE WHEN EXISTS ")
+                        .append("(SELECT 'x' FROM clippersql.vp44150sql WHERE osdk_t = tmp.osdch_t AND osdk_c = tmp.osdch_c AND osdk_r = tmp.osdch_r and kiz = tmp.kiz LIMIT 1) ")
+                        .append("THEN true ELSE false END) as isAssembly ")
+                        .append("FROM tmp ")
+                        .append("ORDER BY osdch_r,osdch_c,kiz")
+                        .toString();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, osdch);
+        preparedStatement.setString(2, kiz);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        JsonObject obj = null;
+
+        while (rs.next()) {
+            obj = new JsonObject();
+            obj.addProperty("osdch", rs.getString("osdch"));
+            obj.addProperty("isAssembly", rs.getBoolean("isAssembly"));
+            obj.addProperty("kiz", rs.getString("kiz"));
+            lst.add(obj.toString());
+        }
+
+        return lst;
     }
 }

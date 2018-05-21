@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.trees;
+package controller.tree;
 
 import com.google.gson.Gson;
 import dao.DAO;
 import dao.NaimesqlDAO;
+import dao.Vp44150sqlDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -26,14 +27,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.OsdKiz;
+import model.Vp44150sql;
 
-@WebServlet(name = "kizTreeController", urlPatterns = {"/kizTreeController"})
-public class kizTreeController extends HttpServlet {
+@WebServlet(name = "vp44150sqlTreeController", urlPatterns = {"/vp44150sqlTree"})
+public class vp44150sqlTreeController extends HttpServlet {
 
-    private DAO kizDao = null;
+    private Vp44150sqlDao vp44150sqlDao = null;
 
-    public kizTreeController() {
-        kizDao = new NaimesqlDAO();
+    public vp44150sqlTreeController() {
+        vp44150sqlDao = new Vp44150sqlDao();
     }
 
     @Override
@@ -51,37 +53,28 @@ public class kizTreeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // build tree nodes here-----------------------------------------------------
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 
-        String param = request.getParameter("osd");
-        if (param != null) {
-            param = param.trim();
+        String osdch = request.getParameter("osdch");
+        String kiz = request.getParameter("kiz");
 
-            List<OsdKiz> lst = new ArrayList<>(100);
-            String query
-                    = "SELECT (osdch_c||osdch_r) as osd_ch FROM clippersql.vp44150sql where (osdk_c||osdk_r)  = ? order by osdch_c,osdch_r";
+        if (osdch != null && kiz != null) {
+            osdch = osdch.trim().toUpperCase();
+            kiz = kiz.trim().toUpperCase();
+
+            ArrayList<Object> lst = null;
+
             try {
-                Connection connection = kizDao.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-                preparedStatement.setString(1, param);
-
-                ResultSet rs = preparedStatement.executeQuery();
-
-                while (rs.next()) {
-                    String osd_ch = rs.getString("osd_ch");
-
-                    lst.add(new OsdKiz(osd_ch));
-
-                }
+                lst = vp44150sqlDao.getTreeNode(osdch, kiz);
             } catch (SQLException e) {
                 System.out.println(e);
             }
 
-            response.getWriter().write(new Gson().toJson(lst));
-
+            String out = new Gson().toJson(lst);
+            response.getWriter().write(out);
         }
     }
 
