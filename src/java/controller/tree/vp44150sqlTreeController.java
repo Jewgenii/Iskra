@@ -6,6 +6,8 @@
 package controller.tree;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import dao.DAO;
 import dao.NaimesqlDAO;
 import dao.Vp44150sqlDao;
@@ -45,7 +47,7 @@ public class vp44150sqlTreeController extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 
-        RequestDispatcher view = request.getRequestDispatcher("/kiz_tree.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Vp44150sqlTreeView.jsp");
         view.forward(request, response);
     }
 
@@ -53,7 +55,6 @@ public class vp44150sqlTreeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // build tree nodes here-----------------------------------------------------
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
@@ -65,15 +66,16 @@ public class vp44150sqlTreeController extends HttpServlet {
             osdch = osdch.trim().toUpperCase();
             kiz = kiz.trim().toUpperCase();
 
-            ArrayList<Object> lst = null;
+            JsonArray jsArr = null;
+            String path = this.getServletContext().getContextPath();
 
             try {
-                lst = vp44150sqlDao.getTreeNode(osdch, kiz);
+                jsArr = vp44150sqlDao.getTreeNode(osdch, kiz, path);
             } catch (SQLException e) {
                 System.out.println(e);
             }
 
-            String out = new Gson().toJson(lst);
+            String out = new Gson().toJson(jsArr);
             response.getWriter().write(out);
         }
     }

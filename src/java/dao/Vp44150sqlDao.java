@@ -5,6 +5,8 @@
  */
 package dao;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletContext;
 import model.OsdKiz;
 import model.Skisql;
 import model.Vp44150sql;
@@ -360,19 +363,22 @@ public class Vp44150sqlDao extends DAO {
         return list;
     }
 
-    public ArrayList<Object> getTreeNode(String osdch, String kiz) throws SQLException {
+    public JsonArray getTreeNode(String osdch, String kiz, String relativePath) throws SQLException {
 
-        ArrayList<Object> lst = new ArrayList<>(100);
+        JsonArray jsArr = new JsonArray();
 
         String query
                 = new StringBuilder("WITH tmp AS( ")
-                        .append("SELECT DISTINCT osdch_t,osdch_r,osdch_c,kiz ")
-                        .append("FROM clippersql.vp44150sql WHERE osdk_c||osdk_r = ? AND kiz = ?) ")
+                        .append("SELECT DISTINCT osdch_t,osdch_r,osdch_c,kiz,naim ")
+                        .append("FROM clippersql.vp44150sql as v ")
+                        .append("LEFT JOIN clippersql.naimesql AS n ON ")
+                        .append("(v.osdch_t = n.osd_t AND v.osdch_r = n.osd_r AND v.osdch_c = n.osd_c) ")
+                        .append("WHERE osdk_c||osdk_r = ? AND kiz = ?) ")
                         // final column sequence selection
-                        .append("SELECT DISTINCT (osdch_c||osdch_r) AS osdch,osdch_r,osdch_c,kiz,")
+                        .append("SELECT DISTINCT (osdch_c||osdch_r) AS osdch,osdch_r,osdch_c,kiz,naim,")
                         .append("(CASE WHEN EXISTS ")
                         .append("(SELECT 'x' FROM clippersql.vp44150sql WHERE osdk_t = tmp.osdch_t AND osdk_c = tmp.osdch_c AND osdk_r = tmp.osdch_r and kiz = tmp.kiz LIMIT 1) ")
-                        .append("THEN true ELSE false END) as isAssembly ")
+                        .append("THEN true ELSE false END) as children ")
                         .append("FROM tmp ")
                         .append("ORDER BY osdch_r,osdch_c,kiz")
                         .toString();
@@ -384,14 +390,40 @@ public class Vp44150sqlDao extends DAO {
         ResultSet rs = preparedStatement.executeQuery();
         JsonObject obj = null;
 
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        String iconAssembly = String.join("/", relativePath, "plugins/jsTree/images/iconAssembly.png");
+        String iconItem = String.join("/", relativePath, "plugins/jsTree/images/iconItem.png");
+
+        String _osdch = null;
+        String _kiz = null;
+        String _naim = null;
+        Boolean children = null;
+        String icon = null;
+
         while (rs.next()) {
+
+            _osdch = rs.getString("osdch");
+            _kiz = rs.getString("kiz");
+            _naim = rs.getString("naim");
+            children = rs.getBoolean("children");
+            icon = children ? iconAssembly : iconItem;// has children then iconAssembly else iconItem
+
             obj = new JsonObject();
-            obj.addProperty("osdch", rs.getString("osdch"));
-            obj.addProperty("isAssembly", rs.getBoolean("isAssembly"));
-            obj.addProperty("kiz", rs.getString("kiz"));
-            lst.add(obj.toString());
+
+            JsonObject tmp = new JsonObject();
+            tmp.addProperty("kiz", _kiz);
+            tmp.addProperty("osdch", _osdch);
+
+            obj.add("li_attr", tmp);//_kiz,_osdch
+
+            obj.addProperty("icon", icon);
+            obj.addProperty("children", children);
+            obj.addProperty("text", _osdch + "(" + _naim + ")");
+
+            jsArr.add(obj);
         }
 
-        return lst;
+        return jsArr;
     }
 }
