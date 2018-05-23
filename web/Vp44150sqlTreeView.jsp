@@ -45,7 +45,7 @@
                     source: function (request, response)
                     {
                         var field = $(this.element).data("field");
-                        $.post("AutocompleteVp44150sql", {"term": request.term, "field": field},
+                        $.post("Autocomplete-Vp44150sql", {"term": request.term, "field": field},
                                 function (data) {
                                     response(data);
                                 }, "json");

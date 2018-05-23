@@ -45,10 +45,6 @@
         <servlet-name>SearchNaimesql</servlet-name>
         <servlet-class>controller.NaimesqlController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>AutocompleteVp44150sql</servlet-name>
-        <servlet-class>controller.autocomplete.AutocompleteVp44150sql</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>UpdCont</servlet-name>
         <url-pattern>/UpdCont</url-pattern>
@@ -96,10 +92,6 @@
     <servlet-mapping>
         <servlet-name>SearchNaimesql</servlet-name>
         <url-pattern>/SearchNaimesql</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AutocompleteVp44150sql</servlet-name>
-        <url-pattern>/AutocompleteVp44150sql</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
