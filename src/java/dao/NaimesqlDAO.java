@@ -116,12 +116,20 @@ public class NaimesqlDAO extends DAO {
 
     public List<String> getDistinctNaim(String term) {
         List<String> lst = new ArrayList<>(10);
+
         String query
                 = new StringBuilder("select distinct naim from clippersql.naimesql where lower(naim) like lower(?) order by naim limit 10")
                         .toString();
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, term + "%");
+            
+            fd
+//            String strbuf = term;// + "%";
+//            if (!term.endsWith("*")) {
+//               strbuf = term.replace("*", "");
+//            }
+//            strbuf = "%" + term.replace('*', '%') + "%";
+//            preparedStatement.setString(1, strbuf);
 
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

@@ -75,15 +75,9 @@ public class NaimesqlController extends HttpServlet {
         JsonObject j = new JsonObject();
         JsonArray arr = new JsonArray();
 
-        long start = System.nanoTime();
-
-        // turn to json formatting
-        //test
         j.addProperty("tableContent", new Gson().toJson(naimesql));
         j.addProperty("pagination", pagination.toString());
         j.addProperty("filters", "lala");
-
-        long elapsedTime = System.nanoTime() - start;
 
         response.getWriter().write(j.toString());
     }

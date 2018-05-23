@@ -26,7 +26,7 @@
                 <h4 class="panel-heading"> Дерево ОС</h4>
                 <div class="panel-body"> 
                     <span>  Одиниця складова(деталь)   </span>  
-                    <input type="text" value="${osdch}"  data-field="osdch" autocomplete>
+                    <input type="text" value="${osdch}" data-field="osdch" autocomplete>
                     <span>  код виробу </span>  
                     <input type="text" value="${kiz}" data-field="kiz" autocomplete>
                     <button id='buildTree' clas='btn btn-md btn-success' title='Виконати фільтр'>
@@ -60,6 +60,7 @@
                     var kiz = $("input[data-field=kiz]").val();
 
                     var url = window.location.pathname;
+                   
                     $.jstree.destroy();
 
                     $('#jstree').jstree({
