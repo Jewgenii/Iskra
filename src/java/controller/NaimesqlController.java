@@ -62,6 +62,7 @@ public class NaimesqlController extends HttpServlet {
 
         String paginationParams = request.getParameter("pagination");
         String filtersParams = request.getParameter("filters");
+        String filtersEnabled = request.getParameter("filtersEnabled");
 
         pagination = new JsonToPagination(50, 0);
         pagination.SetPagination(paginationParams);
@@ -72,9 +73,16 @@ public class NaimesqlController extends HttpServlet {
         List<Object> naimesql = naimesqlDao.select(pagination);
 
         JsonObject j = new JsonObject();
+        JsonArray arr = new JsonArray();
+
+        long start = System.nanoTime();
+
+        // turn to json formatting
         j.addProperty("tableContent", new Gson().toJson(naimesql));
         j.addProperty("pagination", pagination.toString());
         j.addProperty("filters", "lala");
+
+        long elapsedTime = System.nanoTime() - start;
 
         response.getWriter().write(j.toString());
     }

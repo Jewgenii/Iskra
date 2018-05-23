@@ -26,9 +26,9 @@
                 <h4 class="panel-heading"> Дерево ОС</h4>
                 <div class="panel-body"> 
                     <span>  Одиниця складова(деталь)   </span>  
-                    <input type="text"  data-field="osdch" autocomplete>
+                    <input type="text" value="${osdch}"  data-field="osdch" autocomplete>
                     <span>  код виробу </span>  
-                    <input type="text" data-field="kiz" autocomplete>
+                    <input type="text" value="${kiz}" data-field="kiz" autocomplete>
                     <button id='buildTree' clas='btn btn-md btn-success' title='Виконати фільтр'>
                         <span class="glyphicon glyphicon-ok"></span>
                     </button>
@@ -61,18 +61,11 @@
 
                     var url = window.location.pathname;
                     $.jstree.destroy();
-                    /*
-                     $.post(url, {"osdch": osdch, "kiz": kiz},
-                     function (data) {
-                     $.each(data, function (propName, propValue) {
-                     console.log(JSON.parse(propValue));
-                     });
-                     }, "json");
-                     */
+
                     $('#jstree').jstree({
                         'core': {
                             "themes": {"stripes": true},
-                            'data': {// accepts $.ajax object with its standart methods
+                            'data': {// accepts $.ajax object with its standart properties
                                 method: "post",
                                 url: url,
                                 dataType: "json",
@@ -86,12 +79,17 @@
                                 success: function (data) {
                                     console.log(data);
                                     return data;
+                                },
+                                error: function (node) {
+                                    // destroy node or entire tree???
+                                    //$.jstree.destroy();
                                 }
                             }
                         }
                     });
 
                 });
+
             });
         </script>
     </body>

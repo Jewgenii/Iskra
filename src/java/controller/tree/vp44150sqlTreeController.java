@@ -37,15 +37,26 @@ public class vp44150sqlTreeController extends HttpServlet {
     private Vp44150sqlDao vp44150sqlDao = null;
 
     public vp44150sqlTreeController() {
+
         vp44150sqlDao = new Vp44150sqlDao();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
+
+        String osdch = request.getParameter("osdch");
+        String kiz = request.getParameter("kiz");
+
+        osdch = (osdch == null) ? "" : osdch;
+        kiz = (kiz == null) ? "" : kiz;
+
+        request.setAttribute("osdch", osdch);
+        request.setAttribute("kiz", kiz);
 
         RequestDispatcher view = request.getRequestDispatcher("/Vp44150sqlTreeView.jsp");
         view.forward(request, response);
@@ -62,15 +73,17 @@ public class vp44150sqlTreeController extends HttpServlet {
         String osdch = request.getParameter("osdch");
         String kiz = request.getParameter("kiz");
 
+        String contextPath = this.getServletContext().getContextPath();
+        vp44150sqlDao.setContextPath(contextPath);
+
         if (osdch != null && kiz != null) {
             osdch = osdch.trim().toUpperCase();
             kiz = kiz.trim().toUpperCase();
 
             JsonArray jsArr = null;
-            String path = this.getServletContext().getContextPath();
 
             try {
-                jsArr = vp44150sqlDao.getTreeNode(osdch, kiz, path);
+                jsArr = vp44150sqlDao.getTreeNodes(osdch, kiz);
             } catch (SQLException e) {
                 System.out.println(e);
             }
