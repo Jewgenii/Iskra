@@ -78,6 +78,7 @@ public class NaimesqlController extends HttpServlet {
         long start = System.nanoTime();
 
         // turn to json formatting
+        //test
         j.addProperty("tableContent", new Gson().toJson(naimesql));
         j.addProperty("pagination", pagination.toString());
         j.addProperty("filters", "lala");
