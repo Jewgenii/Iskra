@@ -25,6 +25,14 @@
                 <div class="panel-body"> 
                     <span>  позначення   </span>  <input type="text" data-type="like" data-field="osd"  data-filter="true" autocomplete>
                     <span>  найменування </span>  <input type="text" data-type="like" data-field="naim" data-filter="true" autocomplete>
+                    <span> <button id="btnApply" class="btn btn-md btn-success">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </span>
+                    <span> <button id="btnCancel" class="btn btn-md btn-success">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </span>
                 </div>
             </div>
         </div>
@@ -42,7 +50,7 @@
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </li>
                     <li>
-                        <button class="btn btn-success excell" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки">
+                        <button class="btn btn-md btn-success excell" data-toggle="tooltip" data-placement="right" title="XLS-файл.Експорт поточної сторінки">
                             <span class="glyphicon glyphicon-list-alt"></span>
                         </button>
                     </li>
@@ -100,5 +108,6 @@
         <script  type="text/javascript" src="js/filter/filter.js"></script>
         <script  type="text/javascript" src="js/pagination/paginationUpdater.js"></script>
         <script  type="text/javascript" src="js/naimesql/naimesql.js"></script>
+
     </body>
 </html>

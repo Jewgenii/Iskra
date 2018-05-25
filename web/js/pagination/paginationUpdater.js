@@ -1,22 +1,32 @@
 
 (function ($) {
 
-    $.extend({
-        getLimitOffset: function (element) {
-            var offset = $(element).attr("offset");
-            var limit = $(element).attr("limit");
-            offset = offset < 0 ? 0 : offset;
-            limit = limit < 0 ? 50 : limit;
+    $.extend(
+            {
+                getLimitOffset:
+                        function (element) {
+                            var offset = $(element).attr("offset");
+                            var limit = $(element).attr("limit");
+                            offset = offset < 0 ? 0 : offset;
+                            limit = limit < 0 ? 50 : limit;
 
-            return JSON.stringify({"offset": offset, "limit": limit});
-        }
-    });
+                            return JSON.stringify({"offset": offset, "limit": limit});
+                        }
+            });
 
     $.fn.updatePagination = function (data) {
+
+        $.fn.updatePagination.params = {
+            offset: data.offset,
+            limit: data.limit
+        };
 
         sessionStorage.setItem("paginationLimit", JSON.stringify(data.limit));
         sessionStorage.setItem("paginationOffset", JSON.stringify(data.offset));
         $("select.iskra-rowsOnPage").val(data.limit);
+
+        $.fn.updatePagination.offset = data.offset;
+        $.fn.updatePagination.limit = data.limit;
 
         var toPrevVal = data.offset - data.limit;
         var toNextVal = data.offset + data.limit;
@@ -36,7 +46,6 @@
         }
         return this;
     };
-
 }(jQuery));
 
 

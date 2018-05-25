@@ -21,7 +21,7 @@ import model.IPreparedStatementUpdatable;
 public class FilterLike extends Filter {
 
     @Override
-    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+    public void updatePreparedStatement(PreparedStatementStruct ps) {
 
         if (!values.isEmpty()) { // build query segment only if there is any value available
             PreparedStatement previous = ps.statement;
@@ -34,7 +34,7 @@ public class FilterLike extends Filter {
                 });
 
                 String prevQuery = ps.toString();
-                String joiner = " and ";
+                String joiner = prevQuery.toLowerCase().trim().startsWith("and") ? " and " : "";
                 String newQuery = String.join(joiner, prevQuery, "(" + String.join(" or ", segments) + ")");
                 ps.queryToPreparedStatement(newQuery);
 
@@ -48,7 +48,6 @@ public class FilterLike extends Filter {
                 ps.statement = previous;
             }
         }
-
-        super.UpdatePreparedStatement(ps);
+        super.updatePreparedStatement(ps);
     }
 }

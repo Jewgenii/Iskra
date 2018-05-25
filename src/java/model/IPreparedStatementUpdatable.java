@@ -13,8 +13,8 @@ import java.sql.PreparedStatement;
  */
 public interface IPreparedStatementUpdatable {
 
-    //this interface helps to teat different classes uniformly(that have the same responsibility, but different types,e.a. paginaton and filters so on)
-    public void UpdatePreparedStatement(PreparedStatementStruct ps);
+    //this interface helps to treat different classes uniformly(that have the same responsibility, but different types,e.a. paginaton and filters so on)
+    public void updatePreparedStatement(PreparedStatementStruct ps);
 
-    public void SetNextUpdater(IPreparedStatementUpdatable updater);
+    public void setNextUpdater(IPreparedStatementUpdatable updater);
 }

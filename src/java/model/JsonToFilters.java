@@ -23,16 +23,16 @@ import org.apache.jasper.tagplugins.jstl.core.ForEach;
  *
  * @author u27brvz14
  */
-public class JsonToFilters {
+public class JsonToFilters { // maps json objects to colletion of Filter classes
 
-    private List<Filter> lstFilters;
+    private List<Filter> lstFilters = null;
 
     public JsonToFilters(String filters) {
         lstFilters = new ArrayList();
-        this.SetFiltersFromJSON(filters);
+        this.setFiltersFromJSON(filters);
     }
 
-    public void SetFiltersFromJSON(String filters) {
+    public void setFiltersFromJSON(String filters) {
         try {
             JsonParser jsonParser = new JsonParser();
             JsonArray jsonFiltersArray = (JsonArray) jsonParser.parse(filters);
@@ -43,8 +43,13 @@ public class JsonToFilters {
                 JsonObject obj = jsonFilter.getAsJsonObject();
 
                 String type = obj.get("type").getAsString();
-                
+
                 JsonArray values = obj.getAsJsonArray("values");
+
+                if (values.size() < 1) {
+                    continue;
+                }
+
                 obj.remove("values");
 
                 JsonArray newArr = new JsonArray();
@@ -53,7 +58,7 @@ public class JsonToFilters {
                         newArr.add(el);
                     }
                 });
-                //if (newArr.size() > 0) { // if there is any value in values then adds a filter to filter collection
+
                 obj.add("values", newArr);
 
                 switch (type) {

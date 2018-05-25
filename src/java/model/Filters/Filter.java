@@ -61,14 +61,14 @@ public abstract class Filter implements IPreparedStatementUpdatable {
     }
 
     @Override
-    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+    public void updatePreparedStatement(PreparedStatementStruct ps) {
         if (this.updater != null) {
-            this.updater.UpdatePreparedStatement(ps);
+            this.updater.updatePreparedStatement(ps);
         }
     }
 
     @Override
-    public void SetNextUpdater(IPreparedStatementUpdatable updater) {
+    public void setNextUpdater(IPreparedStatementUpdatable updater) {
         this.updater = updater;
     }
 }

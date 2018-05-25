@@ -41,6 +41,20 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
+                var kizInput = $("input[data-field=kiz]");
+                var osdchInput = $("input[data-field=osdch]");
+
+                var kiz = sessionStorage.getItem("kiz");
+                var osdch = sessionStorage.getItem("osdch");
+                
+//if query params are present then dont change inputs
+                kiz = kiz ? kiz : $(kizInput).val();
+                osdch = osdch ? osdch : $(osdchInput).val();
+
+                $(osdchInput).val(osdch);
+                $(kizInput).val(kiz);
+
+
                 $("input[autocomplete]").autocomplete({
                     source: function (request, response)
                     {
@@ -59,33 +73,38 @@
                     var osdch = $("input[data-field=osdch]").val();
                     var kiz = $("input[data-field=kiz]").val();
 
+                    sessionStorage.setItem("osdch", osdch);
+                    sessionStorage.setItem("kiz", kiz);
+
                     var url = window.location.pathname;
-                   
+
+                    var ajaxData = {// accepts $.ajax object with its standart properties
+                        method: "post",
+                        url: url,
+                        dataType: "json",
+                        data: function (node) {
+                            if (node.id !== '#') {
+                                osdch = node.li_attr.osdch;
+                                kiz = node.li_attr.kiz;
+                            }
+                            return {"kiz": kiz, "osdch": osdch};
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            return data;
+                        },
+                        error: function (node) {
+                            // destroy node or entire tree???
+                            $.jstree.destroy();
+                        }
+                    };
+
                     $.jstree.destroy();
 
                     $('#jstree').jstree({
                         'core': {
                             "themes": {"stripes": true},
-                            'data': {// accepts $.ajax object with its standart properties
-                                method: "post",
-                                url: url,
-                                dataType: "json",
-                                data: function (node) {
-                                    if (node.id !== '#') {
-                                        osdch = node.li_attr.osdch;
-                                        kiz = node.li_attr.kiz;
-                                    }
-                                    return {"kiz": kiz, "osdch": osdch};
-                                },
-                                success: function (data) {
-                                    console.log(data);
-                                    return data;
-                                },
-                                error: function (node) {
-                                    // destroy node or entire tree???
-                                    //$.jstree.destroy();
-                                }
-                            }
+                            'data': ajaxData
                         }
                     });
 

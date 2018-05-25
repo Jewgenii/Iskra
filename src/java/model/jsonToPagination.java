@@ -6,20 +6,15 @@
 package model;
 
 import com.google.gson.Gson;
-import com.google.gson.*;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.JsonReader;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.lang.*;
 
 /**
  *
  * @author u27brvz14 Pattern Chain of responsibility
  */
-public class JsonToPagination implements IPreparedStatementUpdatable {
+public class jsonToPagination implements IPreparedStatementUpdatable {
 
     static int MinOffset = 0;
     static int MinLimit = 0;
@@ -30,18 +25,19 @@ public class JsonToPagination implements IPreparedStatementUpdatable {
     private IPreparedStatementUpdatable updater;
 
     @Override
-    public void SetNextUpdater(IPreparedStatementUpdatable updater) {
+    public void setNextUpdater(IPreparedStatementUpdatable updater) {
         this.updater = updater;
     }
 
     @Override
-    public void UpdatePreparedStatement(PreparedStatementStruct ps) {
+    public void updatePreparedStatement(PreparedStatementStruct ps) {
 
         PreparedStatement previous = ps.statement;
 
         try {
             String prevQuery = ps.statement.toString();
-            String newQuery = String.join(" ", prevQuery, "limit ? offset ?");
+            String joiner = prevQuery.toLowerCase().trim().startsWith("and") ? " and " : "";
+            String newQuery = String.join(joiner, prevQuery, "limit ? offset ?");
             ps.statement = ps.statement.getConnection().prepareStatement(newQuery);
             // an exception can occur down here
             ps.statement.setInt(1, limit);
@@ -51,19 +47,19 @@ public class JsonToPagination implements IPreparedStatementUpdatable {
             ps.statement = previous;// safe rollback to previous statement of ps.statement
         }
         if (updater != null) {
-            updater.UpdatePreparedStatement(ps);
+            updater.updatePreparedStatement(ps);
         }
     }
 
-    public JsonToPagination(int limit, int offset) {
+    public jsonToPagination(int limit, int offset) {
         setLimit(limit);
         setOffset(offset);
     }
 
-    public void SetPagination(String _pagination) {
+    public void setPagination(String _pagination) {
 
         try {
-            JsonToPagination p = new Gson().fromJson(_pagination, this.getClass());
+            jsonToPagination p = new Gson().fromJson(_pagination, this.getClass());
             int _limit = p.getLimit();
             int _offset = p.getOffset();
 
@@ -71,6 +67,8 @@ public class JsonToPagination implements IPreparedStatementUpdatable {
             this.setOffset(_offset);
 
         } catch (JsonSyntaxException e) {
+            System.out.println("model.PagePagination.SetPagination()" + e.toString());
+        } catch (Exception e) {
             System.out.println("model.PagePagination.SetPagination()" + e.toString());
         }
     }

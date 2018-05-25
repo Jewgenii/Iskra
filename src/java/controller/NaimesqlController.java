@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util;
 import dao.DAO;
 import dao.NaimesqlDAO;
-import model.JsonToPagination;
+import model.jsonToPagination;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -37,7 +37,7 @@ import org.apache.commons.lang.*;
 public class NaimesqlController extends HttpServlet {
 
     private DAO naimesqlDao = null;
-    private JsonToPagination pagination = null;
+    private jsonToPagination pagination = null;
     private JsonToFilters filters = null;
 
     public NaimesqlController() {
@@ -60,25 +60,28 @@ public class NaimesqlController extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 
-        String paginationParams = request.getParameter("pagination");
-        String filtersParams = request.getParameter("filters");
-        String filtersEnabled = request.getParameter("filtersEnabled");
+        String jsPaginatonStr = request.getParameter("pagination");
+        String jsFiltersStr = request.getParameter("filters");
+        Boolean filtersEnabled = Boolean.parseBoolean(request.getParameter("filtersEnabled"));
 
-        pagination = new JsonToPagination(50, 0);
-        pagination.SetPagination(paginationParams);
+        pagination = new jsonToPagination(50, 0);//default creation assures object`s presence
+        pagination.setPagination(jsPaginatonStr);
 
-        filters = new JsonToFilters(filtersParams);
+        List<Object> naimesql = null;
+        if (filtersEnabled) {
+            filters = new JsonToFilters(jsFiltersStr);// convert json to classes
+            naimesql = naimesqlDao.select(pagination, filters);
+        } else {
+            naimesql = naimesqlDao.select(pagination);
+        }
 
-        // List<Object> naimesql = naimesqlDao.select(pagination, filters);
-        List<Object> naimesql = naimesqlDao.select(pagination);
-
-        JsonObject j = new JsonObject();
+        JsonObject jsObj = new JsonObject();
         JsonArray arr = new JsonArray();
 
-        j.addProperty("tableContent", new Gson().toJson(naimesql));
-        j.addProperty("pagination", pagination.toString());
-        j.addProperty("filters", "lala");
+        jsObj.addProperty("tableContent", new Gson().toJson(naimesql));
+        jsObj.addProperty("pagination", pagination.toString());
+        jsObj.addProperty("filters", "lala");
 
-        response.getWriter().write(j.toString());
+        response.getWriter().write(jsObj.toString());
     }
 }

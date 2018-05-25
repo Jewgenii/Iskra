@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import model.JsonToFilters;
-import model.JsonToPagination;
+import model.jsonToPagination;
 import model.PreparedStatementStruct;
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import util.DbUtil;
@@ -54,10 +54,10 @@ public abstract class DAO {
         throw new UnsupportedOperationException();
     }
 
-    public static JsonToPagination getJsonToPagination(Object... ObjParams) {
+    public static jsonToPagination getJsonToPagination(Object... ObjParams) {
         for (Object obj : ObjParams) {
-            if (obj.getClass().getCanonicalName().equals(JsonToPagination.class.getCanonicalName())) {
-                return (JsonToPagination) obj;
+            if (obj.getClass().getCanonicalName().equals(jsonToPagination.class.getCanonicalName())) {
+                return (jsonToPagination) obj;
             }
         }
         return null;

@@ -1,5 +1,7 @@
 
 (function ($) {
+    var fitersEnabled = false;
+
     const sendData = function (pagination, filters)
     {
         $.ajax({
@@ -8,17 +10,16 @@
             dataType: "json",
             data: {
                 "pagination": pagination,
-                "filters": filters
+                "filters": filters,
+                "filtersEnabled": fitersEnabled
             },
             success: function (data) {
 
                 var paginationObject = JSON.parse(data.pagination);
                 var talbeContent = JSON.parse(data.tableContent);
-                //var filters = JSON.parse(data.filters);
 
                 $(".iskra-paginationContainer").updatePagination(paginationObject);
                 $(".iskra-tableContainer table").updateTable(talbeContent);
-                //$(".iskra-filterContainer").updateFilters(filters);
             },
             beforeSend: function () {
                 var div = $("<div>").addClass("iskra-Iconloader");
@@ -41,6 +42,18 @@
 
         $(".table").stickyTableHeaders(); //initialize table header
         $(window).trigger('resize'); // initialize row content top property accrodingly to table header size
+
+        var naim = sessionStorage.getItem("naim");
+        var osd = sessionStorage.getItem("osd");
+
+        naim = naim ? naim : "";
+        osd = osd ? osd : "";
+
+        var naimInput = $("input[data-field=naim]");
+        var osdInput = $("input[data-field=osd]");
+
+        $(naimInput).val(naim);
+        $(osdInput).val(osd);
 
         var pagLimit = sessionStorage.getItem("paginationLimit");
         var pagOffset = sessionStorage.getItem("paginationOffset");
@@ -84,6 +97,25 @@
             delay: 500
         });
 
+
+
+        $(document).on("click", "#btnApply", function () {
+            var naim = $("input[data-field=naim]").val();
+            var osd = $("input[data-field=osd]").val();
+            sessionStorage.setItem("naim", naim);
+            sessionStorage.setItem("osd", osd);
+            fitersEnabled = true;
+            var filters = $.getFilters("input");
+            sendData($.fn.updatePagination.params, filters);
+        });
+        
+        $(document).on("click", "#btnCancel", function () {
+            var naim = $("input[data-field=naim]").val();
+            var osd = $("input[data-field=osd]").val();
+            sessionStorage.setItem("naim", naim);
+            sessionStorage.setItem("osd", osd);
+            fitersEnabled = false;
+        });
 
         //  $("body").on("click", ".excell", excel.fnExcelReport);
 
